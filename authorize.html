@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Регистрация</title>
-    <link rel="stylesheet" href="css/register.css">
+    <title>Авторизация</title>
+    <link rel="stylesheet" href="css/authorize.css">
     <script src="js/togglepass.js"></script>
-    <script src="js/regrules.js"></script>
+    <script src="js/authrules.js"></script>
 </head>
 <body>
     <div id="logo">
@@ -20,21 +20,21 @@
         </nav>
     </div>
     <div class="main">
-        <h2>Регистрация</h2>
-        <form id="register-form">
-            <label for="username">Имя пользователя:</label><br>
-            <input type="text" id="username" name="username" required><br>
+        <h2>Вход</h2>
+        <form class="authorize-form">
+            <label for="username">Имя пользователя:</label>
+            <input type="text" id="username" name="username" required>
             <label for="password">Пароль:</label>
 <div class="password-container">
                 <input type="password" id="password" name="password" required>
             </div>
 <div class="show-password-container">
-                <input type="checkbox" id="toggle-password" class="toggle-password" onclick="togglePassword('password')">
-                <label for="toggle-password" class="toggle-password-label">Показывать пароль</label>
-            </div>
-            <button type="button" onclick="register()">Зарегистрироваться</button>
+        <input type="checkbox" id="toggle-password" class="toggle-password" onclick="togglePassword('password')">
+        <label for="toggle-password" class="toggle-password-label">Показывать пароль</label>
+ </div>
+            <button type="submit" id="authorize">Авторизоваться</button>
 <article style="text-align: center;">
-            <p>Уже зарегистрированы? <a href="authorize.html">Авторизируйтесь</a></p>      
+            <p>Впервые здесь? <a href="register.html">Зарегистрируйтесь</a></p>   
 </article>
         </form>
     </div>

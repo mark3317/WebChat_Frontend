@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Общий чат</title>
+<link rel="stylesheet" href="css/mainchat.css">
+</head>
+<body>
+    <div id="logo">
+        <h1>Веб Чат Онлайн</h1>
+        <nav>
+            <ul>
+                <li><a href="authorize.html">authorize</a></li>
+                <li><a href="register.html">register</a></li>
+                <li><a href="mainchat.html">mainchat</a></li>
+              </ul>
+        </nav>
+    </div>
+    <div id="chat-container">
+        <div id="messages"></div>
+        <form id="message-form">
+            <input type="text" id="message-input" placeholder="Введите сообщение..." required>
+            <button type="submit" id="send-button">Отправить</button>
+        </form>
+    </div>
+<script>
+        document.getElementById('message-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const messageInput = document.getElementById('message-input');
+            const messageText = messageInput.value.trim();
+            if (messageText !== '') {
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message');
+                messageElement.textContent = messageText;
+                document.getElementById('messages').appendChild(messageElement);
+                messageInput.value = '';
+                messageInput.focus();
+            }
+        });
+</script>
+</body>
+</html>
