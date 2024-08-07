@@ -5,6 +5,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 90vh;
+    margin: 0;
 }
 
 #logo {
@@ -27,27 +28,61 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 30vh; 
+    height: auto; 
     width: 40rem;
     max-width: 40rem;
     padding: 20px;
     border: 1px solid #ccc;
     background-color: #fff;
     margin: 20px;
+    margin-left: 0px;
+    margin-right: 0px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    max-height: 20rem;
+    min-height: 20rem;
+}
+
+#chat-container h1 {
+    margin: 0; 
+    padding: 4rem 0; 
+    box-sizing: border-box;
+    padding-top: 0;
+    position: fixed;
+    text-align: center;
+    margin-left: 14rem;
+    margin-top: 9rem;
 }
 
 #messages {
     flex: 1;
-    overflow-y: auto; 
+    overflow-y: auto;
     margin-bottom: 20px;
-    padding-right: 10px; 
+    padding-right: 10px;
+    max-height: 100%;
+}
+
+.hidden {
+    display: none; 
+}
+.sms {
+    max-height: 300px; 
+    overflow-y: auto; 
+    border: 1px solid #ccc; 
+    transition: max-height 0.5s ease-in;
 }
 
 .message {
+    word-wrap: break-word;
+    word-break: break-all;
     padding: 10px;
     border-bottom: 1px solid #eee;
+}
+
+.nickname {
+    color: red; 
+    font-weight: bold;
 }
 
 #message-form {

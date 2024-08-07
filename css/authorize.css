@@ -93,3 +93,7 @@ body {
 .authorize-form button:hover {
     background-color: #45a049;
 }
+
+.authorize-form input:hover {
+    cursor: pointer;
+}

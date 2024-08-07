@@ -1,0 +1,41 @@
+.users {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 5px;
+}
+
+.users h1 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.users ul {
+    list-style-type: none;
+    padding: 0;
+    border: 0.15rem solid black;
+}
+
+.users ul li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+#userlist {
+    border: 2px solid black;
+    margin-top: 20px;
+    font-size: 1.2em;
+    color: #333;
+}
+
+#user-list:hover {
+    background-color: green;
+    opacity: 0.9;
+    cursor: pointer;
+}
+.empty:hover {
+    background-color: red;
+    opacity: 0.9;
+    cursor: not-allowed;
+}

@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Общий чат</title>
-<link rel="stylesheet" href="css/mainchat.css">
+    <title>Chat</title>
+    <link rel="stylesheet" href="css/chat/messenger.css">
+    <link rel="stylesheet" href="css/chat/users.css">
+    <link rel="stylesheet" href="css/chat/infopanel.css">
+    <link rel="stylesheet" href="css/chat/modal.css">
+    <script src="js/chat/logic.js"></script>
+    <script src="js/chat/exitmodal.js"></script>
 </head>
 <body>
     <div id="logo">
@@ -14,30 +19,53 @@
                 <li><a href="authorize.html">authorize</a></li>
                 <li><a href="register.html">register</a></li>
                 <li><a href="mainchat.html">mainchat</a></li>
-              </ul>
+            </ul>
         </nav>
     </div>
-    <div id="chat-container">
-        <div id="messages"></div>
-        <form id="message-form">
-            <input type="text" id="message-input" placeholder="Введите сообщение..." required>
-            <button type="submit" id="send-button">Отправить</button>
-        </form>
+    <div class="users">
+        <h1>Список чатов:</h1>
+        <ul id="user-list">TEST</ul>
+        <ul class="empty">empty</ul>
+        <ul class="empty">empty</ul>
+        <ul class="empty">empty</ul>
     </div>
-<script>
-        document.getElementById('message-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const messageInput = document.getElementById('message-input');
-            const messageText = messageInput.value.trim();
-            if (messageText !== '') {
-                const messageElement = document.createElement('div');
-                messageElement.classList.add('message');
-                messageElement.textContent = messageText;
-                document.getElementById('messages').appendChild(messageElement);
-                messageInput.value = '';
-                messageInput.focus();
-            }
-        });
-</script>
+    <div id="chat-container">
+        <article class="sms hidden">
+            <div id="messages"></div>
+        </article>
+        <h1 id="select-chat">Выберите чат</h1>
+    </div>
+</div>
+<div class="infopanel">
+    <h2>Вы авторизовались как:</h2> <h2 id="nickname" style="color: red;">Admin</h2>
+    <article class="buttons">
+        <button id="home-button" class="home-button">Главная</button>
+        <button class="add-friend-button">Добавить друга</button>
+        <button id="logout-button" class="logout-button">Выйти</button>
+    </article>
+</div>
+
+<!-- Модальное окно добавления друга -->
+<div id="addFriendModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Введите имя друга</h2>
+        <form id="addFriendForm">
+            <input type="text" id="friendName" placeholder="Имя друга" required>
+            <button type="submit">Отправить запрос</button>
+        </form>
+        <p id="responseMessage"></p>
+    </div>
+</div>
+
+<!-- Модальное окно выхода -->
+<div id="logout-modal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="close-modal">&times;</span>
+        <h2>Вы действительно хотите выйти?</h2>
+        <button class="modal-button yes" id="confirm-logout">Да</button>
+        <button class="modal-button no" id="cancel-logout">Нет</button>
+    </div>
+</div>
 </body>
 </html>

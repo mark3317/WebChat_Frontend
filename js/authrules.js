@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         var username = document.getElementById('username').value;
         var password = document.getElementById('password').value;
+        var email = document.getElementById('email').value;
 
         if (username.trim() === '') {
             alert('Имя пользователя не должно быть пустым');
@@ -32,7 +33,18 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        const data = { username, password };
+        if (email.trim() === '') {
+            alert('Email не должен быть пустым');
+            return;
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            alert('Введите корректный email');
+            return;
+        }
+
+        const data = { username, password, email };
 
         fetch('https://example.com/api/authorize', {
             method: 'POST',

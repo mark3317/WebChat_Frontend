@@ -16,27 +16,33 @@
                 <li><a href="authorize.html">authorize</a></li>
                 <li><a href="register.html">register</a></li>
                 <li><a href="mainchat.html">mainchat</a></li>
-              </ul>
+            </ul>
         </nav>
-    </div>
-    <div class="main">
-        <h2>Регистрация</h2>
-        <form id="register-form">
+        </div>
+        <div class="main">
+            <h2>Регистрация</h2>
+    <form id="register-form">
             <label for="username">Имя пользователя:</label><br>
             <input type="text" id="username" name="username" required><br>
+            <label for="email">Почта:</label>
+            <input type="email" id="email" name="email" required>
             <label for="password">Пароль:</label>
-<div class="password-container">
-                <input type="password" id="password" name="password" required>
-            </div>
-<div class="show-password-container">
-                <input type="checkbox" id="toggle-password" class="toggle-password" onclick="togglePassword('password')">
-                <label for="toggle-password" class="toggle-password-label">Показывать пароль</label>
-            </div>
-            <button type="button" onclick="register()">Зарегистрироваться</button>
-<article style="text-align: center;">
-            <p>Уже зарегистрированы? <a href="authorize.html">Авторизируйтесь</a></p>      
-</article>
-        </form>
-    </div>
-</body>
-</html>
+    <div class="password-container">
+                    <input type="password" id="password" name="password" required>
+             </div>
+     <div class="repeat-password-container">
+                    <label for="confirm-password">Повторите пароль:</label>
+                    <input type="password" id="confirm-password" name="confirm-password" required>
+                </div>
+    <div class="show-password-container">
+                    <input type="checkbox" id="toggle-password" class="toggle-password" onclick="togglePassword('password'); togglePassword('confirm-password')"> <p>Показывать пароль</p>
+                </div>
+
+        <article style="text-align: center;">
+                    <button type="submit" id="register" onclick="return validatePassword()">Зарегистрироваться</button>
+                    <p>Уже зарегистрированы? <a href="authorize.html">Авторизируйтесь</a></p>
+        </article>
+            </form>
+        </div>
+        </body>
+        </html>  

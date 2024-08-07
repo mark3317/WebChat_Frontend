@@ -59,12 +59,11 @@ body {
     border-radius: 4px;
 }
 
-#username , #password {
+#username , #password, #confirm-password {
     width: calc(100% - 22px);
 }
 
 #register-form button {
-    margin-top: 20px;
     padding: 10px;
     border: none;
     border-radius: 4px;
@@ -77,6 +76,11 @@ body {
 #register-form button:hover {
     background-color: #45a049;
 }
+
+#register-form input:hover {
+    cursor: pointer;
+}
+
 .password-container {
     display: flex;
     align-items: center;
@@ -86,15 +90,9 @@ body {
 .show-password-container {
     display: flex;
     align-items: center;
-    margin-top: 10px;
 }
 
 .toggle-password {
     margin-right: 10px;
 }
 
-.error {
-    color: red;
-    font-size: 12px;
-    margin-top: 5px;
-}

@@ -24,6 +24,8 @@
         <form class="authorize-form">
             <label for="username">Имя пользователя:</label>
             <input type="text" id="username" name="username" required>
+            <label for="email">Почта:</label>
+            <input type="email" id="email" name="email" required>
             <label for="password">Пароль:</label>
 <div class="password-container">
                 <input type="password" id="password" name="password" required>
@@ -32,8 +34,9 @@
         <input type="checkbox" id="toggle-password" class="toggle-password" onclick="togglePassword('password')">
         <label for="toggle-password" class="toggle-password-label">Показывать пароль</label>
  </div>
-            <button type="submit" id="authorize">Авторизоваться</button>
+
 <article style="text-align: center;">
+            <button type="submit" id="authorize">Авторизоваться</button>
             <p>Впервые здесь? <a href="register.html">Зарегистрируйтесь</a></p>   
 </article>
         </form>
