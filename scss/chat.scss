@@ -79,7 +79,12 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #eee;    
+}
+
+.form-control {
+width: 82%;
+max-width: 82%;
 }
 
 #message-form {
@@ -115,23 +120,29 @@
     border-top: 1px solid #ccc;
     background-color: #f9f9f9;
     bottom: 0;
-    width: 40rem;
-    max-width: 40rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 2px solid rgb(255, 0, 0);
+    position: absolute;
+    width: 100%;
+    margin-top: auto;
+    width: 38.25rem; 
+    max-width: 38.25rem; 
 }
 
 .sms {
-    max-height: 275px;
     overflow-y: auto;
-    border: 1px solid #ccc;
+    border: 2px solid rgb(200, 255, 0);
     transition: max-height 0.5s ease-in;
+    height: 29rem;
+    max-height: 29rem;
+    position: relative;
 }
 
 .message {
     word-wrap: break-word;
     word-break: break-all;
     padding: 10px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #eee;    
 }
 
 .nickname {
@@ -144,7 +155,7 @@
     color: #fff;
     padding: 5px;
     display: inline-block;
-    margin-right: 3%;
+    height: 2.4rem;
 }
 // USERS
 .users {
@@ -199,8 +210,6 @@
     border-radius: 5px;
     text-align: center;
     width: 15rem;
-    position: fixed;
-    margin-left: 45rem;
     h2 {
         margin: 10px 0;
     }
@@ -225,7 +234,6 @@
         }
     }
 
-
 // МОДАЛЬНОЕ ОКНО
 .modal {
     display: none;
@@ -244,12 +252,19 @@
 .modal-content {
     background-color: #fefefe;
     margin: 5% auto;
-    padding: 20px;
+    padding: 2rem;
     border: 1px solid #888;
     width: 80%;
     max-width: 400px;
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+
+    .modal-button_yes, .modal-button_no {
+        width: 42%;
+        margin-bottom: 2%;
+        margin-top: 2%;
+    }
+
 
     h2 {
         margin-top: 0;
@@ -259,8 +274,9 @@
     @include width-properties;   
         padding: 10px;
         margin-bottom: 10px; 
+        margin-top: 10px;
         border: 1px solid #ccc;
-        border-radius: 5px;
+        border-radius: 10rem;
     }
 
     button {
@@ -268,14 +284,16 @@
         background-color: #4CAF50;
         color: white;
         border: none;
-        border-radius: 5px;
+        border-radius: 10rem;
+        width: 100%;
+        margin-bottom: 5%;
+        margin-top: 5%;
         cursor: pointer;
 
         &:hover {
             background-color: #45a049;
         }
     }
-
     input:hover {
         cursor: pointer;
     }
@@ -284,6 +302,7 @@
         margin-top: 10px;
     }
 }
+
 
 .close {
     color: #aaa;

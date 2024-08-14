@@ -180,6 +180,11 @@
   border-bottom: 1px solid #eee;
 }
 
+.form-control {
+  width: 82%;
+  max-width: 82%;
+}
+
 #message-form {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -222,18 +227,24 @@
   border-top: 1px solid #ccc;
   background-color: #f9f9f9;
   bottom: 0;
-  width: 40rem;
-  max-width: 40rem;
   -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
           box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border: 2px solid rgb(255, 0, 0);
+  position: absolute;
+  width: 100%;
+  margin-top: auto;
+  width: 38.25rem;
+  max-width: 38.25rem;
 }
 
 .sms {
-  max-height: 275px;
   overflow-y: auto;
-  border: 1px solid #ccc;
+  border: 2px solid rgb(200, 255, 0);
   -webkit-transition: max-height 0.5s ease-in;
   transition: max-height 0.5s ease-in;
+  height: 29rem;
+  max-height: 29rem;
+  position: relative;
 }
 
 .message {
@@ -253,7 +264,7 @@
   color: #fff;
   padding: 5px;
   display: inline-block;
-  margin-right: 3%;
+  height: 2.4rem;
 }
 
 .users {
@@ -305,8 +316,6 @@
   border-radius: 5px;
   text-align: center;
   width: 15rem;
-  position: fixed;
-  margin-left: 45rem;
 }
 .infopanel h2 {
   margin: 10px 0;
@@ -352,13 +361,18 @@
 .modal-content {
   background-color: #fefefe;
   margin: 5% auto;
-  padding: 20px;
+  padding: 2rem;
   border: 1px solid #888;
   width: 80%;
   max-width: 400px;
   border-radius: 10px;
   -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
           box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+.modal-content .modal-button_yes, .modal-content .modal-button_no {
+  width: 42%;
+  margin-bottom: 2%;
+  margin-top: 2%;
 }
 .modal-content h2 {
   margin-top: 0;
@@ -367,15 +381,19 @@
   width: calc(100% - 22px);
   padding: 10px;
   margin-bottom: 10px;
+  margin-top: 10px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 10rem;
 }
 .modal-content button {
   padding: 10px 20px;
   background-color: #4CAF50;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 10rem;
+  width: 100%;
+  margin-bottom: 5%;
+  margin-top: 5%;
   cursor: pointer;
 }
 .modal-content button:hover {

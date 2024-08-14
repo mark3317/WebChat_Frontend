@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     if (token) {
         try {
             const decodedToken = jwt_decode(token);
-            nickname = decodedToken.nickname || 'empty';
+            nickname = decodedToken.sub || 'empty';
         } catch (error) {
             console.error('Invalid token:', error);
         }
