@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', async (event) => {
         event.preventDefault();
 
-        const username = document.querySelector('#login').value.trim();
+        const login = document.querySelector('#login').value.trim();
         const password = document.querySelector('#password').value.trim();
 
     // Проверка на валидность
@@ -27,14 +27,13 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (response.ok) {
-                const data = await response.json();
-                const token = data.token;
+                const token = await response.text();
 
                 // Сохранение токена в localStorage
                 localStorage.setItem('token', token);
 
                 // Открытие WebSocket соединения
-                const socket = new SockJS('ws://localhost:8081/WebChat/api/ws');
+                const socket = new SockJS('http://localhost:8081/WebChat/api/ws');
                 const stompClient = Stomp.over(socket);
 
                 stompClient.connect({}, (frame) => {
