@@ -1,0 +1,70 @@
+@import "mixins";
+
+* {
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+#particles-js {
+    @include particlebg;
+}
+
+#logo {
+    @include logo;
+}
+
+.main {
+    @include main;
+}
+#username , #password, #confirm-password {
+    @include width-properties;
+}
+
+#register-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+label { 
+        margin-top: 10px;
+    } 
+input {
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px; 
+    }
+button {
+        margin-top: 20px;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        background-color: #4CAF50;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+    }
+button:hover {
+        background-color: #45a049;
+    }
+input:hover {
+        cursor: pointer;
+    }        
+}    
+
+.password-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.show-password-container {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.toggle-password {
+    margin-right: 10px;
+}
+

@@ -13,14 +13,14 @@ document.addEventListener('DOMContentLoaded', function() {
     `;
 
     // Открытие чата при клике на пользователя
-    userList.addEventListener('click', function() {
-        if (!document.getElementById('message-form')) {
-            const chatContainer = document.getElementById('chat-container');
-            chatContainer.insertAdjacentHTML('beforeend', formHTML);
-            selectChatHeader.style.display = 'none';
-        }
-        smsArticle.classList.remove('hidden'); // Показываем содержимое
-    });
+    // userList.addEventListener('click', function() {
+    //     if (!document.getElementById('message-form')) {
+    //         const chatContainer = document.getElementById('chat-container');
+    //         chatContainer.insertAdjacentHTML('beforeend', formHTML);
+    //         selectChatHeader.style.display = 'none';
+    //     }
+    //     smsArticle.classList.remove('hidden'); // Показываем содержимое
+    // });
 
     // Возврат на главную страницу
     homeButton.addEventListener('click', function() {

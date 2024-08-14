@@ -1,68 +1,62 @@
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('authorize').addEventListener('click', function(event) {
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.querySelector('.authorize-form');
+    form.addEventListener('submit', async (event) => {
         event.preventDefault();
-        
-        var username = document.getElementById('username').value;
-        var password = document.getElementById('password').value;
-        var email = document.getElementById('email').value;
 
-        if (username.trim() === '') {
-            alert('Имя пользователя не должно быть пустым');
+        const username = document.querySelector('#login').value.trim();
+        const password = document.querySelector('#password').value.trim();
+
+    // Проверка на валидность
+        if (!login) {
+            alert('Логин не может быть пустым');
+            return;
+        }
+        if (!password) {
+            alert('Пароль не может быть пустым');
             return;
         }
 
-        if (username.length < 3 || username.length > 24) {
-            alert('Имя пользователя должно содержать не менее 3 и не более 24 символов');
-            return;
-        }
+    // Отправка запроса на аутентификацию
+        try {
+            const response = await fetch('http://localhost:8081/WebChat/api/signIn', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ login, password })
+            });
 
-        if (password.length < 6 || password.length > 24) {
-            alert('Пароль должен быть не менее 6 и не более 24 символов');
-            return;
-        }
+            if (response.ok) {
+                const data = await response.json();
+                const token = data.token;
 
-        const usernameRegex = /^[a-zA-Zа-яА-Я0-9]+$/;
-        if (!usernameRegex.test(username)) {
-            alert('Имя пользователя должно содержать только буквы и цифры');
-            return;
-        }
+                // Сохранение токена в localStorage
+                localStorage.setItem('token', token);
 
-        const passwordRegex = /^[a-zA-Zа-яА-Я0-9]+$/;
-        if (!passwordRegex.test(password)) {
-            alert('Пароль должен содержать только буквы и цифры');
-            return;
-        }
+                // Открытие WebSocket соединения
+                const socket = new SockJS('ws://localhost:8081/WebChat/api/ws');
+                const stompClient = Stomp.over(socket);
 
-        if (email.trim() === '') {
-            alert('Email не должен быть пустым');
-            return;
-        }
+                stompClient.connect({}, (frame) => {
+                    console.log('Connected: ' + frame);
 
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            alert('Введите корректный email');
-            return;
-        }
+                    // Подписка на канал чата
+                    stompClient.subscribe('user/invite', (messageOutput) => {
+                        showMessage(JSON.parse(messageOutput.body));
+                    });
 
-        const data = { username, password, email };
-
-        fetch('https://example.com/api/authorize', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                window.location.href = 'mainchat.html';
+                    // Переход на страницу mainchat.html
+                    window.location.href = 'mainchat.html';
+                });
             } else {
-                alert('Ошибка: ' + data.message);
+                console.error('Authentication failed');
             }
-        })
-        .catch(error => {
-            alert('Ошибка сети: ' + error.message);
-        });
+        } catch (error) {
+            console.error('Error:', error);
+        }
     });
 });
+
+function showMessage(message) {
+    console.log('Received message:', message);
+}

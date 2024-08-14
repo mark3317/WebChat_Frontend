@@ -21,9 +21,9 @@ document.addEventListener('DOMContentLoaded', function() {
         modal.style.display = 'none';
     }
 
-    // Переход на страницу authorize.html при нажатии на кнопку "Да"
+    // Переход на страницу при нажатии на кнопку "Да"
     confirmLogout.onclick = function() {
-        window.location.href = 'authorize.html';
+        window.location.href = 'index.html';
     }
 
     // Закрытие модального окна при клике вне его
