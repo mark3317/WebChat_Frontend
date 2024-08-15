@@ -70,7 +70,7 @@ stompServer.on('send', (msg, headers) => {
   }
 });
 
-//! ЛОГИКА ЗАКРЫТИЯ СЕРВЕРА КОМАНДОЙ 'shutdown'
+//! ЛОГИКА ЗАКРЫТИЯ СЕРВЕРА КОМАНДОЙ: 'shutdown'
 
 // Настраиваем readline для прослушивания ввода с клавиатуры
 const rl = readline.createInterface({
