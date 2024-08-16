@@ -12,7 +12,7 @@ const server = http.createServer(app);
 
 //todoCSP SECURITY 
 app.use((req, res, next) => {
-  res.setHeader("Content-Security-Policy", "default-src 'self'; script-src 'self' https://cdn.jsdelivr.net");
+  res.setHeader("Content-Security-Policy", "default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; connect-src 'self' http://localhost:8081");
   next();
 });
 

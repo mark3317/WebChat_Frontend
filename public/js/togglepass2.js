@@ -11,9 +11,9 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function validatePassword() {
-    var password = document.getElementById("password").value;
-    var confirmPassword = document.getElementById("confirm-password").value;
-    if (password != confirmPassword) {
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirm-password").value;
+    if (password !== confirmPassword) {
         alert("Пароли не совпадают");
         return false;
     }
