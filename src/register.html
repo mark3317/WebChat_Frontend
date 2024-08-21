@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="dist/register.bundle.css">
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+
+</head>
+<body class="loaded">
+    <div id="particles-js"></div>
+    <div id="logo">
+        <h1>Веб Чат Онлайн</h1>
+        <nav>
+            <ul>
+                <li><a href="/">authorize</a></li>
+                <li><a href="/register">register</a></li>
+                <li><a href="/mainchat">mainchat</a></li>
+            </ul>
+        </nav>
+        </div>
+        <div class="main">
+            <h2>Регистрация</h2>
+        <form id="register-form">
+            <label for="username">Имя пользователя:</label><br>
+            <input type="text" id="username" name="username" required><br>
+            <label for="email">Почта:</label><br>
+            <input type="email" id="email" name="email" required><br>
+            <label for="password">Пароль:</label>
+        <div class="password-container">
+                    <input type="password" id="password" name="password" required>
+                </div>
+        <div class="repeat-password-container">
+                    <label for="confirm-password">Повторите пароль:</label><br>
+                    <input type="password" id="confirmPassword" name="confirm-password" required>
+                </div>
+        <div class="show-password-container">
+                    <input type="checkbox" id="togglePassword"> <p>Показывать пароль</p>
+                </div>
+
+        <article class="click">
+                    <button type="submit" id="register">Зарегистрироваться</button>
+                    <p>Уже зарегистрированы? <a href="/">Авторизируйтесь</a></p>
+        </article>
+            </form>
+</div>
+<script src="dist/register.bundle.js" defer></script>
+</body>
+</html>  

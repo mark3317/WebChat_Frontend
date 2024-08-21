@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Чат</title>
+    <link rel="stylesheet" href="dist/mainchat.bundle.css">
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+</head>
+<body class="loaded">
+    <div id="particles-js"></div>
+        <div id="logo">
+        <h1>Веб Чат Онлайн</h1>
+        <nav>
+            <ul>
+                <li><a href="/">authorize</a></li>
+                <li><a href="/register">register</a></li>
+                <li><a href="/mainchat">mainchat</a></li>
+            </ul>
+        </nav>
+    </div>
+<article class="article">
+                    <div class="users">
+                        <h1>Список чатов:</h1>
+                        <!-- <ul id="user-list">TEST</ul> -->
+                        <ul class="empty">empty</ul>
+                        <ul class="empty">empty</ul>
+                        <ul class="empty">empty</ul>
+                    </div>
+    <div id="chat-container">
+            <article class="sms">
+            <div id="messages">
+    </div>
+                        
+    <form id="messageForm">
+        <input type="text" id="message" placeholder="Введите сообщение..." autocomplete="off" class="form-control"/>
+        <button type="submit" class="primary">Отправить</button>
+    </form> 
+
+</article>  
+</div>    
+<div class="infopanel">
+    <h2>Вы авторизовались как:</h2> <h2 id="nickname">Admin</h2>
+
+            <article class="buttons">
+                <button id="home-button" class="home-button">Главная</button>
+                <button class="add-friend-button">Начать чат</button>
+                <button id="logout-button" class="logout-button">Выйти</button>
+            </article> 
+</body>
+</html>
+
+                <!-- !Модальное окно добавления друга -->
+                <div id="addFriendModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <h2>Введите имя друга</h2>
+                        <form id="addFriendForm">
+                            <input type="text" id="friendName" placeholder="Имя друга" required>
+                            <button type="submit">Отправить запрос</button>
+                        </form>
+                        <p id="responseMessage"></p>
+                    </div>
+                </div>
+
+                <!-- !Модальное окно выхода -->
+                <div id="logout-modal" class="modal">
+                    <div class="modal-content">
+                        <span class="close" id="close-modal">&times;</span>
+                        <h2>Вы действительно хотите выйти?</h2>
+                        <button class="modal-button_yes" id="confirm-logout">Да</button>
+                        <button class="modal-button_no" id="cancel-logout">Нет</button>
+                    </div>
+                </div>
+                <script src="dist/mainchat.bundle.js" defer></script>
+</body>
+</html>
