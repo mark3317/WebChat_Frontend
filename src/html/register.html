@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="../../dist/main.bundle.css" />
+    <link rel="stylesheet" href="../../src/css/register.css" />
+    <link rel="icon" href="../../src/img/favicon.ico" type="image/x-icon" />
+  </head>
+  <body class="loaded">
+    <div id="particles-js"></div>
+    <!-- todoLOGO -->
+    <div id="logo">
+      <h1>Веб Чат Онлайн</h1>
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Загрузка...</span>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="/">█</a></li>
+          <li><a href="../../src/html/register.html">█</a></li>
+          <li><a href="../../src/html/mainchat.html">█</a></li>
+        </ul>
+      </nav>
+    </div>
+    <!-- todoMAIN -->
+    <main class="main">
+      <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary">
+        <h1 class="h3 mb-3 fw-normal" id="text">Регистрация</h1>
+        <div class="form-floating mb-3">
+          <input
+            type="text"
+            class="form-control"
+            id="floatingNickname"
+            placeholder="Ваш Nickname"
+          />
+          <label for="floatingNickname">Логин</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input
+            type="email"
+            class="form-control"
+            id="floatingInput"
+            placeholder="name@example.com"
+          />
+          <label for="floatingInput">Адрес электронной почты</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input
+            type="password"
+            class="form-control"
+            id="floatingPassword"
+            placeholder="Пароль"
+          />
+          <label for="floatingPassword">Пароль</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input
+            type="password"
+            class="form-control"
+            id="floatingConfirmPassword"
+            placeholder="Повторите пароль"
+          />
+          <label for="floatingConfirmPassword">Повторите пароль</label>
+        </div>
+        <div class="checkbox mb-3">
+          <label>
+            <input type="checkbox" id="showPassword" /> Показать пароль
+          </label>
+        </div>
+        <button class="w-100 btn btn-lg btn-primary" type="submit">
+          Зарегистрироваться
+        </button>
+        <hr class="my-4" />
+        <small class="text-body-secondary">
+          Уже зарегистрированы? <a href="index.html">Авторизируйтесь</a>
+        </small>
+      </form>
+    </main>
+    <script>
+      document
+        .getElementById("showPassword")
+        .addEventListener("change", function () {
+          var passwordField = document.getElementById("floatingPassword");
+          var confirmPasswordField = document.getElementById(
+            "floatingConfirmPassword"
+          );
+          if (this.checked) {
+            passwordField.type = "text";
+            confirmPasswordField.type = "text";
+          } else {
+            passwordField.type = "password";
+            confirmPasswordField.type = "password";
+          }
+        });
+
+      document
+        .querySelector("form")
+        .addEventListener("submit", function (event) {
+          var password = document.getElementById("floatingPassword").value;
+          var confirmPassword = document.getElementById(
+            "floatingConfirmPassword"
+          ).value;
+          if (password !== confirmPassword) {
+            event.preventDefault();
+            alert("Пароли не совпадают!");
+          }
+        });
+    </script>
+    <script src="../../dist/main.bundle.js"></script>
+  </body>
+</html>

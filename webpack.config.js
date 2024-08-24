@@ -1,69 +1,86 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const autoprefixer = require("autoprefixer");
+const webpack = require("webpack");
 
 module.exports = {
-    mode: 'development',
-    entry: {
-        index: './src/js/index.js',
-        mainchat: './src/js/mainchat.js', 
-        register: './src/js/register.js', 
-    },
-    output: {
-        filename: '[name].bundle.js', // Используйте шаблон для имен файлов
-        path: path.resolve(__dirname, 'dist'),
-    },
-    module: {
-        rules: [
-            {
-                test: /\.scss$/,
-                use: [
-                    MiniCssExtractPlugin.loader,
-                    'css-loader',
-                    'sass-loader'
-                ],
+  entry: {
+    main: "./src/js/main.js",
+  },
+  output: {
+    filename: "[name].bundle.js",
+    path: path.resolve(__dirname, "dist"),
+    clean: true,
+  },
+  devtool: "source-map",
+  module: {
+    rules: [
+      {
+        test: /\.html$/,
+        use: [
+          {
+            loader: "html-loader",
+            options: {
+              minimize: true,
             },
-            {
-                test: /\.(js|jsx)$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                },
-            },
+          },
         ],
-    },
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: './src/index.html',
-            filename: 'index.html',
-            chunks: ['index']
-        }),
-        new HtmlWebpackPlugin({
-            template: './src/mainchat.html',
-            filename: 'mainchat.html',
-            chunks: ['mainchat'] // Добавьте соответствующий чанк
-        }),
-        new HtmlWebpackPlugin({
-            template: './src/register.html',
-            filename: 'register.html',
-            chunks: ['register'] // Добавьте соответствующий чанк
-        }),
-        new MiniCssExtractPlugin({
-            filename: '[name].bundle.css', // Используйте шаблон для имен файлов
-        }),
+      },
+      {
+        test: /\.css$/,
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
+      },
+      {
+        test: /\.(scss)$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: "css-loader",
+          },
+          {
+            loader: "postcss-loader",
+            options: {
+              postcssOptions: {
+                plugins: [autoprefixer],
+              },
+            },
+          },
+          {
+            loader: "sass-loader",
+          },
+        ],
+      },
     ],
-    devtool: 'source-map',
-    devServer: {
-        static: [
-            {
-                directory: path.join(__dirname, 'dist'),
-            },
-            {
-                directory: path.join(__dirname, 'src'),
-            }
-        ],
-        compress: true,
-        port: 8082,
-        historyApiFallback: true
-    }
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "./src/html/index.html",
+      filename: "index.html",
+      chunks: ["index"],
+    }),
+    new HtmlWebpackPlugin({
+      template: "./src/html/mainchat.html",
+      filename: "mainchat.html",
+      chunks: ["mainchat"],
+    }),
+    new HtmlWebpackPlugin({
+      template: "./src/html/register.html",
+      filename: "register.html",
+      chunks: ["register"],
+    }),
+    new MiniCssExtractPlugin({
+      filename: "[name].bundle.css",
+    }),
+    new webpack.HotModuleReplacementPlugin(),
+  ],
+  devServer: {
+    static: {
+      directory: path.join(__dirname, "dist"),
+    },
+    compress: true,
+    port: 8080,
+    hot: true,
+    open: true,
+  },
 };
