@@ -1,5 +1,5 @@
 import SockJS from 'sockjs-client';
-import { Client } from '@stomp/stompjs';
+import { Stomp } from '@stomp/stompjs';
 import { jwtDecode } from 'jwt-decode';
 
 const loginForm = document.querySelector('.authorize-form');
@@ -29,7 +29,7 @@ loginForm.addEventListener('submit', async (event) => {
         });
 
         if (response.ok) {
-            const token = response.body.toString();
+            const token = await response.text();
             console.log('Login successful:', token);
             localStorage.setItem('token', token);
 
@@ -53,20 +53,35 @@ loginForm.addEventListener('submit', async (event) => {
 
 function connectWebsocket(username) {
     const socket = new SockJS('http://localhost:8080/api/ws');
-    const stompClient = new Client({
-        webSocketFactory: () => socket,
-        debug: (str) => {
-            console.log(str);
-        }
-    });
+    const stompClient = Stomp.over(socket);
 
     stompClient.onConnect = (frame) => {
         console.log('Connected: ' + frame);
-        // Подписка на ответ сервера
-        stompClient.subscribe(`/user/${username}/invite`, (message) => {
+        // Пример id для тестового прогона (нужно будет достать из запроса на /profile)
+        const userId = (username === 'admin') ? 1 : 2
+        // Подписка на приглашения юзера
+        stompClient.subscribe(`/user/${userId}/invite`, (message) => {
             const response = JSON.parse(message.body);
-            alert(response.message);
+            alert(response.content);
         });
+        // Примеры id чатов для тестового прогона (нужно будет достать из запроса на /profile)
+        const chatsId = [1, 2];
+        // Подписка на сообщения чата (должно быть столько же сколько и чатов у юзера)
+        chatsId.forEach(chatId => {
+            stompClient.subscribe(`/chat/${chatId}/message`, (message) => {
+                const response = JSON.parse(message.body);
+                alert(response.content);
+            });
+        });
+        // Пример отправки сообщения от админа
+        if (username === 'admin') {
+            const message = {
+                chatId: 2,
+                senderId: 1,
+                content: 'Hello'
+            };
+            stompClient.send('/app/message', {}, JSON.stringify(message));
+        }
     };
     stompClient.activate();
 }
