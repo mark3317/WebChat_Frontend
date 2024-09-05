@@ -1,10 +1,12 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const autoprefixer = require("autoprefixer");
 const webpack = require("webpack");
 
 module.exports = {
+  mode: "development",
   entry: {
     main: "./src/js/main.js",
   },
@@ -13,7 +15,6 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
     clean: true,
   },
-  devtool: "source-map",
   module: {
     rules: [
       {
@@ -21,9 +22,6 @@ module.exports = {
         use: [
           {
             loader: "html-loader",
-            options: {
-              minimize: true,
-            },
           },
         ],
       },
@@ -37,6 +35,9 @@ module.exports = {
           MiniCssExtractPlugin.loader,
           {
             loader: "css-loader",
+            options: {
+              sourceMap: true,
+            },
           },
           {
             loader: "postcss-loader",
@@ -48,10 +49,17 @@ module.exports = {
           },
           {
             loader: "sass-loader",
+            options: {
+              sourceMap: true,
+            },
           },
         ],
       },
     ],
+  },
+  optimization: {
+    minimize: true,
+    minimizer: [new HtmlMinimizerPlugin()],
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -83,4 +91,5 @@ module.exports = {
     hot: true,
     open: true,
   },
+  devtool: "eval-source-map",
 };

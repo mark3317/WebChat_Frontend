@@ -26,6 +26,7 @@
         </nav>
       </div>
       <!-- todoMAIN -->
+      <section class="authorize-form">
       <div class="main">
         <form>
           <h1 class="h3 mb-3 fw-normal" id="text">Вход</h1>
@@ -34,19 +35,19 @@
             <input
               type="text"
               class="form-control"
-              id="floatingInput"
-              placeholder="name@example.com or username"
+              id="login"
+              placeholder="name@example.com или никнейм"
             />
-            <label for="floatingInput">Логин/Email</label>
+            <label for="login">Логин/Email</label>
           </div>
           <div class="form-floating">
             <input
               type="password"
               class="form-control"
-              id="floatingPassword"
+              id="password"
               placeholder="Пароль"
             />
-            <label for="floatingPassword">Пароль</label>
+            <label for="password">Пароль</label>
           </div>
 
           <div class="checkbox mb-3">
@@ -64,19 +65,12 @@
           </small>
         </form>
       </div>
-      <script>
-        document
-          .getElementById("showPassword")
-          .addEventListener("change", function () {
-            var passwordField = document.getElementById("floatingPassword");
-            if (this.checked) {
-              passwordField.type = "text";
-            } else {
-              passwordField.type = "password";
-            }
-          });
-      </script>
-      <script src="../../dist/main.bundle.js"></script>
+
     </main>
+  </section>
+  <!--! SCRIPTS -->
+  <script src="../../dist/main.bundle.js"></script>
+  <script src="../../src/js/index.js"></script>
+  <script src="http://localhost:5000/livereload.js"></script>
   </body>
 </html>
