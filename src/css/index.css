@@ -13350,6 +13350,12 @@ textarea.form-control-lg {
   padding: 0;
   font-family: Trebuchet MS, sans-serif;
 }
+* h1, * .h1 {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
 
 #particles-js {
   position: absolute;
@@ -13365,6 +13371,7 @@ textarea.form-control-lg {
   position: absolute;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
+  width: 25rem;
   z-index: 100;
   background-color: white;
   border: 3px solid #ff0000;
@@ -13426,9 +13433,18 @@ textarea.form-control-lg {
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
   width: 25rem;
+  padding: 1rem !important;
 }
 .main .form-control {
   margin-bottom: 1rem;
+}
+
+.navigation {
+  display: block;
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  margin-left: 25%;
 }
 
 .loaded {
@@ -13458,4 +13474,27 @@ textarea.form-control-lg {
 
 #text {
   text-align: center;
+}
+
+#but_fail,
+#but_warning {
+  font-size: 1.25rem;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  cursor: not-allowed;
+}
+
+.cursor-wait,
+.cursor-wait * {
+  cursor: wait !important;
+}
+
+label::after {
+  background-color: rgba(0, 0, 0, 0) !important;
+}
+
+.text-body-secondary {
+  font-size: 0.95rem;
 }

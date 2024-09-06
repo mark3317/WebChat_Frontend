@@ -9,74 +9,93 @@
     <link rel="icon" href="../../src/img/favicon.ico" type="image/x-icon" />
   </head>
   <body class="loaded">
-    <div id="particles-js"></div>
-    <!-- todoLOGO -->
-    <div id="logo">
-      <h1>Веб Чат Онлайн</h1>
-      <div class="spinner-border" role="status">
-        <span class="visually-hidden">Загрузка...</span>
-      </div>
+    <aside class="navigation">
       <nav>
         <ul>
-          <li><a href="/">█</a></li>
-          <li><a href="../../src/html/register.html">█</a></li>
-          <li><a href="../../src/html/mainchat.html">█</a></li>
+          <li><a href="/">█𝑨𝑼𝑻𝑯𝑶𝑹𝑰𝒁𝑨𝑻𝑰𝑶𝑵</a></li>
+          <li><a href="../../src/html/register.html">█𝑹𝑬𝑮𝑰𝑺𝑻𝑹𝑨𝑻𝑰𝑶𝑵</a></li>
+          <li><a href="../../src/html/mainchat.html">█𝑴𝑨𝑰𝑵 𝑪𝑯𝑨𝑻</a></li>
         </ul>
       </nav>
-    </div>
-    <!-- todoMAIN -->
-    <main class="main">
-      <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary">
-        <h1 class="h3 mb-3 fw-normal" id="text">Регистрация</h1>
-        <div class="form-floating mb-3">
-          <input
-            type="text"
-            class="form-control"
-            id="floatingNickname"
-            placeholder="Ваш Nickname"
-          />
-          <label for="floatingNickname">Логин</label>
-        </div>
-        <div class="form-floating mb-3">
-          <input
-            type="email"
-            class="form-control"
-            id="floatingInput"
-            placeholder="name@example.com"
-          />
-          <label for="floatingInput">Адрес электронной почты</label>
-        </div>
-        <div class="form-floating mb-3">
-          <input
-            type="password"
-            class="form-control"
-            id="floatingPassword"
-            placeholder="Пароль"
-          />
-          <label for="floatingPassword">Пароль</label>
-        </div>
-        <div class="form-floating mb-3">
-          <input
-            type="password"
-            class="form-control"
-            id="floatingConfirmPassword"
-            placeholder="Повторите пароль"
-          />
-          <label for="floatingConfirmPassword">Повторите пароль</label>
-        </div>
-        <div class="checkbox mb-3">
-          <label>
-            <input type="checkbox" id="showPassword" /> Показать пароль
-          </label>
-        </div>
-        <button class="w-100 btn btn-lg btn-primary" type="submit">
-          Зарегистрироваться
-        </button>
-        <hr class="my-4" />
-        <small class="text-body-secondary">
-          Уже зарегистрированы? <a href="index.html">Авторизируйтесь</a>
-        </small>
-      </form>
+    </aside>
+    <main>
+      <!-- BACKGROUND -->
+      <div id="particles-js"></div>
+      <!-- todoLOGO -->
+      <div id="logo">
+        <h1>Веб Чат Онлайн</h1>
+        <!--! spinner -->
+        <div
+          id="spinner"
+          class="spinner-border"
+          role="status"
+          style="display: none; position: absolute; right: 5%"
+        ></div>
+      </div>
+      <!-- todoSection-->
+      <section class="main">
+        <form class="p-4 p-md-5 border rounded-3">
+          <h1 class="h3 mb-3 fw-normal" id="text">Регистрация</h1>
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              class="form-control"
+              id="floatingNickname"
+              placeholder="Ваш Nickname"
+            />
+            <label for="floatingNickname">Логин</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              type="email"
+              class="form-control"
+              id="floatingInput"
+              placeholder="name@example.com"
+            />
+            <label for="floatingInput">Адрес электронной почты</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              type="password"
+              class="form-control"
+              id="floatingPassword"
+              placeholder="Пароль"
+            />
+            <label for="floatingPassword">Пароль</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              type="password"
+              class="form-control"
+              id="floatingConfirmPassword"
+              placeholder="Повторите пароль"
+            />
+            <label for="floatingConfirmPassword">Повторите пароль</label>
+          </div>
+          <aside class="asideshowpass"
+          <div class="checkbox mb-3">
+            <label style="cursor: pointer; user-select: none">
+              <input
+                type="checkbox"
+                id="showPassword"
+                style="cursor: pointer"
+              />
+              Показать пароль
+            </label>
+          </div>
+          </aside>
+          <button class="w-100 btn btn-lg btn-primary" type="submit">
+            Зарегистрироваться
+          </button>
+          <hr class="my-4" />
+          <!-- Уже зареганы? -->
+          <aside style="display: flex; justify-content: center;">
+          <small class="text-body-secondary">
+            Уже зарегистрированы? <a href="index.html">Авторизируйтесь</a>
+          </aside>
+          </small>
+        </form>
+      </section>
     </main>
     <script>
       document

@@ -40,6 +40,7 @@
   position: absolute;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
+  width: 25rem;
   z-index: 100;
   background-color: white;
   border: 3px solid #ff0000;
@@ -98,4 +99,12 @@
 
 @mixin fonts {
   font-family: Trebuchet MS, sans-serif;
+}
+
+@mixin navigation {
+  display: block;
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  margin-left: 25%;
 }

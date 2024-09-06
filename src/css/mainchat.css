@@ -13344,10 +13344,34 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+* {
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  font-family: Trebuchet MS, sans-serif;
+}
+* h1, * .h1 {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+#particles-js {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #e74c3c;
+  z-index: 1;
+}
+
 #logo {
   position: absolute;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
+  width: 25rem;
   z-index: 100;
   background-color: white;
   border: 3px solid #ff0000;
@@ -13408,6 +13432,14 @@ textarea.form-control-lg {
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
+}
+
+.navigation {
+  display: block;
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  margin-left: 25%;
 }
 
 .modal-dialog {

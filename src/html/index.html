@@ -8,24 +8,32 @@
     <link rel="stylesheet" href="../../src/css/index.css" />
     <link rel="icon" href="../../src/img/favicon.ico" type="image/x-icon" />
   </head>
-  <body>
-    <main class="loaded">
-      <div id="particles-js"></div>
+  <body class="loaded">
+    <aside class="navigation">
+      <nav>
+        <ul>
+          <li><a href="/">█𝑨𝑼𝑻𝑯𝑶𝑹𝑰𝒁𝑨𝑻𝑰𝑶𝑵</a></li>
+          <li><a href="../../src/html/register.html">█𝑹𝑬𝑮𝑰𝑺𝑻𝑹𝑨𝑻𝑰𝑶𝑵</a></li>
+          <li><a href="../../src/html/mainchat.html">█𝑴𝑨𝑰𝑵 𝑪𝑯𝑨𝑻</a></li>
+        </ul>
+      </nav>
+    </aside>
+    <main>
+      <!-- BACKGROUND -->
+      <div id="particles-js">
+      </div>
       <!-- todoLOGO -->
       <div id="logo">
         <h1>Веб Чат Онлайн</h1>
-        <div class="spinner-border" role="status">
-          <span class="visually-hidden">Загрузка...</span>
-        </div>
-        <nav>
-          <ul>
-            <li><a href="/">█</a></li>
-            <li><a href="../../src/html/register.html">█</a></li>
-            <li><a href="../../src/html/mainchat.html">█</a></li>
-          </ul>
-        </nav>
+      <!--! spinner -->
+      <div
+        id="spinner"
+        class="spinner-border"
+        role="status"
+        style="display: none; position: absolute; right: 5%;"
+      ></div>
       </div>
-      <!-- todoMAIN -->
+      <!-- todoSection -->    
       <section class="authorize-form">
       <div class="main">
         <form>
@@ -51,13 +59,27 @@
           </div>
 
           <div class="checkbox mb-3">
-            <label>
-              <input type="checkbox" id="showPassword" /> Показать пароль
+            <label style="cursor: pointer; user-select: none;">
+              <input type="checkbox" id="showPassword" style="cursor: pointer;" /> 
+              Показать пароль
             </label>
           </div>
-          <button class="w-100 btn btn-lg btn-primary" type="submit">
+          <!--* LOGIN BUTTON -->
+          <button type="submit" class="w-100 btn btn-lg btn-primary" style="display: block;"
+          id="but_normal">
             Войти
           </button>
+          <!--! LOGIN BUTTON FAILED -->
+          <button type="button" class="w-100 btn btn-danger" style="display: none;"
+          id="but_fail">
+          Неверный логин или пароль
+          </button>
+          <!--todo LOGIN BUTTON WARNING -->
+          <button type="button" class="w-100 btn btn-warning" style="display:none;"
+          id="but_warning">
+          Заполните все поля
+          </button>
+
           <hr class="my-4" />
           <small class="text-body-secondary"
             >Ещё не зарегестрированы? Пройдите

@@ -13345,11 +13345,16 @@ textarea.form-control-lg {
   }
 }
 * {
+  overflow: hidden;
   margin: 0;
   padding: 0;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
   font-family: Trebuchet MS, sans-serif;
+}
+* h1, * .h1 {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 
 #particles-js {
@@ -13366,6 +13371,7 @@ textarea.form-control-lg {
   position: absolute;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
+  width: 25rem;
   z-index: 100;
   background-color: white;
   border: 3px solid #ff0000;
@@ -13397,7 +13403,16 @@ textarea.form-control-lg {
   padding-left: 0% !important;
 }
 
+.navigation {
+  display: block;
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  margin-left: 25%;
+}
+
 .main {
+  width: 30rem;
   padding: 0%;
 }
 
@@ -13411,4 +13426,25 @@ textarea.form-control-lg {
 
 #text {
   text-align: center;
+  margin-bottom: 1rem !important;
+}
+
+label::after {
+  background-color: rgba(0, 0, 0, 0) !important;
+}
+
+.form-floating {
+  margin-bottom: 0% !important;
+}
+
+.mb-3 {
+  margin-bottom: 0% !important;
+}
+
+.asideshowpass {
+  margin-bottom: 1rem !important;
+}
+
+.text-body-secondary {
+  font-size: 0.95rem;
 }

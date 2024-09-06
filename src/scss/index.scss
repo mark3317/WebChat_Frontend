@@ -1,11 +1,15 @@
 @import "~bootstrap/scss/bootstrap";
 @import "mixins";
 
+//todo MAIN MIXINS
 * {
   overflow: hidden;
   margin: 0;
   padding: 0;
   @include fonts;
+  h1 {
+    user-select: none;
+  }
 }
 
 #particles-js {
@@ -15,13 +19,18 @@
 #logo {
   @include logo;
 }
-
+// todo
 .main {
   @include main;
   width: 25rem;
   .form-control {
     margin-bottom: 1rem;
   }
+  padding: 1rem !important;
+}
+
+.navigation {
+  @include navigation;
 }
 
 // #username,
@@ -57,4 +66,27 @@
 
 #text {
   text-align: center;
+}
+
+#but_fail,
+#but_warning {
+  font-size: 1.25rem;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  cursor: not-allowed;
+}
+
+.cursor-wait,
+.cursor-wait * {
+  cursor: wait !important;
+}
+
+label::after {
+  background-color: rgba(0, 0, 0, 0) !important;
+}
+
+.text-body-secondary {
+  font-size: 0.95rem;
 }

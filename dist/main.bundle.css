@@ -11974,6 +11974,11 @@ textarea.form-control-lg {
   padding: 0;
   font-family: Trebuchet MS, sans-serif;
 }
+* h1, * .h1 {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
 
 #particles-js {
   position: absolute;
@@ -11988,6 +11993,7 @@ textarea.form-control-lg {
 #logo {
   position: absolute;
   box-sizing: border-box;
+  width: 25rem;
   z-index: 100;
   background-color: white;
   border: 3px solid #ff0000;
@@ -12036,6 +12042,14 @@ textarea.form-control-lg {
   margin-bottom: 1rem;
 }
 
+.navigation {
+  display: block;
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  margin-left: 25%;
+}
+
 .loaded {
   width: 100%;
   height: 100%;
@@ -12063,6 +12077,21 @@ textarea.form-control-lg {
 
 #text {
   text-align: center;
+}
+
+#but_fail,
+#but_warning {
+  font-size: 1.25rem;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  cursor: not-allowed;
+}
+
+.cursor-wait,
+.cursor-wait * {
+  cursor: wait !important;
 }
 /*!***********************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[2].use[3]!./src/scss/register.scss ***!
@@ -24035,10 +24064,15 @@ textarea.form-control-lg {
   }
 }
 * {
+  overflow: hidden;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
   font-family: Trebuchet MS, sans-serif;
+}
+* h1, * .h1 {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
 }
 
 #particles-js {
@@ -24054,6 +24088,7 @@ textarea.form-control-lg {
 #logo {
   position: absolute;
   box-sizing: border-box;
+  width: 25rem;
   z-index: 100;
   background-color: white;
   border: 3px solid #ff0000;
@@ -24076,6 +24111,14 @@ textarea.form-control-lg {
 }
 #logo ul {
   padding-left: 0% !important;
+}
+
+.navigation {
+  display: block;
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  margin-left: 25%;
 }
 
 .main {
@@ -36063,9 +36106,32 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+* {
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  font-family: Trebuchet MS, sans-serif;
+}
+* h1, * .h1 {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+
+#particles-js {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #e74c3c;
+  z-index: 1;
+}
+
 #logo {
   position: absolute;
   box-sizing: border-box;
+  width: 25rem;
   z-index: 100;
   background-color: white;
   border: 3px solid #ff0000;
@@ -36108,6 +36174,14 @@ textarea.form-control-lg {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.navigation {
+  display: block;
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  margin-left: 25%;
 }
 
 .modal-dialog {
