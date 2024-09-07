@@ -13411,9 +13411,41 @@ textarea.form-control-lg {
   margin-left: 25%;
 }
 
-.main {
+.registration {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  z-index: 2;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  background-color: white;
+  border: 3px solid #ff0000;
+  border-radius: 8px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  position: fixed;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
   width: 30rem;
   padding: 0%;
+  padding: 1rem !important;
+}
+.registration .form-control {
+  margin-bottom: 1rem;
 }
 
 .p-4 {
@@ -13447,4 +13479,16 @@ label::after {
 
 .text-body-secondary {
   font-size: 0.95rem;
+}
+
+#but_fail,
+#but_warning,
+#but_warning2,
+#but_warning3,
+#but_success {
+  font-size: 1.25rem;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
 }

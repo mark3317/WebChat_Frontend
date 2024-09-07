@@ -16,10 +16,12 @@ if (loginForm) {
     spinner.style.display = "block"; //! Отображение спиннера
     setGlobalCursorWait();
 
-    // Проверка на валидность
+    //todo ПРОВЕРКИ
     const butNormal = document.getElementById("but_normal");
     const butWarning = document.getElementById("but_warning");
     const butFail = document.getElementById("but_fail");
+    const loginField = document.getElementById("login");
+    const butWarning3 = document.getElementById("but_warning3");
 
     if (!login) {
       butNormal.style.display = "none";
@@ -46,6 +48,25 @@ if (loginForm) {
       spinner.style.display = "none"; // !Скрытие спиннера
       resetGlobalCursor();
       return;
+    }
+    if (loginField.value.includes("@")) {
+      // Базовая проверка электронной почты
+      var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(loginField.value)) {
+        event.preventDefault();
+
+        butNormal.style.display = "none";
+        butWarning3.style.display = "block";
+
+        setTimeout(() => {
+          butNormal.style.display = "block";
+          butWarning3.style.display = "none";
+        }, 2000); // 2 секунды
+
+        spinner.style.display = "none"; // !Скрытие спиннера
+        resetGlobalCursor();
+        return;
+      }
     }
     //todo ОТПРАВКА ЗАПРОСА НА СЕРВЕР
     try {

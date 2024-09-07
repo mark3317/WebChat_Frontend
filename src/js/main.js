@@ -9,7 +9,9 @@ console.log("Webpack is working!");
 import "./background/particles.min";
 import "./background/app";
 import "./logic/authrules";
+import "./logic/regrules";
 
+// !MAINCHAT LOGIC
 if (window.location.pathname.includes("mainchat.html")) {
   import("sockjs-client").then((SockJS) => {
     import("@stomp/stompjs").then(({ Client }) => {

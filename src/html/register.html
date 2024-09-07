@@ -32,11 +32,12 @@
           style="display: none; position: absolute; right: 5%"
         ></div>
       </div>
-      <!-- todoSection-->
-      <section class="main">
+      <!-- todoRegistration-->
+      <section class="registration">
         <form class="p-4 p-md-5 border rounded-3">
           <h1 class="h3 mb-3 fw-normal" id="text">Регистрация</h1>
           <div class="form-floating mb-3">
+            <!-- NICKNAME -->
             <input
               type="text"
               class="form-control"
@@ -46,6 +47,7 @@
             <label for="floatingNickname">Логин</label>
           </div>
           <div class="form-floating mb-3">
+            <!-- EMAIL -->
             <input
               type="email"
               class="form-control"
@@ -55,6 +57,7 @@
             <label for="floatingInput">Адрес электронной почты</label>
           </div>
           <div class="form-floating mb-3">
+            <!-- PASSWORD -->
             <input
               type="password"
               class="form-control"
@@ -64,6 +67,7 @@
             <label for="floatingPassword">Пароль</label>
           </div>
           <div class="form-floating mb-3">
+            <!-- CONFIRM PASSWORD -->
             <input
               type="password"
               class="form-control"
@@ -72,63 +76,85 @@
             />
             <label for="floatingConfirmPassword">Повторите пароль</label>
           </div>
-          <aside class="asideshowpass"
-          <div class="checkbox mb-3">
-            <label style="cursor: pointer; user-select: none">
-              <input
-                type="checkbox"
-                id="showPassword"
-                style="cursor: pointer"
-              />
-              Показать пароль
-            </label>
-          </div>
+          <aside class="asideshowpass">
+            <div class="checkbox mb-3">
+              <label style="cursor: pointer; user-select: none">
+                <input
+                  type="checkbox"
+                  id="showPassword"
+                  style="cursor: pointer"
+                />
+                Показать пароль
+              </label>
+            </div>
           </aside>
-          <button class="w-100 btn btn-lg btn-primary" type="submit">
-            Зарегистрироваться
+          <!--* LOGIN BUTTON -->
+          <button
+            type="submit"
+            class="w-100 btn btn-lg btn-primary"
+            style="display: block"
+            id="but_normal"
+          >
+            Войти
+          </button>
+          <!--! REGISTER BUTTON FAILED -->
+          <button
+            type="button"
+            class="w-100 btn btn-danger"
+            style="display: none"
+            id="but_fail"
+          >
+            Ошибка регистрации
+          </button>
+          <!-- *REGISTER BUTTON SUCCESS -->
+          <button
+            type="button"
+            class="w-100 btn btn-success"
+            style="display: none"
+            id="but_success"
+          >
+            Успешная регистрация
+          </button>
+          <!--todo REGISTER BUTTON WARNING -->
+          <button
+            type="button"
+            class="w-100 btn btn-warning"
+            style="display: none"
+            id="but_warning"
+          >
+            Заполните все поля
+          </button>
+          <!--todo REGISTER BUTTON WARNING2 -->
+          <button
+            type="button"
+            class="w-100 btn btn-warning"
+            style="display: none"
+            id="but_warning2"
+          >
+            Пароли не совпадают
+          </button>
+          <!--todo REGISTER BUTTON WARNING3 -->
+          <button
+            type="button"
+            class="w-100 btn btn-warning"
+            style="display: none"
+            id="but_warning3"
+          >
+            Некорректный email
           </button>
           <hr class="my-4" />
           <!-- Уже зареганы? -->
-          <aside style="display: flex; justify-content: center;">
-          <small class="text-body-secondary">
-            Уже зарегистрированы? <a href="index.html">Авторизируйтесь</a>
+          <aside style="display: flex; justify-content: center">
+            <small class="text-body-secondary">
+              Уже зарегистрированы? <a href="index.html">Авторизируйтесь</a>
+            </small>
           </aside>
-          </small>
         </form>
       </section>
     </main>
-    <script>
-      document
-        .getElementById("showPassword")
-        .addEventListener("change", function () {
-          var passwordField = document.getElementById("floatingPassword");
-          var confirmPasswordField = document.getElementById(
-            "floatingConfirmPassword"
-          );
-          if (this.checked) {
-            passwordField.type = "text";
-            confirmPasswordField.type = "text";
-          } else {
-            passwordField.type = "password";
-            confirmPasswordField.type = "password";
-          }
-        });
-
-      document
-        .querySelector("form")
-        .addEventListener("submit", function (event) {
-          var password = document.getElementById("floatingPassword").value;
-          var confirmPassword = document.getElementById(
-            "floatingConfirmPassword"
-          ).value;
-          if (password !== confirmPassword) {
-            event.preventDefault();
-            alert("Пароли не совпадают!");
-          }
-        });
-    </script>
     <!--! SCRIPTS -->
     <script src="../../dist/main.bundle.js"></script>
+    <script src="../../src/js/showpass.js"></script>
     <script src="http://localhost:5000/livereload.js"></script>
   </body>
 </html>

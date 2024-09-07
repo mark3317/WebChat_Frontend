@@ -13476,16 +13476,6 @@ textarea.form-control-lg {
   text-align: center;
 }
 
-#but_fail,
-#but_warning {
-  font-size: 1.25rem;
-  padding-left: 16px;
-  padding-right: 16px;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  cursor: not-allowed;
-}
-
 .cursor-wait,
 .cursor-wait * {
   cursor: wait !important;
@@ -13497,4 +13487,16 @@ label::after {
 
 .text-body-secondary {
   font-size: 0.95rem;
+}
+
+#but_fail,
+#but_warning,
+#but_warning2,
+#but_warning3 {
+  font-size: 1.25rem;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  cursor: not-allowed;
 }

@@ -23,11 +23,16 @@
 .navigation {
   @include navigation;
 }
-
-.main {
+.registration {
+  @include main;
   width: 30rem;
   padding: 0%;
+  .form-control {
+    margin-bottom: 1rem;
+  }
+  padding: 1rem !important;
 }
+
 .p-4 {
   width: 100%;
 }
@@ -54,4 +59,16 @@ label::after {
 }
 .text-body-secondary {
   font-size: 0.95rem;
+}
+
+#but_fail,
+#but_warning,
+#but_warning2,
+#but_warning3,
+#but_success {
+  font-size: 1.25rem;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
 }
