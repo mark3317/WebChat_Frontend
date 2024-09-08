@@ -2,95 +2,92 @@ import { setGlobalCursorWait, resetGlobalCursor } from "./cursorlogic";
 
 const registrationForm = document.querySelector(".registration");
 if (registrationForm) {
-  // Логика для отображения пароля
-  document
-    .getElementById("showPassword")
-    .addEventListener("change", function () {
-      var passwordField = document.getElementById("floatingPassword");
-      var confirmPasswordField = document.getElementById(
-        "floatingConfirmPassword"
-      );
-      if (this.checked) {
-        passwordField.type = "text";
-        confirmPasswordField.type = "text";
-      } else {
-        passwordField.type = "password";
-        confirmPasswordField.type = "password";
-      }
-    });
-
-  //todo lets go!
   registrationForm.addEventListener("submit", async function (event) {
     event.preventDefault(); // Предотвращаем стандартное поведение формы
 
-    var usernameField = document.getElementById("floatingNickname");
-    var emailField = document.getElementById("floatingInput");
-    var passwordField = document.getElementById("floatingPassword");
-    var confirmPasswordField = document.getElementById(
+    const usernameField = document.getElementById("floatingNickname");
+    const emailField = document.getElementById("floatingInput");
+    const passwordField = document.getElementById("floatingPassword");
+    const confirmPasswordField = document.getElementById(
       "floatingConfirmPassword"
     );
-    var butNormal = document.getElementById("but_normal");
-    var butWarning = document.getElementById("but_warning");
-    var butWarning2 = document.getElementById("but_warning2");
-    var butWarning3 = document.getElementById("but_warning3");
-    var butFail = document.getElementById("but_fail");
-    var butSuccess = document.getElementById("but_success");
 
-    var username = usernameField.value;
-    var email = emailField.value;
-    var password = passwordField.value;
-    var confirmPassword = confirmPasswordField.value;
+    let username = usernameField.value;
+    let email = emailField.value;
+    let password = passwordField.value;
+    let confirmPassword = confirmPasswordField.value;
+
+    const butNormal = document.getElementById("but_normal");
+    const butWarning = document.getElementById("but_warning");
+    const butWarning2 = document.getElementById("but_warning2");
+    const butWarning3 = document.getElementById("but_warning3");
+    const butFail = document.getElementById("but_fail");
+    const butSuccess = document.getElementById("but_success");
+    const spinner = document.getElementById("spinner");
+
+    let showSpinner = () => {
+      spinner.style.display = "block";
+      setGlobalCursorWait();
+    };
+
+    let hideSpinner = () => {
+      spinner.style.display = "none";
+      resetGlobalCursor();
+    };
+
+    let showSuccess = () => {
+      butNormal.style.display = "none";
+      butSuccess.style.display = "block";
+      setTimeout(() => {
+        butNormal.style.display = "block";
+        butSuccess.style.display = "none";
+        hideSpinner();
+      }, 2000);
+    };
+
+    let showFail = () => {
+      butNormal.style.display = "none";
+      butFail.style.display = "block";
+      setTimeout(() => {
+        butNormal.style.display = "block";
+        butFail.style.display = "none";
+        hideSpinner(); // Скрываем спиннер после завершения таймера
+      }, 2000);
+    };
+
+    let showWarning = (button) => {
+      butNormal.style.display = "none";
+      button.style.display = "block";
+      setTimeout(() => {
+        butNormal.style.display = "block";
+        button.style.display = "none";
+        hideSpinner(); // Скрываем спиннер после завершения таймера
+      }, 2000);
+    };
 
     // Проверка на заполненность полей
     if (!username || !email || !password || !confirmPassword) {
-      setGlobalCursorWait();
-      butNormal.style.display = "none";
-      butWarning.style.display = "block";
-
-      setTimeout(() => {
-        butNormal.style.display = "block";
-        butWarning.style.display = "none";
-        resetGlobalCursor();
-      }, 2000); // 2 секунды
-
+      showWarning(butWarning);
       return; // Прекращаем выполнение функции
     }
 
     // Проверка на совпадение паролей
     if (password !== confirmPassword) {
-      setGlobalCursorWait();
-      butNormal.style.display = "none";
-      butWarning2.style.display = "block";
-
-      setTimeout(() => {
-        butNormal.style.display = "block";
-        butWarning2.style.display = "none";
-        resetGlobalCursor();
-      }, 2000); // 2 секунды
-
+      showWarning(butWarning2);
       return; // Прекращаем выполнение функции
     }
 
     // Проверка на корректность email
     if (email.includes("@")) {
-      var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailPattern.test(email)) {
-        setGlobalCursorWait();
-        butNormal.style.display = "none";
-        butWarning3.style.display = "block";
-
-        setTimeout(() => {
-          butNormal.style.display = "block";
-          butWarning3.style.display = "none";
-          resetGlobalCursor();
-        }, 2000); // 2 секунды
-
+        showWarning(butWarning3);
         return; // Прекращаем выполнение функции
       }
     }
 
     // Отображение спиннера и установка глобального курсора "ожидание"
-    setGlobalCursorWait();
+    showSpinner();
 
     //! Отправка запроса на сервер
     try {
@@ -107,71 +104,19 @@ if (registrationForm) {
         console.log("Registration successful:", token);
         localStorage.setItem("token", token);
 
-        butNormal.style.display = "none";
-        butSuccess.style.display = "block";
+        showSuccess();
 
         setTimeout(() => {
-          butNormal.style.display = "block";
-          butSuccess.style.display = "none";
-
           // Перенаправление на страницу входа или другую страницу
           window.location.href = "../../src/html/index.html";
         }, 2000); // 2 секунды
-      } else if (response.status === 400) {
-        console.log("Bad Request");
-        butNormal.style.display = "none";
-        butFail.style.display = "block";
-
-        setTimeout(() => {
-          butNormal.style.display = "block";
-          butFail.style.display = "none";
-          resetGlobalCursor();
-        }, 2000); // 2 секунды
-      } else if (response.status === 401) {
-        console.log("Unauthorized");
-        butNormal.style.display = "none";
-        butFail.style.display = "block";
-
-        setTimeout(() => {
-          butNormal.style.display = "block";
-          butFail.style.display = "none";
-          resetGlobalCursor();
-        }, 2000); // 2 секунды
-      } else if (response.status === 404) {
-        console.log("Not Found");
-        butNormal.style.display = "none";
-        butFail.style.display = "block";
-
-        setTimeout(() => {
-          butNormal.style.display = "block";
-          butFail.style.display = "none";
-          resetGlobalCursor();
-        }, 2000); // 2 секунды
       } else {
         console.log("Registration failed");
-        butNormal.style.display = "none";
-        butFail.style.display = "block";
-
-        setTimeout(() => {
-          butNormal.style.display = "block";
-          butFail.style.display = "none";
-          resetGlobalCursor();
-        }, 2000); // 2 секунды
+        showFail();
       }
     } catch (error) {
       console.error("Error during registration:", error);
-      butNormal.style.display = "none";
-      butFail.style.display = "block";
-
-      setTimeout(() => {
-        butNormal.style.display = "block";
-        butFail.style.display = "none";
-        resetGlobalCursor();
-      }, 2000); // 2 секунды
-    } finally {
-      // Скрытие спиннера
-      const spinner = document.getElementById("spinner");
-      spinner.style.display = "none";
+      showFail();
     }
   });
 }

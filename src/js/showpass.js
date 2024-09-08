@@ -4,7 +4,7 @@ if (loginPage) {
   document
     .getElementById("showPassword")
     .addEventListener("change", function () {
-      var passwordField = document.getElementById("password");
+      const passwordField = document.getElementById("password");
       if (this.checked) {
         passwordField.type = "text";
       } else {
@@ -12,14 +12,15 @@ if (loginPage) {
       }
     });
 }
+
 const registrationPage = document.querySelector(".registration");
 if (registrationPage) {
   // Логика для отображения пароля
   document
     .getElementById("showPassword")
     .addEventListener("change", function () {
-      var passwordField = document.getElementById("floatingPassword");
-      var confirmPasswordField = document.getElementById(
+      const passwordField = document.getElementById("floatingPassword");
+      const confirmPasswordField = document.getElementById(
         "floatingConfirmPassword"
       );
       if (this.checked) {

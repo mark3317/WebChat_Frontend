@@ -24201,7 +24201,6 @@ label::after {
   padding-right: 16px;
   padding-top: 8px;
   padding-bottom: 8px;
-  cursor: wait;
 }
 /*!***********************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[2].use[3]!./src/scss/mainchat.scss ***!
@@ -36337,6 +36336,38 @@ textarea.form-control-lg {
 
 .mb-5 {
   margin-bottom: 24px !important;
+}
+
+#searchResults {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  width: 100%;
+  height: 10rem;
+  overflow-y: auto;
+  border: 1px solid black;
+  margin-top: 2%;
+}
+
+.search-results {
+  overflow-y: scroll;
+  max-height: 200px;
+  background-color: rgb(233, 233, 233);
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+  color: #333;
+}
+.search-results li {
+  list-style: none;
+  padding: 5px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3568627451);
+  width: 27.7rem;
+  cursor: pointer;
+}
+.search-results li:hover {
+  background-color: #f9f9f9;
 }
 
 /* Адаптивность */

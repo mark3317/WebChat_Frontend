@@ -13568,6 +13568,48 @@ textarea.form-control-lg {
   margin-bottom: 24px !important;
 }
 
+#searchResults {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: start !important;
+      -ms-flex-align: start !important;
+          align-items: flex-start !important;
+  -webkit-box-pack: start !important;
+      -ms-flex-pack: start !important;
+          justify-content: flex-start !important;
+  width: 100%;
+  height: 10rem;
+  overflow-y: auto;
+  border: 1px solid black;
+  margin-top: 2%;
+}
+
+.search-results {
+  overflow-y: scroll;
+  max-height: 200px;
+  background-color: rgb(233, 233, 233);
+  padding: 10px;
+  -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+  color: #333;
+}
+.search-results li {
+  list-style: none;
+  padding: 5px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3568627451);
+  width: 27.7rem;
+  cursor: pointer;
+}
+.search-results li:hover {
+  background-color: #f9f9f9;
+}
+
 /* Адаптивность */
 @media (max-width: 768px) {
   .sms {

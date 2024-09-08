@@ -115,17 +115,24 @@
             <p>Введите никнейм</p>
             <form class="d-flex mt-3" role="search">
               <input
+                id="nickname-input"
                 class="form-control me-2"
                 type="search"
                 placeholder="Начните вводить..."
                 aria-label="Поиск"
               />
-              <button class="btn btn-outline-success" type="submit">
+              <button
+                class="btn btn-outline-success"
+                id="finduser"
+                type="submit"
+              >
                 Поиск&nbsp&nbsp
               </button>
             </form>
             <!-- ?Результаты поиска:  -->
-            <div id="searchResults"></div>
+            <div id="searchResults">
+              <ul class="search-results"></ul>
+            </div>
           </article>
         </div>
       </div>

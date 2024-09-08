@@ -1,178 +1,157 @@
+import { jwtDecode } from "jwt-decode";
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
-import { jwtDecode } from "jwt-decode";
 import { setGlobalCursorWait, resetGlobalCursor } from "./cursorlogic";
 
+// Определение функции connectWebsocket для подключения к WebSocket
+function connectWebsocket(username) {
+  const socket = new SockJS("http://94.242.53.252:8081/api/ws");
+  const stompClient = new Client({
+    webSocketFactory: () => socket,
+    debug: (str) => console.log(str),
+  });
+
+  // Обработчик успешного подключения
+  stompClient.onConnect = (frame) => {
+    console.log("Connected: " + frame);
+  };
+
+  // Обработчик ошибок STOMP
+  stompClient.onStompError = (frame) => {
+    console.error("Broker reported error: " + frame.headers["message"]);
+    console.error("Additional details: " + frame.body);
+  };
+  // Активация STOMP клиента
+  stompClient.activate();
+}
+
+// Ваш существующий код
 const loginForm = document.querySelector(".authorize-form");
+
 if (loginForm) {
-  // Функция для выполнения входа
   loginForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
     const login = document.getElementById("login").value;
     const password = document.getElementById("password").value;
-
     const spinner = document.getElementById("spinner");
-    spinner.style.display = "block"; //! Отображение спиннера
-    setGlobalCursorWait();
-
-    //todo ПРОВЕРКИ
     const butNormal = document.getElementById("but_normal");
     const butWarning = document.getElementById("but_warning");
-    const butFail = document.getElementById("but_fail");
-    const loginField = document.getElementById("login");
     const butWarning3 = document.getElementById("but_warning3");
+    const butFail = document.getElementById("but_fail");
+    const butSuccess = document.getElementById("but_success");
+
+    let showSpinner = () => {
+      spinner.style.display = "block";
+      setGlobalCursorWait();
+    };
+
+    let hideSpinner = () => {
+      spinner.style.display = "none";
+      resetGlobalCursor();
+    };
+
+    let showSuccess = () => {
+      butNormal.style.display = "none";
+      butSuccess.style.display = "block";
+      setTimeout(() => {
+        butNormal.style.display = "block";
+        butSuccess.style.display = "none";
+      }, 2000);
+    };
+
+    let showFail = () => {
+      butNormal.style.display = "none";
+      butFail.style.display = "block";
+      setTimeout(() => {
+        butNormal.style.display = "block";
+        butFail.style.display = "none";
+      }, 2000);
+    };
+
+    let showWarning = (button) => {
+      butNormal.style.display = "none";
+      button.style.display = "block";
+      setTimeout(() => {
+        butNormal.style.display = "block";
+        button.style.display = "none";
+      }, 2000);
+    };
+
+    showSpinner();
 
     if (!login) {
-      butNormal.style.display = "none";
-      butWarning.style.display = "block";
-
-      setTimeout(() => {
-        butNormal.style.display = "block";
-        butWarning.style.display = "none";
-      }, 2000); // 2 секунды
-
-      spinner.style.display = "none"; // !Скрытие спиннера
-      resetGlobalCursor();
+      showWarning(butWarning);
+      hideSpinner();
       return;
     }
+
     if (!password) {
-      butNormal.style.display = "none";
-      butWarning.style.display = "block";
-
-      setTimeout(() => {
-        butNormal.style.display = "block";
-        butWarning.style.display = "none";
-      }, 2000); // 2 секунды
-
-      spinner.style.display = "none"; // !Скрытие спиннера
-      resetGlobalCursor();
+      showWarning(butWarning);
+      hideSpinner();
       return;
     }
-    if (loginField.value.includes("@")) {
-      // Базовая проверка электронной почты
-      var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailPattern.test(loginField.value)) {
-        event.preventDefault();
 
-        butNormal.style.display = "none";
-        butWarning3.style.display = "block";
-
-        setTimeout(() => {
-          butNormal.style.display = "block";
-          butWarning3.style.display = "none";
-        }, 2000); // 2 секунды
-
-        spinner.style.display = "none"; // !Скрытие спиннера
-        resetGlobalCursor();
+    if (login.includes("@")) {
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(login)) {
+        showWarning(butWarning3);
+        hideSpinner();
         return;
       }
     }
-    //todo ОТПРАВКА ЗАПРОСА НА СЕРВЕР
+
+    // Отправка запроса на сервер для авторизации
     try {
       const response = await fetch("http://94.242.53.252:8081/api/signIn", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ login, password }),
       });
 
       if (response.ok) {
         const token = await response.text();
-        console.log("Login successful:", token);
         localStorage.setItem("token", token);
 
         if (token) {
           const decodedToken = jwtDecode(token);
-          const username = decodedToken.sub; // Извлечение subject (username)
-          console.log("Username from token:", username);
-          // Дополнительные действия после успешного входа
+          const username = decodedToken.sub;
+          localStorage.setItem("username", username);
           connectWebsocket(username);
+
+          // Выполнение GET запроса для получения профиля
+          const profileResponse = await fetch(
+            "http://94.242.53.252:8081/api/profile",
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          // Получение и сохранение ID пользователя из профиля
+          if (profileResponse.ok) {
+            const profileData = await profileResponse.json();
+            const userId = profileData.id;
+            localStorage.setItem("userId", userId);
+            showSuccess();
+            window.location.href = "../../src/html/mainchat.html";
+          } else {
+            console.error("Failed to fetch profile data");
+            showFail();
+            hideSpinner();
+          }
         } else {
-          console.log("Token not found");
-          spinner.style.display = "none"; // !Скрытие спиннера
-          resetGlobalCursor();
+          hideSpinner();
         }
       } else {
-        console.log("Login failed");
-        spinner.style.display = "none"; // !Скрытие спиннера
-        resetGlobalCursor();
-        //* Показать/скрыть кнопки
-        butNormal.style.display = "none";
-        butFail.style.display = "block";
-
-        setTimeout(() => {
-          butNormal.style.display = "block";
-          butFail.style.display = "none";
-        }, 2000); // 2 секунды
+        showFail();
+        hideSpinner();
       }
     } catch (error) {
       console.error("Error during login:", error);
-      spinner.style.display = "none"; // !Скрытие спиннера
-      resetGlobalCursor();
+      hideSpinner();
     }
   });
-
-  function connectWebsocket(username) {
-    const socket = new SockJS("http://94.242.53.252:8081/api/ws");
-    const stompClient = new Client({
-      webSocketFactory: () => socket,
-      debug: (str) => {
-        console.log(str);
-      },
-    });
-
-    stompClient.onConnect = (frame) => {
-      console.log("Connected: " + frame);
-
-      // Пример id для тестового прогона (нужно будет достать из запроса на /profile)
-      const userId = username === "admin" ? 1 : 2;
-      // Примеры id чатов для тестового прогона (нужно будет достать из запроса на /profile)
-      const chatsId = [1, 2];
-
-      // Подписка на приглашения юзера
-      stompClient.subscribe(`/user/${userId}/invite`, (message) => {
-        const response = JSON.parse(message.body);
-        alert(response.content);
-        spinner.style.display = "none"; // !Скрытие спиннера
-        resetGlobalCursor();
-      });
-
-      // Подписка на сообщения чата (должно быть столько же сколько и чатов у юзера)
-      chatsId.forEach((chatId) => {
-        stompClient.subscribe(`/chat/${chatId}/message`, (message) => {
-          const response = JSON.parse(message.body);
-          alert(response.content);
-          spinner.style.display = "none"; // !Скрытие спиннера
-          resetGlobalCursor();
-        });
-      });
-
-      // Пример отправки сообщения от админа
-      if (username === "admin") {
-        const message = {
-          chatId: 2,
-          senderId: 1,
-          content: "Hello",
-        };
-        stompClient.publish({
-          destination: "/app/message",
-          body: JSON.stringify(message),
-        });
-      }
-      // Сохранение состояния Stomp клиента в localStorage
-      localStorage.setItem("stompClientConnected", true);
-      localStorage.setItem("userId", userId);
-      localStorage.setItem("chatsId", JSON.stringify(chatsId));
-      spinner.style.display = "none"; // !Скрытие спиннера
-      resetGlobalCursor();
-
-      // Перенаправление на страницу mainchat.html
-      window.location.href = "../../src/html/mainchat.html";
-    };
-
-    // Активация stompClient
-    stompClient.activate();
-  }
 }
