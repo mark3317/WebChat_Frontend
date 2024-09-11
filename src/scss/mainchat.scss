@@ -58,8 +58,14 @@
   margin-top: 2%;
   #infopanel {
     width: 20%;
+    height: 31.5em !important;
+    max-height: 31.5em !important;
+    min-width: 11.25em !important;
     padding: 1% !important;
     margin-left: 0.5%;
+    overflow: scroll !important;
+    border-color: red !important;
+    border-width: 3px !important;
   }
   .btn-container {
     display: flex;
@@ -70,7 +76,7 @@
   }
   #smspanel {
     padding: 0% !important;
-    border-radius: 2rem !important;
+    border-radius: 0% !important;
     border-color: red !important;
     border-width: 3px !important;
   }
@@ -89,6 +95,7 @@
     height: 87.6%;
     margin-bottom: 0%;
     border-bottom: 2px solid rgba(128, 128, 128, 0.7);
+    overflow: scroll;
   }
 
   #messageForm {
@@ -105,10 +112,15 @@
     }
   }
 
-  #message {
-    width: 27em;
+  #input_message {
+    width: 29.625rem;
+    max-height: 1.063rem;
+    overflow: scroll;
+    resize: vertical;
   }
+
   .btn {
+    text-align: center !important;
     margin-left: 1.5%;
     border-radius: 25%;
   }
@@ -147,19 +159,23 @@
   }
 }
 
-/* Адаптивность */
-@media (max-width: 768px) {
-  .sms {
-    width: 100%;
-    height: auto;
+#sms-list {
+  display: flex;
+  align-items: start;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding-left: 0%;
+  .sms-item_text {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    text-align: left;
+    width: 31.625rem;
+    max-width: 31.625rem;
+    border-bottom: 1px solid rgba(48, 48, 48, 0.144);
   }
-
-  #infopanel {
-    width: 100%;
-  }
-
-  .btn-container {
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
+}
+#icon_user,
+#icon_admin {
+  padding-right: 0.25em;
 }

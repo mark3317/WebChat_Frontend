@@ -1,6 +1,8 @@
 import { setGlobalCursorWait, resetGlobalCursor } from "./cursorlogic";
 
 const registrationForm = document.querySelector(".registration");
+
+//* Назначение переменных для элементов формы и спинера
 if (registrationForm) {
   registrationForm.addEventListener("submit", async function (event) {
     event.preventDefault(); // Предотвращаем стандартное поведение формы
@@ -51,7 +53,7 @@ if (registrationForm) {
       setTimeout(() => {
         butNormal.style.display = "block";
         butFail.style.display = "none";
-        hideSpinner(); // Скрываем спиннер после завершения таймера
+        hideSpinner();
       }, 2000);
     };
 
@@ -61,20 +63,20 @@ if (registrationForm) {
       setTimeout(() => {
         butNormal.style.display = "block";
         button.style.display = "none";
-        hideSpinner(); // Скрываем спиннер после завершения таймера
+        hideSpinner();
       }, 2000);
     };
 
-    // Проверка на заполненность полей
+    //* Проверка на заполненность полей
     if (!username || !email || !password || !confirmPassword) {
       showWarning(butWarning);
-      return; // Прекращаем выполнение функции
+      return;
     }
 
     // Проверка на совпадение паролей
     if (password !== confirmPassword) {
       showWarning(butWarning2);
-      return; // Прекращаем выполнение функции
+      return;
     }
 
     // Проверка на корректность email
@@ -82,11 +84,11 @@ if (registrationForm) {
       const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailPattern.test(email)) {
         showWarning(butWarning3);
-        return; // Прекращаем выполнение функции
+        return;
       }
     }
 
-    // Отображение спиннера и установка глобального курсора "ожидание"
+    // Отображение спиннера и установка глобального курсора "wait"
     showSpinner();
 
     //! Отправка запроса на сервер

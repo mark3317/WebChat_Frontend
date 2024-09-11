@@ -25,7 +25,7 @@ function connectWebsocket(username) {
   stompClient.activate();
 }
 
-// Ваш существующий код
+//* Назначение переменных для элементов формы и спиннера
 const loginForm = document.querySelector(".authorize-form");
 
 if (loginForm) {
@@ -78,7 +78,10 @@ if (loginForm) {
       }, 2000);
     };
 
+    // Отображение спиннера и установка глобального курсора "wait"
     showSpinner();
+
+    // Проверка наличия логина и пароля, корректность email
 
     if (!login) {
       showWarning(butWarning);
@@ -101,7 +104,7 @@ if (loginForm) {
       }
     }
 
-    // Отправка запроса на сервер для авторизации
+    //! Отправка запроса на сервер для авторизации
     try {
       const response = await fetch("http://94.242.53.252:8081/api/signIn", {
         method: "POST",
@@ -119,7 +122,7 @@ if (loginForm) {
           localStorage.setItem("username", username);
           connectWebsocket(username);
 
-          // Выполнение GET запроса для получения профиля
+          //* Выполнение GET запроса для получения профиля
           const profileResponse = await fetch(
             "http://94.242.53.252:8081/api/profile",
             {

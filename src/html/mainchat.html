@@ -34,12 +34,12 @@
     <!-- ?SECTION-OPEN-->
     <section class="chat">
       <div
-        class="position-relative p-5 text-center text-muted bg-body border border-dashed rounded-5"
+        class="position-relative p-5 text-center text-muted bg-body border border-dashed"
         id="infopanel"
       >
         <button
           type="button"
-          class="position-absolute top-0 end-0 p-3 m-3 btn-close bg-secondary bg-opacity-10 rounded-pill"
+          class="position-absolute top-0 end-0 p-3 m-3 btn bg-secondary bg-opacity-10 rounded-pill border border-2 border-dark"
           aria-label="Закрыть"
         ></button>
         <svg class="bi mt-5 mb-3" width="48" height="48">
@@ -48,7 +48,7 @@
         <h1 class="text-body-emphasis">Привет, user!</h1>
         <p class="col-lg-6 mx-auto mb-4">
           Чтобы запустить сессию чата отправьте инвайт другу и дождитесь его
-          подтверждения, если вам отправили инвайт, то просто примите его
+          подтверждения
         </p>
         <aside class="btn-container">
           <button
@@ -59,9 +59,6 @@
           >
             Добавить друга
           </button>
-          <button class="btn btn-primary px-5 mb-5" type="button">
-            Принять приглашение
-          </button>
         </aside>
       </div>
       <!--! SMS -->
@@ -70,15 +67,36 @@
           class="position-relative p-5 text-center text-muted bg-body border border-dashed rounded-5"
           id="smspanel"
         >
-          <ul id="sms-list"></ul>
+          <!--todo SMS-->
+          <ul id="sms-list">
+            <li class="sms-item_text">
+              <svg
+                id="icon_user"
+                style="color: darkblue"
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="16"
+                fill="currentColor"
+                class="bi bi-person-fill"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"
+                />
+              </svg>
+              <span id="sms-username">admin</span><span>:&nbsp</span>
+              <span id="sms-message">Привет как дела?</span>
+            </li>
+          </ul>
+
           <form id="messageForm">
-            <input
+            <textarea
               type="text"
-              id="message"
+              id="input_message"
               placeholder="Введите сообщение..."
               autocomplete="off"
               class="form-control"
-            />
+            ></textarea>
             <button type="submit" class="btn btn-success">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
