@@ -37,7 +37,7 @@
 }
 
 @mixin logo {
-  position: absolute;
+  position: relative;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   width: 25rem;
@@ -45,13 +45,14 @@
   background-color: white;
   border: 3px solid #ff0000;
   border-radius: 8px;
-  padding: 20px;
+  padding: 10px;
   top: 0;
   left: 50%; /* Центрируем по горизонтали */
   transform: translateX(-50%); /* Корректируем позицию для центрирования */
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 10% !important;
   h1 {
     font-size: 2rem;
   }
@@ -102,9 +103,8 @@
 }
 
 @mixin navigation {
-  display: block;
-  position: fixed;
-  top: 0;
-  z-index: 100;
+  display: flex;
+  position: absolute;
+  z-index: 100000;
   margin-left: 25%;
 }

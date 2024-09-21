@@ -13368,7 +13368,7 @@ textarea.form-control-lg {
 }
 
 #logo {
-  position: absolute;
+  position: relative;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   width: 25rem;
@@ -13376,7 +13376,7 @@ textarea.form-control-lg {
   background-color: white;
   border: 3px solid #ff0000;
   border-radius: 8px;
-  padding: 20px;
+  padding: 10px;
   top: 0;
   left: 50%; /* Центрируем по горизонтали */
   -webkit-transform: translateX(-50%);
@@ -13390,6 +13390,7 @@ textarea.form-control-lg {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  height: 10% !important;
 }
 #logo h1, #logo .h1 {
   font-size: 2rem;
@@ -13404,10 +13405,11 @@ textarea.form-control-lg {
 }
 
 .navigation {
-  display: block;
-  position: fixed;
-  top: 0;
-  z-index: 100;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: absolute;
+  z-index: 100000;
   margin-left: 25%;
 }
 

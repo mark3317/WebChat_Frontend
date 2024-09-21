@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="../../dist/main.bundle.css" />
     <link rel="stylesheet" href="../../src/css/index.css" />
+    <link rel="stylesheet" href="../../src/css/normalize.css">
     <link rel="icon" href="../../src/img/favicon.ico" type="image/x-icon" />
   </head>
   <body class="loaded">
@@ -13,8 +13,8 @@
       <nav>
         <ul>
           <li><a href="/">█𝑨𝑼𝑻𝑯𝑶𝑹𝑰𝒁𝑨𝑻𝑰𝑶𝑵</a></li>
-          <li><a href="../../src/html/register.html">█𝑹𝑬𝑮𝑰𝑺𝑻𝑹𝑨𝑻𝑰𝑶𝑵</a></li>
-          <li><a href="../../src/html/mainchat.html">█𝑴𝑨𝑰𝑵 𝑪𝑯𝑨𝑻</a></li>
+          <li><a href="./register.html">█𝑹𝑬𝑮𝑰𝑺𝑻𝑹𝑨𝑻𝑰𝑶𝑵</a></li>
+          <li><a href="./mainchat.html">█𝑴𝑨𝑰𝑵 𝑪𝑯𝑨𝑻</a></li> 
         </ul>
       </nav>
     </aside>
@@ -100,7 +100,7 @@
           <hr class="my-4" />
           <small class="text-body-secondary"
             >Ещё не зарегестрированы? Пройдите
-            <a href="../../src/html/register.html">регистрацию</a>
+            <a href="./register.html">регистрацию</a>
           </small>
         </form>
       </div>
@@ -108,8 +108,7 @@
     </main>
   </section>
   <!--! SCRIPTS -->
-  <script src="../../dist/main.bundle.js"></script>
-  <script src="../../src/js/showpass.js"></script>
-  <script src="http://localhost:5000/livereload.js"></script>
+  <script defer type="module" src="../../src/js/main.js"></script>
+  <script defer src="../../src/js/showpass.js"></script>
   </body>
 </html>

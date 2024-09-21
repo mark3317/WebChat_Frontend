@@ -1,1 +1,100 @@
-<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"/> <meta name="viewport" content="width=device-width,initial-scale=1"/> <title>Document</title> <link rel="stylesheet" href="b88d04fba731603756b1.css"/> <link rel="stylesheet" href="b88d04fba731603756b1.css"/> <link rel="icon" href="d0a8c81a24cb444be9ce.ico" type="image/x-icon"/> </head> <body> <aside class="navigation"> <nav> <ul> <li><a href="/">█𝑨𝑼𝑻𝑯𝑶𝑹𝑰𝒁𝑨𝑻𝑰𝑶𝑵</a></li> <li><a href="../../src/html/register.html">█𝑹𝑬𝑮𝑰𝑺𝑻𝑹𝑨𝑻𝑰𝑶𝑵</a></li> <li><a href="../../src/html/mainchat.html">█𝑴𝑨𝑰𝑵 𝑪𝑯𝑨𝑻</a></li> </ul> </nav> </aside> <div id="particles-js"></div> <div id="logo"> <h1>Веб Чат Онлайн</h1> <!--! spinner --> <div id="spinner" class="spinner-border" role="status" style="display:none;position:absolute;right:5%"></div> </div> <section class="chat"> <div class="position-relative p-5 text-center text-muted bg-body border border-dashed" id="infopanel"> <button type="button" class="position-absolute top-0 end-0 p-3 m-3 btn bg-secondary bg-opacity-10 rounded-pill border border-2 border-dark" aria-label="Закрыть"></button> <svg class="bi mt-5 mb-3" width="48" height="48"> <use xlink:href="#check2-circle"></use> </svg> <h1 class="text-body-emphasis">Привет, user!</h1> <p class="col-lg-6 mx-auto mb-4"> Чтобы запустить сессию чата отправьте инвайт другу и дождитесь его подтверждения </p> <aside class="btn-container"> <button class="btn btn-primary px-5 mb-5" type="button" data-bs-toggle="modal" data-bs-target="#myModal"> Добавить друга </button> </aside> </div> <!--! SMS --> <article class="sms"> <div class="position-relative p-5 text-center text-muted bg-body border border-dashed rounded-5" id="smspanel"> <ul id="sms-list"> <li class="sms-item_text"> <svg id="icon_user" style="color:#00008b" xmlns="http://www.w3.org/2000/svg" width="20" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16"> <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/> </svg> <span id="sms-username">admin</span><span>:&nbsp</span> <span id="sms-message">Привет как дела?</span> </li> </ul> <form id="messageForm"> <textarea type="text" id="input_message" placeholder="Введите сообщение..." autocomplete="off" class="form-control"></textarea> <button type="submit" class="btn btn-success"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send-fill" viewBox="0 0 16 16"> <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.3L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/> </svg> </button> </form> </div> </article> </section> <div class="modal" tabindex="-1" id="myModal"> <div class="modal-dialog"> <div class="modal-content"> <div class="modal-header"> <h5 class="modal-title">Добавить друга</h5> <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button> </div> <article class="modal-body"> <p>Введите никнейм</p> <form class="d-flex mt-3" role="search"> <input id="nickname-input" class="form-control me-2" type="search" placeholder="Начните вводить..." aria-label="Поиск"/> <button class="btn btn-outline-success" id="finduser" type="submit"> Поиск&nbsp&nbsp </button> </form> <div id="searchResults"> <ul class="search-results"></ul> </div> </article> </div> </div> </div> <!--! SCRIPTS --> <script src="863e8dba73974a636c9c.js"></script> <script src="http://localhost:5000/livereload.js"></script> </body> </html> 
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/mainchat.ba828c3b.css">
+    <link rel="stylesheet" href="/index.0898f127.css">
+    <link rel="icon" href="/favicon.c5ec8b79.ico" type="image/x-icon">
+  </head>
+  <body>
+    <aside class="navigation">
+      <nav>
+        <ul>
+          <li><a href="/">█𝑨𝑼𝑻𝑯𝑶𝑹𝑰𝒁𝑨𝑻𝑰𝑶𝑵</a></li>
+          <li><a href="/register.html">█𝑹𝑬𝑮𝑰𝑺𝑻𝑹𝑨𝑻𝑰𝑶𝑵</a></li>
+          <li><a href="/mainchat.html">█𝑴𝑨𝑰𝑵 𝑪𝑯𝑨𝑻</a></li>
+        </ul>
+      </nav>
+    </aside>
+    <!-- BACKGROUND -->
+    <div id="particles-js"></div>
+    <!-- todoLOGO -->
+    <div id="logo">
+      <h1>Веб Чат Онлайн</h1>
+      <!--! spinner -->
+      <div id="spinner" class="spinner-border" role="status" style="display: none; position: absolute; right: 5%"></div>
+    </div>
+    <!-- ?SECTION-OPEN-->
+    <section class="chat">
+      <div class="position-relative p-5 text-center text-muted bg-body border border-dashed" id="infopanel">
+        <button type="button" class="position-absolute top-0 end-0 p-3 m-3 btn bg-secondary bg-opacity-10 rounded-pill border border-2 border-dark" aria-label="Закрыть"></button>
+        <svg class="bi mt-5 mb-3" width="48" height="48">
+          <use xlink:href="#check2-circle"></use>
+        </svg>
+        <h1 class="text-body-emphasis">Привет, user!</h1>
+        <p class="col-lg-6 mx-auto mb-4">
+          Чтобы запустить сессию чата отправьте инвайт другу и дождитесь его
+          подтверждения
+        </p>
+        <aside class="btn-container">
+          <button class="btn btn-primary px-5 mb-5" type="button" data-bs-toggle="modal" data-bs-target="#myModal">
+            Добавить друга
+          </button>
+        </aside>
+      </div>
+      <!--! SMS -->
+      <article class="sms">
+        <div class="position-relative p-5 text-center text-muted bg-body border border-dashed rounded-5" id="smspanel">
+          <!--todo SMS-->
+          <ul id="sms-list">
+            <li class="sms-item_text">
+              <svg id="icon_user" style="color: #00008b" xmlns="http://www.w3.org/2000/svg" width="20" height="16" fill="currentColor" class="bi bi-person-fill" viewbox="0 0 16 16">
+                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
+              </svg>
+              <span id="sms-username">admin</span><span>:&nbsp</span>
+              <span id="sms-message">Привет как дела?</span>
+            </li>
+          </ul>
+
+          <form id="messageForm">
+            <textarea type="text" id="input_message" placeholder="Введите сообщение..." autocomplete="off" class="form-control"></textarea>
+            <button type="submit" class="btn btn-success">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send-fill" viewbox="0 0 16 16">
+                <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.3L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"></path>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </article>
+      <!-- ?SECTION-CLOSE-->
+    </section>
+    <!-- todoMODAL -->
+    <div class="modal" tabindex="-1" id="myModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Добавить друга</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+          </div>
+          <article class="modal-body">
+            <p>Введите никнейм</p>
+            <form class="d-flex mt-3" role="search">
+              <input id="nickname-input" class="form-control me-2" type="search" placeholder="Начните вводить..." aria-label="Поиск">
+              <button class="btn btn-outline-success" id="finduser" type="submit">
+                Поиск&nbsp&nbsp
+              </button>
+            </form>
+            <!-- ?Результаты поиска:  -->
+            <div id="searchResults">
+              <ul class="search-results"></ul>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+    <!--! SCRIPTS -->
+    <script defer="" src="/index.18dbc454.js"></script>
+  </body>
+</html>

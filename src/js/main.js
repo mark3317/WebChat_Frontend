@@ -1,13 +1,8 @@
-// Импорт
-import "../scss/index.scss";
-import "../scss/register.scss";
-import "../scss/mainchat.scss";
-// JS Bootstrap
-import * as bootstrap from "bootstrap";
-console.log("Webpack is working!");
-// My JS
+const jwtDecode = require("jwt-decode");
+const SockJS = require("sockjs-client");
+const { Client } = require("@stomp/stompjs");
 import "./background/particles.min";
 import "./background/app";
-import "./logic/authrules";
-import "./logic/regrules";
-import "./logic/mainchatlogic.js";
+import "./authrules.js";
+import "./regrules.js";
+import "./mainchatlogic.js";
