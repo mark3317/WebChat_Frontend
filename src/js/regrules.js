@@ -1,4 +1,4 @@
-import { setGlobalCursorWait, resetGlobalCursor } from "./cursorlogic";
+import { setGlobalCursorWait, resetGlobalCursor } from "./modules/cursorlogic";
 
 const registrationForm = document.querySelector(".registration");
 

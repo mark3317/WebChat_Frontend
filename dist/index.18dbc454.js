@@ -585,17 +585,17 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 
 },{}],"1SICI":[function(require,module,exports) {
 var _particlesMin = require("./background/particles.min");
-var _app = require("./background/app");
 var _authrulesJs = require("./authrules.js");
 var _regrulesJs = require("./regrules.js");
-var _mainchatlogicJs = require("./mainchatlogic.js");
-var _mainchatLiLogicJs = require("./mainchat_li_logic.js");
+var _mainchatLogicJs = require("./mainchat_logic.js");
+var _mainchatChatlistLogicJs = require("./mainchat_chatlist_logic.js");
 var _mainchatAdminpanelJs = require("./mainchat_adminpanel.js");
+var _mainchatInvitechatJs = require("./mainchat_invitechat.js");
 const jwtDecode = require("d7b2ed15641ea709");
 const SockJS = require("5559588fb8026028");
 const { Client } = require("762a11bbbdb408fe");
 
-},{"d7b2ed15641ea709":"EeAxo","5559588fb8026028":"aclki","762a11bbbdb408fe":"8TvQf","./background/particles.min":"4xFYV","./background/app":"hNpu6","./authrules.js":"W9Yh5","./regrules.js":"6b9h8","./mainchatlogic.js":"8CtnY","./mainchat_li_logic.js":"8Zz17","./mainchat_adminpanel.js":"h7Srf"}],"EeAxo":[function(require,module,exports) {
+},{"d7b2ed15641ea709":"EeAxo","5559588fb8026028":"aclki","762a11bbbdb408fe":"8TvQf","./authrules.js":"W9Yh5","./regrules.js":"6b9h8","./mainchat_adminpanel.js":"h7Srf","./mainchat_chatlist_logic.js":"6KlTC","./mainchat_invitechat.js":"8nqla","./mainchat_logic.js":"28PON","./background/particles.min":"4xFYV"}],"EeAxo":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "InvalidTokenError", ()=>InvalidTokenError);
@@ -6157,7 +6157,657 @@ module.exports = FacadeJS;
     exports1.Versions = Versions;
 });
 
-},{}],"4xFYV":[function(require,module,exports) {
+},{}],"W9Yh5":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+var _jwtDecode = require("jwt-decode");
+var _sockjsClient = require("sockjs-client");
+var _sockjsClientDefault = parcelHelpers.interopDefault(_sockjsClient);
+var _stompjs = require("@stomp/stompjs");
+var _cursorlogic = require("./modules/cursorlogic");
+// Определение функции connectWebsocket для подключения к WebSocket
+function connectWebsocket(username) {
+    const socket = new (0, _sockjsClientDefault.default)("http://94.242.53.252:8081/api/ws");
+    const stompClient = new (0, _stompjs.Client)({
+        webSocketFactory: ()=>socket,
+        debug: (str)=>console.log(str)
+    });
+    // Обработчик успешного подключения
+    stompClient.onConnect = (frame)=>{
+        console.log("Connected: " + frame);
+    };
+    // Обработчик ошибок STOMP
+    stompClient.onStompError = (frame)=>{
+        console.error("Broker reported error: " + frame.headers["message"]);
+        console.error("Additional details: " + frame.body);
+    };
+    // Активация STOMP клиента
+    stompClient.activate();
+}
+//* Назначение переменных для элементов формы и спиннера
+const loginForm = document.querySelector(".authorize-form");
+if (loginForm) loginForm.addEventListener("submit", async (event)=>{
+    event.preventDefault();
+    const login = document.getElementById("login").value;
+    const password = document.getElementById("password").value;
+    const spinner = document.getElementById("spinner");
+    const butNormal = document.getElementById("but_normal");
+    const butWarning = document.getElementById("but_warning");
+    const butWarning3 = document.getElementById("but_warning3");
+    const butFail = document.getElementById("but_fail");
+    const butSuccess = document.getElementById("but_success");
+    let showSpinner = ()=>{
+        spinner.style.display = "block";
+        (0, _cursorlogic.setGlobalCursorWait)();
+    };
+    let hideSpinner = ()=>{
+        spinner.style.display = "none";
+        (0, _cursorlogic.resetGlobalCursor)();
+    };
+    let showSuccess = ()=>{
+        butNormal.style.display = "none";
+        butSuccess.style.display = "block";
+        setTimeout(()=>{
+            butNormal.style.display = "block";
+            butSuccess.style.display = "none";
+        }, 2000);
+    };
+    let showFail = ()=>{
+        butNormal.style.display = "none";
+        butFail.style.display = "block";
+        setTimeout(()=>{
+            butNormal.style.display = "block";
+            butFail.style.display = "none";
+        }, 2000);
+    };
+    let showWarning = (button)=>{
+        butNormal.style.display = "none";
+        button.style.display = "block";
+        setTimeout(()=>{
+            butNormal.style.display = "block";
+            button.style.display = "none";
+        }, 2000);
+    };
+    // Отображение спиннера и установка глобального курсора "wait"
+    showSpinner();
+    // Проверка наличия логина и пароля, корректность email
+    if (!login) {
+        showWarning(butWarning);
+        hideSpinner();
+        return;
+    }
+    if (!password) {
+        showWarning(butWarning);
+        hideSpinner();
+        return;
+    }
+    if (login.includes("@")) {
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(login)) {
+            showWarning(butWarning3);
+            hideSpinner();
+            return;
+        }
+    }
+    //! Отправка запроса на сервер для авторизации
+    try {
+        const response = await fetch("http://94.242.53.252:8081/api/signIn", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                login,
+                password
+            })
+        });
+        if (response.ok) {
+            const token = await response.text();
+            localStorage.setItem("token", token);
+            if (token) {
+                const decodedToken = (0, _jwtDecode.jwtDecode)(token);
+                const username = decodedToken.sub;
+                localStorage.setItem("username", username);
+                connectWebsocket(username);
+                //* Выполнение GET запроса для получения профиля
+                const profileResponse = await fetch("http://94.242.53.252:8081/api/profile", {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+                // Получение и сохранение ID пользователя из профиля
+                if (profileResponse.ok) {
+                    const profileData = await profileResponse.json();
+                    const userId = profileData.id;
+                    localStorage.setItem("userId", userId);
+                    showSuccess();
+                    window.location.href = "./mainchat.html";
+                } else {
+                    console.error("Failed to fetch profile data");
+                    showFail();
+                    hideSpinner();
+                }
+            } else hideSpinner();
+        } else {
+            showFail();
+            hideSpinner();
+        }
+    } catch (error) {
+        console.error("Error during login:", error);
+        hideSpinner();
+    }
+});
+
+},{"jwt-decode":"EeAxo","sockjs-client":"aclki","@stomp/stompjs":"8TvQf","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./modules/cursorlogic":"AnjAs"}],"AnjAs":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "setGlobalCursorWait", ()=>setGlobalCursorWait);
+parcelHelpers.export(exports, "resetGlobalCursor", ()=>resetGlobalCursor);
+function setGlobalCursorWait() {
+    spinner.style.display = "block";
+    document.body.classList.add("cursor-wait");
+}
+function resetGlobalCursor() {
+    spinner.style.display = "none";
+    document.body.classList.remove("cursor-wait");
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6b9h8":[function(require,module,exports) {
+var _cursorlogic = require("./modules/cursorlogic");
+const registrationForm = document.querySelector(".registration");
+//* Назначение переменных для элементов формы и спинера
+if (registrationForm) registrationForm.addEventListener("submit", async function(event) {
+    event.preventDefault(); // Предотвращаем стандартное поведение формы
+    const usernameField = document.getElementById("floatingNickname");
+    const emailField = document.getElementById("floatingInput");
+    const passwordField = document.getElementById("floatingPassword");
+    const confirmPasswordField = document.getElementById("floatingConfirmPassword");
+    let username = usernameField.value;
+    let email = emailField.value;
+    let password = passwordField.value;
+    let confirmPassword = confirmPasswordField.value;
+    const butNormal = document.getElementById("but_normal");
+    const butWarning = document.getElementById("but_warning");
+    const butWarning2 = document.getElementById("but_warning2");
+    const butWarning3 = document.getElementById("but_warning3");
+    const butFail = document.getElementById("but_fail");
+    const butSuccess = document.getElementById("but_success");
+    const spinner = document.getElementById("spinner");
+    let showSpinner = ()=>{
+        spinner.style.display = "block";
+        (0, _cursorlogic.setGlobalCursorWait)();
+    };
+    let hideSpinner = ()=>{
+        spinner.style.display = "none";
+        (0, _cursorlogic.resetGlobalCursor)();
+    };
+    let showSuccess = ()=>{
+        butNormal.style.display = "none";
+        butSuccess.style.display = "block";
+        setTimeout(()=>{
+            butNormal.style.display = "block";
+            butSuccess.style.display = "none";
+            hideSpinner();
+        }, 2000);
+    };
+    let showFail = ()=>{
+        butNormal.style.display = "none";
+        butFail.style.display = "block";
+        setTimeout(()=>{
+            butNormal.style.display = "block";
+            butFail.style.display = "none";
+            hideSpinner();
+        }, 2000);
+    };
+    let showWarning = (button)=>{
+        butNormal.style.display = "none";
+        button.style.display = "block";
+        setTimeout(()=>{
+            butNormal.style.display = "block";
+            button.style.display = "none";
+            hideSpinner();
+        }, 2000);
+    };
+    //* Проверка на заполненность полей
+    if (!username || !email || !password || !confirmPassword) {
+        showWarning(butWarning);
+        return;
+    }
+    // Проверка на совпадение паролей
+    if (password !== confirmPassword) {
+        showWarning(butWarning2);
+        return;
+    }
+    // Проверка на корректность email
+    if (email.includes("@")) {
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+            showWarning(butWarning3);
+            return;
+        }
+    }
+    // Отображение спиннера и установка глобального курсора "wait"
+    showSpinner();
+    //! Отправка запроса на сервер
+    try {
+        const response = await fetch("http://94.242.53.252:8081/api/signUp", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username,
+                password,
+                email
+            })
+        });
+        if (response.ok) {
+            const token = await response.text();
+            console.log("Registration successful:", token);
+            localStorage.setItem("token", token);
+            showSuccess();
+            setTimeout(()=>{
+                // Перенаправление на страницу входа или другую страницу
+                window.location.href = "../../src/html/index.html";
+            }, 2000); // 2 секунды
+        } else {
+            console.log("Registration failed");
+            showFail();
+        }
+    } catch (error) {
+        console.error("Error during registration:", error);
+        showFail();
+    }
+});
+
+},{"./modules/cursorlogic":"AnjAs"}],"h7Srf":[function(require,module,exports) {
+var _messages = require("./modules/messages");
+document.addEventListener("DOMContentLoaded", (event)=>{
+    const consoleOutput = document.getElementById("console-output");
+    // Проверяем, что текущая страница - mainchat.html
+    if (!window.location.pathname.includes("mainchat.html")) return;
+    // Получаем userId из localStorage и преобразуем его в число
+    const userId = parseInt(localStorage.getItem("userId"), 10);
+    // Проверяем, равен ли userId значению 1
+    if (userId === 1) {
+        // Получаем элемент кнопки по id
+        const adminButton = document.getElementById("admin_button");
+        // Изменяем стиль кнопки на display: block
+        if (adminButton) adminButton.style.display = "block";
+    }
+    // Функция для добавления сообщения в console-output
+    function appendToConsole(message) {
+        const div = document.createElement("div");
+        div.textContent = message;
+        consoleOutput.appendChild(div);
+        consoleOutput.scrollTop = consoleOutput.scrollHeight;
+    }
+    // Обработка нажатия на кнопку для localStorage
+    document.getElementById("loc_stor_but").addEventListener("click", function() {
+        for(let i = 0; i < localStorage.length; i++){
+            const key = localStorage.key(i);
+            const value = localStorage.getItem(key);
+            appendToConsole(`${key}: ${value}`);
+        }
+    });
+    // Обработка нажатия на кнопку для sessionStorage
+    document.getElementById("sess_stor_but").addEventListener("click", function() {
+        for(let i = 0; i < sessionStorage.length; i++){
+            const key = sessionStorage.key(i);
+            const value = sessionStorage.getItem(key);
+            appendToConsole(`${key}: ${value}`);
+        }
+    });
+    // Обработка нажатия на кнопку для очистки console-output
+    document.getElementById("clear_but").addEventListener("click", function() {
+        consoleOutput.innerHTML = "";
+    });
+    // Отправка тестового сообщения
+    const testButton = document.getElementById("test_button");
+    if (testButton) testButton.addEventListener("click", ()=>{
+        const username = localStorage.getItem("username");
+        if (username === "admin") {
+            console.log("User is admin, sending welcome message...");
+            (0, _messages.sendMessage)(1, 1, "Hello");
+        }
+    });
+});
+
+},{"./modules/messages":"la5tn"}],"la5tn":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+//* Отправка сообщения в чат
+parcelHelpers.export(exports, "sendMessage", ()=>sendMessage);
+//* Обработка входящих сообщений, добавляя их в список сообщений чата
+parcelHelpers.export(exports, "handleIncomingMessage", ()=>handleIncomingMessage);
+var _websocket = require("./websocket");
+function sendMessage(chatId, senderId, content) {
+    const stompClient = (0, _websocket.getStompClient)();
+    if (!stompClient || !stompClient.connected) {
+        console.error("STOMP client is not connected");
+        return;
+    }
+    const message = {
+        chatId,
+        senderId,
+        content
+    };
+    stompClient.publish({
+        destination: "/app/message",
+        body: JSON.stringify(message)
+    });
+    console.log(`Message sent to chat ${chatId}: ${content}`);
+}
+function handleIncomingMessage(message) {
+    const { chatId, senderId, content } = JSON.parse(message.body);
+    console.log(`Received message in chat ${chatId} from sender ${senderId}: ${content}`);
+    const chatUsers = JSON.parse(sessionStorage.getItem(`chat_${chatId}_users`));
+    if (!chatUsers) {
+        console.error("\u041D\u0435 \u0443\u0434\u0430\u043B\u043E\u0441\u044C \u043F\u043E\u043B\u0443\u0447\u0438\u0442\u044C \u0434\u0430\u043D\u043D\u044B\u0435 \u0438\u0437 Session Storage");
+        return;
+    }
+    const user = chatUsers.find((user)=>user.id === senderId);
+    if (!user) {
+        console.error("\u041F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C \u0441 \u0442\u0430\u043A\u0438\u043C senderId \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D \u0432 chatUsers");
+        return;
+    }
+    const liElement = document.createElement("li");
+    liElement.className = "sms-item_text";
+    liElement.innerHTML = `
+    <svg
+      id="icon_user"
+      style="color: darkblue"
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="16"
+      fill="currentColor"
+      class="bi bi-person-fill"
+      viewBox="0 0 16 16"
+    >
+      <path
+        d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"
+      />
+    </svg>
+    <span id="sms-username">${user.username}</span><span>:&nbsp</span>
+    <span id="sms-message">${content}</span>
+  `;
+    const chatList = document.getElementById("sms-list");
+    if (chatList) chatList.appendChild(liElement);
+    else console.error("\u041D\u0435 \u0443\u0434\u0430\u043B\u043E\u0441\u044C \u043D\u0430\u0439\u0442\u0438 \u044D\u043B\u0435\u043C\u0435\u043D\u0442 \u0441 id 'sms-list'");
+}
+
+},{"./websocket":"ib1Xc","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ib1Xc":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "initializeWebSocket", ()=>initializeWebSocket);
+parcelHelpers.export(exports, "getStompClient", ()=>getStompClient);
+var _sockjsClient = require("sockjs-client");
+var _sockjsClientDefault = parcelHelpers.interopDefault(_sockjsClient);
+var _stompjs = require("@stomp/stompjs");
+let stompClient;
+function initializeWebSocket() {
+    // Создаем новый SockJS объект, указывая URL сервера WebSocket
+    const socket = new (0, _sockjsClientDefault.default)("http://94.242.53.252:8081/api/ws");
+    // Создаем новый STOMP клиент, используя SockJS объект
+    stompClient = new (0, _stompjs.Client)({
+        webSocketFactory: ()=>socket,
+        debug: (str)=>console.log(str)
+    });
+    // Обработчик события успешного подключения
+    stompClient.onConnect = async (frame)=>{
+        console.log("Connected to WebSocket:", frame);
+    };
+    // Обработчик ошибок STOMP
+    stompClient.onStompError = (frame)=>{
+        console.error("Broker reported error: " + frame.headers["message"]);
+        console.error("Additional details: " + frame.body);
+    };
+    // Обработчик закрытия WebSocket соединения
+    socket.onclose = (event)=>{
+        console.error("WebSocket closed:", event);
+    };
+    // Обработчик ошибок WebSocket
+    socket.onerror = (error)=>{
+        console.error("WebSocket error:", error);
+    };
+    // Активация STOMP
+    stompClient.activate();
+    console.log("STOMP client activated");
+}
+function getStompClient() {
+    return stompClient;
+}
+
+},{"sockjs-client":"aclki","@stomp/stompjs":"8TvQf","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6KlTC":[function(require,module,exports) {
+document.addEventListener("DOMContentLoaded", (event)=>{
+    // Функция для создания элемента <li> для каждого чата
+    function createChatItem(chatId) {
+        // Создаем элемент <li>
+        const li = document.createElement("li");
+        li.className = "chat-item";
+        li.textContent = `Chat (ID: ${chatId})`;
+        return li;
+    }
+    // Функция для добавления всех элементов <li> в список <ul>
+    function populateChatList(chatIds) {
+        const chatList = document.getElementById("chat-list");
+        chatList.innerHTML = ""; // Очищаем список перед добавлением новых элементов
+        chatIds.forEach((chatId)=>{
+            const chatItem = createChatItem(chatId);
+            chatList.appendChild(chatItem);
+        });
+        // Скрываем спиннер после добавления элементов
+        document.getElementById("spinner2").style.display = "none";
+    }
+    // Функция для проверки и обновления списка чатов
+    function checkAndUpdateChatList() {
+        // Получаем массив allChatIds из sessionStorage
+        const allChatIds = JSON.parse(sessionStorage.getItem("allChatIds"));
+        // Проверяем, существует ли массив allChatIds и не пуст ли он
+        if (allChatIds && allChatIds.length > 0) // Заполняем список чатов
+        populateChatList(allChatIds);
+    }
+    // Запускаем проверку каждые 500 мс
+    setInterval(checkAndUpdateChatList, 500);
+});
+//! Очищаем sessionStorage при выходе со страницы
+window.addEventListener("beforeunload", (event)=>{
+    sessionStorage.clear();
+});
+
+},{}],"8nqla":[function(require,module,exports) {
+var _users = require("./modules/users");
+// Проверяем, что текущая страница - mainchat.html
+if (!window.location.pathname.includes("mainchat.html")) return;
+// Обработчик для поиска юзера по никнейму
+document.getElementById("finduser").addEventListener("click", async (event)=>{
+    event.preventDefault();
+    const token = localStorage.getItem("token");
+    if (!token) {
+        console.error("Token \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D \u0432 localStorage");
+        return;
+    }
+    const input = document.getElementById("nickname-input");
+    const nickname = input.value.trim();
+    if (!nickname) {
+        console.error("Nickname is empty");
+        return;
+    }
+    const users = await (0, _users.findUsersByUsername)(token, nickname);
+    const searchResults = document.querySelector(".search-results");
+    searchResults.innerHTML = "";
+    if (users) {
+        const user = users.find((user)=>user.username === nickname);
+        if (user) {
+            const li = document.createElement("li");
+            li.textContent = user.username;
+            searchResults.appendChild(li);
+        } else {
+            const li = document.createElement("li");
+            li.textContent = "\u041F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D";
+            li.style.color = "red";
+            li.style.cursor = "not-allowed";
+            searchResults.appendChild(li);
+        }
+    }
+});
+
+},{"./modules/users":"5qaT7"}],"5qaT7":[function(require,module,exports) {
+//* Получаем данные профиля по токену
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "fetchUserProfile", ()=>fetchUserProfile);
+//*  Функция поиска пользователей по никнейму
+parcelHelpers.export(exports, "findUsersByUsername", ()=>findUsersByUsername);
+async function fetchUserProfile(token) {
+    try {
+        const response = await fetch("http://94.242.53.252:8081/api/profile", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            }
+        });
+        if (response.ok) return await response.json();
+        else {
+            console.error("\u041D\u0435 \u0443\u0434\u0430\u043B\u043E\u0441\u044C \u043F\u043E\u043B\u0443\u0447\u0438\u0442\u044C \u0434\u0430\u043D\u043D\u044B\u0435 \u043F\u0440\u043E\u0444\u0438\u043B\u044F:", response.statusText);
+            return null;
+        }
+    } catch (error) {
+        console.error("\u041E\u0448\u0438\u0431\u043A\u0430 \u043F\u0440\u0438 \u043F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u0438 \u0434\u0430\u043D\u043D\u044B\u0445 \u043F\u0440\u043E\u0444\u0438\u043B\u044F:", error);
+        return null;
+    }
+}
+async function findUsersByUsername(token, nickname) {
+    try {
+        const response = await fetch(`http://94.242.53.252:8081/api/users?username=${nickname}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            }
+        });
+        if (response.ok) return await response.json();
+        else {
+            console.error("\u041D\u0435 \u0443\u0434\u0430\u043B\u043E\u0441\u044C \u043F\u043E\u043B\u0443\u0447\u0438\u0442\u044C \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u0435\u0439:", response.statusText);
+            return null;
+        }
+    } catch (error) {
+        console.error("\u041E\u0448\u0438\u0431\u043A\u0430 \u043F\u0440\u0438 \u043F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u0438 \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u0435\u0439:", error);
+        return null;
+    }
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"28PON":[function(require,module,exports) {
+var _websocket = require("./modules/websocket");
+var _messages = require("./modules/messages");
+var _users = require("./modules/users");
+var _chatIds = require("./modules/chatIds");
+document.addEventListener("DOMContentLoaded", ()=>{
+    if (window.location.pathname.includes("mainchat.html")) {
+        // Получение имени пользователя из localStorage
+        const username = localStorage.getItem("username");
+        console.log("Username from localStorage:", username);
+        if (username) {
+            (0, _websocket.initializeWebSocket)();
+            const stompClient = (0, _websocket.getStompClient)();
+            stompClient.onConnect = async (frame)=>{
+                console.log("Connected to WebSocket:", frame);
+                // Получаем UserID из localStorage
+                const userId = parseInt(localStorage.getItem("userId"), 10);
+                console.log("User ID:", userId);
+                // Получаем токен из localStorage
+                const token = localStorage.getItem("token");
+                if (!token) {
+                    console.error("Token not found in localStorage");
+                    return;
+                }
+                // Получаем данные пользователя по токену
+                const profileData = await (0, _users.fetchUserProfile)(token);
+                if (profileData) {
+                    const chats = profileData.chats;
+                    if (chats && chats.length > 0) {
+                        // Получаем информацию о подписках на чаты пользователя и импортируем ChatId
+                        const chatInfoPromises = chats.map((chat)=>{
+                            const chatId = chat.id;
+                            console.log("'\u0418\u043C\u043F\u043E\u0440\u0442\u0438\u0440\u043E\u0432\u0430\u043D ChatID \u0438\u0437 \u043F\u0440\u043E\u0444\u0438\u043B\u044F':", chatId);
+                            (0, _chatIds.addChatId)(chatId);
+                            // Получаем информацию о всех пользователях в чате
+                            return fetch(`http://94.242.53.252:8081/api/chats/${chatId}/users`, {
+                                headers: {
+                                    Authorization: `Bearer ${token}`
+                                }
+                            }).then((response)=>response.json()).then((data)=>{
+                                // Сохраняем информацию о пользователях чата в SessionStorage
+                                sessionStorage.setItem(`chat_${chatId}_users`, JSON.stringify(data));
+                                console.log(`\u{418}\u{43D}\u{444}\u{43E}\u{440}\u{43C}\u{430}\u{446}\u{438}\u{44F} \u{43E} \u{43F}\u{43E}\u{43B}\u{44C}\u{437}\u{43E}\u{432}\u{430}\u{442}\u{435}\u{43B}\u{44F}\u{445} \u{432} \u{447}\u{430}\u{442}\u{435} ${chatId} \u{441}\u{43E}\u{445}\u{440}\u{430}\u{43D}\u{435}\u{43D}\u{430} \u{432} SessionStorage`);
+                            }).catch((error)=>{
+                                console.error(`\u{41E}\u{448}\u{438}\u{431}\u{43A}\u{430} \u{43F}\u{440}\u{438} \u{43F}\u{43E}\u{43B}\u{443}\u{447}\u{435}\u{43D}\u{438}\u{438} \u{438}\u{43D}\u{444}\u{43E}\u{440}\u{43C}\u{430}\u{446}\u{438}\u{438} \u{43E} \u{447}\u{430}\u{442}\u{435} ${chatId}:`, error);
+                            });
+                        });
+                        // Ждем завершения всех запросов на получение информации о пользователях
+                        await Promise.all(chatInfoPromises);
+                        // Подписываемся на получение сообщений в каждом чате
+                        chats.forEach((chat)=>{
+                            const chatId = chat.id;
+                            stompClient.subscribe(`/chat/${chatId}/message`, (0, _messages.handleIncomingMessage));
+                            console.log(`\u{41F}\u{43E}\u{434}\u{43F}\u{438}\u{441}\u{43A}\u{430} \u{43D}\u{430} \u{441}\u{43E}\u{43E}\u{431}\u{449}\u{435}\u{43D}\u{438}\u{44F} \u{432} \u{447}\u{430}\u{442}\u{435} ${chatId} \u{432}\u{44B}\u{43F}\u{43E}\u{43B}\u{43D}\u{435}\u{43D}\u{430}`);
+                        });
+                    } else console.log("\u0412 \u043E\u0442\u0432\u0435\u0442\u0435 \u043F\u0440\u043E\u0444\u0438\u043B\u044F \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D\u043E \u043D\u0438 \u043E\u0434\u043D\u043E\u0433\u043E \u0447\u0430\u0442\u0430");
+                }
+                // Получаем все идентификаторы чатов и сохраняем их в sessionStorage
+                const allChatIds = (0, _chatIds.getChatIds)();
+                console.log("\u0412\u0441\u0435 chatIds:", allChatIds);
+                sessionStorage.setItem("allChatIds", JSON.stringify(allChatIds));
+                // Подписываемся на получение инвайтов для пользователя
+                stompClient.subscribe(`/user/${userId}/invite`, (message)=>{
+                    const response = JSON.parse(message.body);
+                    console.log("\u0418\u043D\u0432\u0430\u0439\u0442 \u043F\u043E\u043B\u0443\u0447\u0435\u043D:", response);
+                    const chatId = response.id;
+                    console.log("\u0418\u0437\u0432\u043B\u0435\u0447\u0435\u043D\u043E chatId \u0438\u0437 \u0438\u043D\u0432\u0430\u0439\u0442\u0430:", chatId);
+                    // Подписываемся на сообщения для нового чата
+                    stompClient.subscribe(`/chat/${chatId}/message`, (message)=>{
+                        const chatMessage = JSON.parse(message.body);
+                        console.log(`\u{41F}\u{43E}\u{43B}\u{443}\u{447}\u{435}\u{43D}\u{43D}\u{43E}\u{435} \u{441}\u{43E}\u{43E}\u{431}\u{449}\u{435}\u{43D}\u{438}\u{435} \u{432} \u{447}\u{430}\u{442}\u{435} ${chatId}: ${chatMessage.content}`);
+                    });
+                    console.log(`\u{41F}\u{43E}\u{434}\u{43F}\u{438}\u{441}\u{43A}\u{430} \u{43D}\u{430} \u{441}\u{43E}\u{43E}\u{431}\u{449}\u{435}\u{43D}\u{438}\u{44F} \u{432} \u{447}\u{430}\u{442}\u{435} ${chatId} \u{432}\u{44B}\u{43F}\u{43E}\u{43B}\u{43D}\u{435}\u{43D}\u{430}`);
+                });
+                console.log("\u041F\u043E\u0434\u043F\u0438\u0441\u043A\u0430 \u043D\u0430 \u043F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u0435 \u0438\u043D\u0432\u0430\u0439\u0442\u043E\u0432 \u0432\u044B\u043F\u043E\u043B\u043D\u0435\u043D\u0430");
+            };
+            // Обработчик для кнопки отправки сообщения
+            const sendButton = document.getElementById("send_message");
+            const messageInput = document.getElementById("sms-input");
+            const chatId = 1;
+            const userId = parseInt(localStorage.getItem("userId"), 10);
+            sendButton.addEventListener("click", ()=>{
+                const content = messageInput.value.trim();
+                if (content) {
+                    (0, _messages.sendMessage)(chatId, userId, content);
+                    messageInput.value = "";
+                } else console.error("\u041F\u043E\u043B\u0435 \u0432\u0432\u043E\u0434\u0430 \u0441\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u044F \u043F\u0443\u0441\u0442\u043E\u0435");
+            });
+        }
+    }
+});
+
+},{"./modules/websocket":"ib1Xc","./modules/messages":"la5tn","./modules/users":"5qaT7","./modules/chatIds":"cqYRS"}],"cqYRS":[function(require,module,exports) {
+// Массив для хранения chatIds
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+// Функция для добавления chatId в массив
+parcelHelpers.export(exports, "addChatId", ()=>addChatId);
+// Функция для получения массива chatIds
+parcelHelpers.export(exports, "getChatIds", ()=>getChatIds);
+let chatIds = [];
+function addChatId(chatId) {
+    chatIds.push(chatId);
+}
+function getChatIds() {
+    return chatIds;
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4xFYV":[function(require,module,exports) {
 /* -----------------------------------------------
 /* Author : Vincent Garreau  - vincentgarreau.com
 /* MIT license: http://opensource.org/licenses/MIT
@@ -6719,773 +7369,6 @@ Object.deepExtend = function(e, a) {
         }
     }, i.send();
 };
-
-},{}],"hNpu6":[function(require,module,exports) {
-/* -----------------------------------------------
-/* How to use? : Check the GitHub README
-/* ----------------------------------------------- */ /* To load a config file (particles.json) you need to host this demo (MAMP/WAMP/local)... */ /*
-particlesJS.load('particles-js', 'particles.json', function() {
-  console.log('particles.js loaded - callback');
-});
-*/ /* Otherwise just put the config content (json): */ particlesJS("particles-js", {
-    "particles": {
-        "number": {
-            "value": 80,
-            "density": {
-                "enable": true,
-                "value_area": 800
-            }
-        },
-        "color": {
-            "value": "#ffffff"
-        },
-        "shape": {
-            "type": "circle",
-            "stroke": {
-                "width": 0,
-                "color": "#000000"
-            },
-            "polygon": {
-                "nb_sides": 5
-            },
-            "image": {
-                "src": "img/github.svg",
-                "width": 100,
-                "height": 100
-            }
-        },
-        "opacity": {
-            "value": 0.5,
-            "random": false,
-            "anim": {
-                "enable": false,
-                "speed": 1,
-                "opacity_min": 0.1,
-                "sync": false
-            }
-        },
-        "size": {
-            "value": 5,
-            "random": true,
-            "anim": {
-                "enable": false,
-                "speed": 40,
-                "size_min": 0.1,
-                "sync": false
-            }
-        },
-        "line_linked": {
-            "enable": true,
-            "distance": 150,
-            "color": "#ffffff",
-            "opacity": 0.4,
-            "width": 1
-        },
-        "move": {
-            "enable": true,
-            "speed": 6,
-            "direction": "none",
-            "random": false,
-            "straight": false,
-            "out_mode": "out",
-            "attract": {
-                "enable": false,
-                "rotateX": 600,
-                "rotateY": 1200
-            }
-        }
-    },
-    "interactivity": {
-        "detect_on": "canvas",
-        "events": {
-            "onhover": {
-                "enable": true,
-                "mode": "repulse"
-            },
-            "onclick": {
-                "enable": true,
-                "mode": "push"
-            },
-            "resize": true
-        },
-        "modes": {
-            "grab": {
-                "distance": 400,
-                "line_linked": {
-                    "opacity": 1
-                }
-            },
-            "bubble": {
-                "distance": 400,
-                "size": 40,
-                "duration": 2,
-                "opacity": 8,
-                "speed": 3
-            },
-            "repulse": {
-                "distance": 200
-            },
-            "push": {
-                "particles_nb": 4
-            },
-            "remove": {
-                "particles_nb": 2
-            }
-        }
-    },
-    "retina_detect": true,
-    "config_demo": {
-        "hide_card": false,
-        "background_color": "#b61924",
-        "background_image": "",
-        "background_position": "50% 50%",
-        "background_repeat": "no-repeat",
-        "background_size": "cover"
-    }
-});
-
-},{}],"W9Yh5":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-var _jwtDecode = require("jwt-decode");
-var _sockjsClient = require("sockjs-client");
-var _sockjsClientDefault = parcelHelpers.interopDefault(_sockjsClient);
-var _stompjs = require("@stomp/stompjs");
-var _cursorlogic = require("./cursorlogic");
-// Определение функции connectWebsocket для подключения к WebSocket
-function connectWebsocket(username) {
-    const socket = new (0, _sockjsClientDefault.default)("http://94.242.53.252:8081/api/ws");
-    const stompClient = new (0, _stompjs.Client)({
-        webSocketFactory: ()=>socket,
-        debug: (str)=>console.log(str)
-    });
-    // Обработчик успешного подключения
-    stompClient.onConnect = (frame)=>{
-        console.log("Connected: " + frame);
-    };
-    // Обработчик ошибок STOMP
-    stompClient.onStompError = (frame)=>{
-        console.error("Broker reported error: " + frame.headers["message"]);
-        console.error("Additional details: " + frame.body);
-    };
-    // Активация STOMP клиента
-    stompClient.activate();
-}
-//* Назначение переменных для элементов формы и спиннера
-const loginForm = document.querySelector(".authorize-form");
-if (loginForm) loginForm.addEventListener("submit", async (event)=>{
-    event.preventDefault();
-    const login = document.getElementById("login").value;
-    const password = document.getElementById("password").value;
-    const spinner = document.getElementById("spinner");
-    const butNormal = document.getElementById("but_normal");
-    const butWarning = document.getElementById("but_warning");
-    const butWarning3 = document.getElementById("but_warning3");
-    const butFail = document.getElementById("but_fail");
-    const butSuccess = document.getElementById("but_success");
-    let showSpinner = ()=>{
-        spinner.style.display = "block";
-        (0, _cursorlogic.setGlobalCursorWait)();
-    };
-    let hideSpinner = ()=>{
-        spinner.style.display = "none";
-        (0, _cursorlogic.resetGlobalCursor)();
-    };
-    let showSuccess = ()=>{
-        butNormal.style.display = "none";
-        butSuccess.style.display = "block";
-        setTimeout(()=>{
-            butNormal.style.display = "block";
-            butSuccess.style.display = "none";
-        }, 2000);
-    };
-    let showFail = ()=>{
-        butNormal.style.display = "none";
-        butFail.style.display = "block";
-        setTimeout(()=>{
-            butNormal.style.display = "block";
-            butFail.style.display = "none";
-        }, 2000);
-    };
-    let showWarning = (button)=>{
-        butNormal.style.display = "none";
-        button.style.display = "block";
-        setTimeout(()=>{
-            butNormal.style.display = "block";
-            button.style.display = "none";
-        }, 2000);
-    };
-    // Отображение спиннера и установка глобального курсора "wait"
-    showSpinner();
-    // Проверка наличия логина и пароля, корректность email
-    if (!login) {
-        showWarning(butWarning);
-        hideSpinner();
-        return;
-    }
-    if (!password) {
-        showWarning(butWarning);
-        hideSpinner();
-        return;
-    }
-    if (login.includes("@")) {
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailPattern.test(login)) {
-            showWarning(butWarning3);
-            hideSpinner();
-            return;
-        }
-    }
-    //! Отправка запроса на сервер для авторизации
-    try {
-        const response = await fetch("http://94.242.53.252:8081/api/signIn", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                login,
-                password
-            })
-        });
-        if (response.ok) {
-            const token = await response.text();
-            localStorage.setItem("token", token);
-            if (token) {
-                const decodedToken = (0, _jwtDecode.jwtDecode)(token);
-                const username = decodedToken.sub;
-                localStorage.setItem("username", username);
-                connectWebsocket(username);
-                //* Выполнение GET запроса для получения профиля
-                const profileResponse = await fetch("http://94.242.53.252:8081/api/profile", {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`
-                    }
-                });
-                // Получение и сохранение ID пользователя из профиля
-                if (profileResponse.ok) {
-                    const profileData = await profileResponse.json();
-                    const userId = profileData.id;
-                    localStorage.setItem("userId", userId);
-                    showSuccess();
-                    window.location.href = "./mainchat.html";
-                } else {
-                    console.error("Failed to fetch profile data");
-                    showFail();
-                    hideSpinner();
-                }
-            } else hideSpinner();
-        } else {
-            showFail();
-            hideSpinner();
-        }
-    } catch (error) {
-        console.error("Error during login:", error);
-        hideSpinner();
-    }
-});
-
-},{"jwt-decode":"EeAxo","sockjs-client":"aclki","@stomp/stompjs":"8TvQf","./cursorlogic":"7VDMe","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"7VDMe":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "setGlobalCursorWait", ()=>setGlobalCursorWait);
-parcelHelpers.export(exports, "resetGlobalCursor", ()=>resetGlobalCursor);
-function setGlobalCursorWait() {
-    spinner.style.display = "block";
-    document.body.classList.add("cursor-wait");
-}
-function resetGlobalCursor() {
-    spinner.style.display = "none";
-    document.body.classList.remove("cursor-wait");
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6b9h8":[function(require,module,exports) {
-var _cursorlogic = require("./cursorlogic");
-const registrationForm = document.querySelector(".registration");
-//* Назначение переменных для элементов формы и спинера
-if (registrationForm) registrationForm.addEventListener("submit", async function(event) {
-    event.preventDefault(); // Предотвращаем стандартное поведение формы
-    const usernameField = document.getElementById("floatingNickname");
-    const emailField = document.getElementById("floatingInput");
-    const passwordField = document.getElementById("floatingPassword");
-    const confirmPasswordField = document.getElementById("floatingConfirmPassword");
-    let username = usernameField.value;
-    let email = emailField.value;
-    let password = passwordField.value;
-    let confirmPassword = confirmPasswordField.value;
-    const butNormal = document.getElementById("but_normal");
-    const butWarning = document.getElementById("but_warning");
-    const butWarning2 = document.getElementById("but_warning2");
-    const butWarning3 = document.getElementById("but_warning3");
-    const butFail = document.getElementById("but_fail");
-    const butSuccess = document.getElementById("but_success");
-    const spinner = document.getElementById("spinner");
-    let showSpinner = ()=>{
-        spinner.style.display = "block";
-        (0, _cursorlogic.setGlobalCursorWait)();
-    };
-    let hideSpinner = ()=>{
-        spinner.style.display = "none";
-        (0, _cursorlogic.resetGlobalCursor)();
-    };
-    let showSuccess = ()=>{
-        butNormal.style.display = "none";
-        butSuccess.style.display = "block";
-        setTimeout(()=>{
-            butNormal.style.display = "block";
-            butSuccess.style.display = "none";
-            hideSpinner();
-        }, 2000);
-    };
-    let showFail = ()=>{
-        butNormal.style.display = "none";
-        butFail.style.display = "block";
-        setTimeout(()=>{
-            butNormal.style.display = "block";
-            butFail.style.display = "none";
-            hideSpinner();
-        }, 2000);
-    };
-    let showWarning = (button)=>{
-        butNormal.style.display = "none";
-        button.style.display = "block";
-        setTimeout(()=>{
-            butNormal.style.display = "block";
-            button.style.display = "none";
-            hideSpinner();
-        }, 2000);
-    };
-    //* Проверка на заполненность полей
-    if (!username || !email || !password || !confirmPassword) {
-        showWarning(butWarning);
-        return;
-    }
-    // Проверка на совпадение паролей
-    if (password !== confirmPassword) {
-        showWarning(butWarning2);
-        return;
-    }
-    // Проверка на корректность email
-    if (email.includes("@")) {
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailPattern.test(email)) {
-            showWarning(butWarning3);
-            return;
-        }
-    }
-    // Отображение спиннера и установка глобального курсора "wait"
-    showSpinner();
-    //! Отправка запроса на сервер
-    try {
-        const response = await fetch("http://94.242.53.252:8081/api/signUp", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                username,
-                password,
-                email
-            })
-        });
-        if (response.ok) {
-            const token = await response.text();
-            console.log("Registration successful:", token);
-            localStorage.setItem("token", token);
-            showSuccess();
-            setTimeout(()=>{
-                // Перенаправление на страницу входа или другую страницу
-                window.location.href = "../../src/html/index.html";
-            }, 2000); // 2 секунды
-        } else {
-            console.log("Registration failed");
-            showFail();
-        }
-    } catch (error) {
-        console.error("Error during registration:", error);
-        showFail();
-    }
-});
-
-},{"./cursorlogic":"7VDMe"}],"8CtnY":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-var _sockjsClient = require("sockjs-client");
-var _sockjsClientDefault = parcelHelpers.interopDefault(_sockjsClient);
-var _stompjs = require("@stomp/stompjs");
-var _chatIds = require("./modules/chatIds");
-let stompClient; // Определяем stompClient в глобальной области видимости
-// Проверяем, находится ли текущая страница на mainchat.html
-if (window.location.pathname.includes("mainchat.html")) {
-    // Получаем имя пользователя из localStorage
-    const username = localStorage.getItem("username");
-    console.log("Username from localStorage:", username);
-    if (username) {
-        console.log("Username found:", username);
-        // Создаем новый SockJS объект для подключения к WebSocket серверу
-        const socket = new (0, _sockjsClientDefault.default)("http://94.242.53.252:8081/api/ws");
-        console.log("SockJS object created");
-        // Создаем новый STOMP клиент
-        stompClient = new (0, _stompjs.Client)({
-            webSocketFactory: ()=>socket,
-            debug: (str)=>console.log(str)
-        });
-        console.log("STOMP client created");
-        //? Функция для отправки сообщения в чат
-        function sendMessage(chatId, senderId, content) {
-            if (!stompClient || !stompClient.connected) {
-                console.error("STOMP client is not connected");
-                return;
-            }
-            const message = {
-                chatId,
-                senderId,
-                content
-            };
-            stompClient.publish({
-                destination: "/app/message",
-                body: JSON.stringify(message)
-            });
-            console.log(`Message sent to chat ${chatId}: ${content}`);
-        }
-        // Экспортируем функцию sendMessage в глобальную область видимости
-        window.sendMessage = sendMessage;
-        //! Обработчик события подключения
-        stompClient.onConnect = async (frame)=>{
-            console.log("Connected to WebSocket:", frame);
-            //* Получаем userId из localStorage
-            var userId = parseInt(localStorage.getItem("userId"), 10);
-            console.log("User ID:", userId);
-            // Получаем токен из localStorage
-            const token = localStorage.getItem("token");
-            if (!token) {
-                console.error("Token not found in localStorage");
-                return;
-            }
-            //* Делаем GET запрос по адресу /api/profile
-            try {
-                const response = await fetch("http://94.242.53.252:8081/api/profile", {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`
-                    }
-                });
-                if (response.ok) {
-                    const data = await response.json();
-                    const chats = data.chats;
-                    if (chats && chats.length > 0) {
-                        // Проходим по всем чатам и выполняем GET-запросы для получения информации о каждом чате
-                        const chatInfoPromises = chats.map((chat)=>{
-                            const chatId = chat.id;
-                            console.log("'\u0418\u043C\u043F\u043E\u0440\u0442\u0438\u0440\u043E\u0432\u0430\u043D ChatID \u0438\u0437 \u043F\u0440\u043E\u0444\u0438\u043B\u044F':", chatId);
-                            // Добавляем chatId в модуль
-                            (0, _chatIds.addChatId)(chatId);
-                            // Выполняем GET-запрос для получения информации о чате с токеном
-                            return fetch(`http://94.242.53.252:8081/api/chats/${chatId}/users`, {
-                                headers: {
-                                    Authorization: `Bearer ${token}`
-                                }
-                            }).then((response)=>response.json()).then((data)=>{
-                                // Сохраняем информацию о чате в SessionStorage
-                                sessionStorage.setItem(`chat_${chatId}_users`, JSON.stringify(data));
-                                console.log(`\u{418}\u{43D}\u{444}\u{43E}\u{440}\u{43C}\u{430}\u{446}\u{438}\u{44F} \u{43E} \u{43F}\u{43E}\u{43B}\u{44C}\u{437}\u{43E}\u{432}\u{430}\u{442}\u{435}\u{43B}\u{44F}\u{445} \u{432} \u{447}\u{430}\u{442}\u{435} ${chatId} \u{441}\u{43E}\u{445}\u{440}\u{430}\u{43D}\u{435}\u{43D}\u{430} \u{432} SessionStorage`);
-                            }).catch((error)=>{
-                                console.error(`\u{41E}\u{448}\u{438}\u{431}\u{43A}\u{430} \u{43F}\u{440}\u{438} \u{43F}\u{43E}\u{43B}\u{443}\u{447}\u{435}\u{43D}\u{438}\u{438} \u{438}\u{43D}\u{444}\u{43E}\u{440}\u{43C}\u{430}\u{446}\u{438}\u{438} \u{43E} \u{447}\u{430}\u{442}\u{435} ${chatId}:`, error);
-                            });
-                        });
-                        // Ждем завершения всех GET-запросов перед подпиской на чаты
-                        await Promise.all(chatInfoPromises);
-                        // Теперь подписываемся на каждый чат
-                        chats.forEach((chat)=>{
-                            const chatId = chat.id;
-                            // Подписываемся на сообщения в чате с использованием chatId
-                            stompClient.subscribe(`/chat/${chatId}/message`, (message)=>{
-                                //! Получаем объекты Users из Session Storage для соответствия id к юзернейму
-                                const chatUsers = JSON.parse(sessionStorage.getItem("chat_1_users"));
-                                if (!chatUsers) {
-                                    console.error("\u041D\u0435 \u0443\u0434\u0430\u043B\u043E\u0441\u044C \u043F\u043E\u043B\u0443\u0447\u0438\u0442\u044C \u0434\u0430\u043D\u043D\u044B\u0435 \u0438\u0437 Session Storage");
-                                    return;
-                                }
-                                //* Извлекаем из ChatMessageDto данные о сообщении
-                                const { chatId, senderId, content } = JSON.parse(message.body);
-                                console.log(`Received message in chat ${chatId} from sender ${senderId}: ${content}`);
-                                // Находим пользователя с id, равным senderId, в chatUsers
-                                const user = chatUsers.find((user)=>user.id === senderId);
-                                if (!user) {
-                                    console.error("\u041F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C \u0441 \u0442\u0430\u043A\u0438\u043C senderId \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D \u0432 chatUsers");
-                                    return;
-                                }
-                                // Обновляем содержимое элемента <li>
-                                const liElement = document.createElement("li");
-                                liElement.className = "sms-item_text";
-                                liElement.innerHTML = `
-    <svg
-      id="icon_user"
-      style="color: darkblue"
-      xmlns="http://www.w3.org/2000/svg"
-      width="20"
-      height="16"
-      fill="currentColor"
-      class="bi bi-person-fill"
-      viewBox="0 0 16 16"
-    >
-      <path
-        d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"
-      />
-    </svg>
-    <span id="sms-username">${user.username}</span><span>:&nbsp</span>
-    <span id="sms-message">${content}</span>
-  `;
-                                // Интегрируем элемент <li> в HTML файл
-                                const chatList = document.getElementById("sms-list");
-                                if (chatList) chatList.appendChild(liElement);
-                                else console.error("\u041D\u0435 \u0443\u0434\u0430\u043B\u043E\u0441\u044C \u043D\u0430\u0439\u0442\u0438 \u044D\u043B\u0435\u043C\u0435\u043D\u0442 \u0441 id 'sms-list'");
-                            });
-                            console.log(`\u{41F}\u{43E}\u{434}\u{43F}\u{438}\u{441}\u{43A}\u{430} \u{43D}\u{430} \u{441}\u{43E}\u{43E}\u{431}\u{449}\u{435}\u{43D}\u{438}\u{44F} \u{432} \u{447}\u{430}\u{442}\u{435} ${chatId} \u{432}\u{44B}\u{43F}\u{43E}\u{43B}\u{43D}\u{435}\u{43D}\u{430}`);
-                        });
-                    } else console.log("\u0412 \u043E\u0442\u0432\u0435\u0442\u0435 \u043F\u0440\u043E\u0444\u0438\u043B\u044F \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D\u043E \u043D\u0438 \u043E\u0434\u043D\u043E\u0433\u043E \u0447\u0430\u0442\u0430");
-                } else console.error("\u041D\u0435 \u0443\u0434\u0430\u043B\u043E\u0441\u044C \u043F\u043E\u043B\u0443\u0447\u0438\u0442\u044C \u0434\u0430\u043D\u043D\u044B\u0435 \u043F\u0440\u043E\u0444\u0438\u043B\u044F:", response.statusText);
-            } catch (error) {
-                console.error("\u041E\u0448\u0438\u0431\u043A\u0430 \u043F\u0440\u0438 \u043F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u0438 \u0434\u0430\u043D\u043D\u044B\u0445 \u043F\u0440\u043E\u0444\u0438\u043B\u044F:", error);
-            }
-            // Получаем все chatIds с помощью getChatIds
-            const allChatIds = (0, _chatIds.getChatIds)();
-            console.log("\u0412\u0441\u0435 chatIds:", allChatIds);
-            //? Сохраняем все chatIds в sessionStorage
-            sessionStorage.setItem("allChatIds", JSON.stringify(allChatIds));
-            //!  ЛОГИКА ОТОБРАЖЕНИЯ CHATLIST
-            //* Подписываемся на инвайты
-            stompClient.subscribe(`/user/${userId}/invite`, (message)=>{
-                // Получаю ChatDto из сообщения
-                const response = JSON.parse(message.body);
-                console.log("\u0418\u043D\u0432\u0430\u0439\u0442 \u043F\u043E\u043B\u0443\u0447\u0435\u043D:", response);
-                // Извлекаем значение id (айди чата) из ответа
-                const chatId = response.id;
-                console.log("\u0418\u0437\u0432\u043B\u0435\u0447\u0435\u043D\u043E chatId \u0438\u0437 \u0438\u043D\u0432\u0430\u0439\u0442\u0430:", chatId);
-                // Подписываемся на сообщения в чате с использованием chatId
-                stompClient.subscribe(`/chat/${chatId}/message`, (message)=>{
-                    // Получаю ChatMessageDto из сообщения
-                    const chatMessage = JSON.parse(message.body);
-                    console.log(`\u{41F}\u{43E}\u{43B}\u{443}\u{447}\u{435}\u{43D}\u{43D}\u{43E}\u{435} \u{441}\u{43E}\u{43E}\u{431}\u{449}\u{435}\u{43D}\u{438}\u{435} \u{432} \u{447}\u{430}\u{442}\u{435} ${chatId}: ${chatMessage.content}`);
-                });
-                console.log(`\u{41F}\u{43E}\u{434}\u{43F}\u{438}\u{441}\u{43A}\u{430} \u{43D}\u{430} \u{441}\u{43E}\u{43E}\u{431}\u{449}\u{435}\u{43D}\u{438}\u{44F} \u{432} \u{447}\u{430}\u{442}\u{435} ${chatId} \u{432}\u{44B}\u{43F}\u{43E}\u{43B}\u{43D}\u{435}\u{43D}\u{430}`);
-            });
-            console.log("\u041F\u043E\u0434\u043F\u0438\u0441\u043A\u0430 \u043D\u0430 \u043F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u0435 \u0438\u043D\u0432\u0430\u0439\u0442\u043E\u0432 \u0432\u044B\u043F\u043E\u043B\u043D\u0435\u043D\u0430");
-            // Если пользователь - администратор, отправляем приветственное сообщение
-            const testButton = document.getElementById("test_button");
-            if (testButton) testButton.addEventListener("click", ()=>{
-                if (username === "admin") {
-                    console.log("User is admin, sending welcome message...");
-                    const message = {
-                        chatId: 1,
-                        senderId: 1,
-                        content: "Hello"
-                    };
-                    console.log("Sending message:", message);
-                    stompClient.publish({
-                        destination: "/app/message",
-                        body: JSON.stringify(message)
-                    });
-                }
-            });
-        };
-        //* Обработка ошибок STOMP
-        stompClient.onStompError = (frame)=>{
-            console.error("Broker reported error: " + frame.headers["message"]);
-            console.error("Additional details: " + frame.body);
-        };
-        // Обработка закрытия WebSocket соединения
-        socket.onclose = (event)=>{
-            console.error("WebSocket closed:", event);
-        };
-        // Обработка ошибок WebSocket соединения
-        socket.onerror = (error)=>{
-            console.error("WebSocket error:", error);
-        };
-        // Активация STOMP клиента
-        stompClient.activate();
-        console.log("STOMP client activated");
-        //* GET запрос на получение пользователя по никнейму (Работает только у админа)
-        async function findUsers(event) {
-            // Отмена действия по умолчанию (предотвращение обновления страницы)
-            event.preventDefault();
-            // Извлечение токена из localStorage
-            const token = localStorage.getItem("token");
-            if (!token) {
-                console.error("Token \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D \u0432 localStorage");
-                return;
-            }
-            // Извлечение значения из поля ввода
-            const input = document.getElementById("nickname-input");
-            const nickname = input.value.trim();
-            if (!nickname) {
-                console.error("Nickname is empty");
-                return;
-            }
-            try {
-                //* Отправка GET запроса на сервер
-                const response = await fetch(`http://94.242.53.252:8081/api/users?username=${nickname}`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`
-                    }
-                });
-                if (response.ok) {
-                    // Обработка успешного ответа
-                    const data = await response.json();
-                    const user = data.find((user)=>user.username === nickname);
-                    //* Обновление содержимого элемента ul.search-results
-                    const searchResults = document.querySelector(".search-results");
-                    searchResults.innerHTML = ""; // Очистка предыдущих результатов
-                    if (user) {
-                        const li = document.createElement("li");
-                        li.textContent = user.username;
-                        searchResults.appendChild(li);
-                    } else {
-                        const li = document.createElement("li");
-                        li.textContent = "\u041F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D";
-                        li.style.color = "red";
-                        li.style.cursor = "not-allowed";
-                        searchResults.appendChild(li);
-                    }
-                } else console.error("\u041D\u0435 \u0443\u0434\u0430\u043B\u043E\u0441\u044C \u043F\u043E\u043B\u0443\u0447\u0438\u0442\u044C \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u0435\u0439:", response.statusText);
-            } catch (error) {
-                console.error("\u041E\u0448\u0438\u0431\u043A\u0430 \u043F\u0440\u0438 \u043F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u0438 \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u0435\u0439:", error);
-            }
-        }
-        //? Добавление обработчика события для кнопки с id "finduser"
-        document.getElementById("finduser").addEventListener("click", findUsers);
-    } else console.error("\u0418\u043C\u044F \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D\u043E \u0432 localStorage");
-}
-//! Функция отправки сообщения на кнопку в чате
-// Получаем элементы по их идентификаторам
-const sendButton = document.getElementById("send_message");
-const messageInput = document.getElementById("sms-input");
-// Определяем chatId и senderId
-const chatId = 1;
-const userId = parseInt(localStorage.getItem("userId"), 10);
-// Добавляем обработчик события click для кнопки
-sendButton.addEventListener("click", ()=>{
-    // Считываем данные из input
-    const content = messageInput.value.trim();
-    // Проверяем, что поле ввода не пустое
-    if (content) {
-        // Вызываем функцию sendMessage
-        sendMessage1(chatId, userId, content);
-        // Очищаем поле ввода после отправки сообщения
-        messageInput.value = "";
-    } else console.error("\u041F\u043E\u043B\u0435 \u0432\u0432\u043E\u0434\u0430 \u0441\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u044F \u043F\u0443\u0441\u0442\u043E\u0435");
-});
-// Пример функции sendMessage
-function sendMessage1(chatId, senderId, content) {
-    if (!stompClient || !stompClient.connected) {
-        console.error("STOMP client is not connected");
-        return;
-    }
-    const message = {
-        chatId,
-        senderId,
-        content
-    };
-    stompClient.publish({
-        destination: "/app/message",
-        body: JSON.stringify(message)
-    });
-    console.log(`Message sent to chat ${chatId}: ${content}`);
-}
-
-},{"sockjs-client":"aclki","@stomp/stompjs":"8TvQf","./modules/chatIds":"cqYRS","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cqYRS":[function(require,module,exports) {
-// chatIds.js
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "addChatId", ()=>addChatId);
-parcelHelpers.export(exports, "getChatIds", ()=>getChatIds);
-let chatIds = [];
-function addChatId(chatId) {
-    chatIds.push(chatId);
-}
-function getChatIds() {
-    return chatIds;
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"8Zz17":[function(require,module,exports) {
-document.addEventListener("DOMContentLoaded", (event)=>{
-    // Функция для создания элемента <li> для каждого чата
-    function createChatItem(chatId) {
-        // Создаем элемент <li>
-        const li = document.createElement("li");
-        li.className = "chat-item";
-        li.textContent = `Chat (ID: ${chatId})`;
-        return li;
-    }
-    // Функция для добавления всех элементов <li> в список <ul>
-    function populateChatList(chatIds) {
-        const chatList = document.getElementById("chat-list");
-        chatList.innerHTML = ""; // Очищаем список перед добавлением новых элементов
-        chatIds.forEach((chatId)=>{
-            const chatItem = createChatItem(chatId);
-            chatList.appendChild(chatItem);
-        });
-        // Скрываем спиннер после добавления элементов
-        document.getElementById("spinner2").style.display = "none";
-    }
-    // Функция для проверки и обновления списка чатов
-    function checkAndUpdateChatList() {
-        // Получаем массив allChatIds из sessionStorage
-        const allChatIds = JSON.parse(sessionStorage.getItem("allChatIds"));
-        // Проверяем, существует ли массив allChatIds и не пуст ли он
-        if (allChatIds && allChatIds.length > 0) // Заполняем список чатов
-        populateChatList(allChatIds);
-    }
-    // Запускаем проверку каждые 500 мс
-    setInterval(checkAndUpdateChatList, 500);
-});
-//! Очищаем sessionStorage при выходе с страницы
-window.addEventListener("beforeunload", (event)=>{
-    sessionStorage.clear();
-});
-
-},{}],"h7Srf":[function(require,module,exports) {
-document.addEventListener("DOMContentLoaded", (event)=>{
-    const consoleOutput = document.getElementById("console-output");
-    // Получаем userId из localStorage и преобразуем его в число
-    const userId = parseInt(localStorage.getItem("userId"), 10);
-    // Проверяем, равен ли userId значению 1
-    if (userId === 1) {
-        // Получаем элемент кнопки по id
-        const adminButton = document.getElementById("admin_button");
-        // Изменяем стиль кнопки на display: block
-        if (adminButton) adminButton.style.display = "block";
-    }
-    function appendToConsole(message) {
-        const div = document.createElement("div");
-        div.textContent = message;
-        consoleOutput.appendChild(div);
-        consoleOutput.scrollTop = consoleOutput.scrollHeight;
-    }
-    // Обработка нажатия на кнопку для localStorage
-    document.getElementById("loc_stor_but").addEventListener("click", function() {
-        for(let i = 0; i < localStorage.length; i++){
-            const key = localStorage.key(i);
-            const value = localStorage.getItem(key);
-            appendToConsole(`${key}: ${value}`);
-        }
-    });
-    // Обработка нажатия на кнопку для sessionStorage
-    document.getElementById("sess_stor_but").addEventListener("click", function() {
-        for(let i = 0; i < sessionStorage.length; i++){
-            const key = sessionStorage.key(i);
-            const value = sessionStorage.getItem(key);
-            appendToConsole(`${key}: ${value}`);
-        }
-    });
-    // Обработка нажатия на кнопку для очистки console-output
-    document.getElementById("clear_but").addEventListener("click", function() {
-        consoleOutput.innerHTML = "";
-    });
-});
 
 },{}]},["j2YDk","1SICI"], "1SICI", "parcelRequiref325")
 

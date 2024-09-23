@@ -1,7 +1,7 @@
 import { jwtDecode } from "jwt-decode";
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
-import { setGlobalCursorWait, resetGlobalCursor } from "./cursorlogic";
+import { setGlobalCursorWait, resetGlobalCursor } from "./modules/cursorlogic";
 
 // Определение функции connectWebsocket для подключения к WebSocket
 function connectWebsocket(username) {

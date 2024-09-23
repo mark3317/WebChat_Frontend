@@ -1,5 +1,11 @@
+import { sendMessage } from "./modules/messages";
 document.addEventListener("DOMContentLoaded", (event) => {
   const consoleOutput = document.getElementById("console-output");
+
+  // Проверяем, что текущая страница - mainchat.html
+  if (!window.location.pathname.includes("mainchat.html")) {
+    return;
+  }
 
   // Получаем userId из localStorage и преобразуем его в число
   const userId = parseInt(localStorage.getItem("userId"), 10);
@@ -15,6 +21,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     }
   }
 
+  // Функция для добавления сообщения в console-output
   function appendToConsole(message) {
     const div = document.createElement("div");
     div.textContent = message;
@@ -43,8 +50,21 @@ document.addEventListener("DOMContentLoaded", (event) => {
         appendToConsole(`${key}: ${value}`);
       }
     });
+
   // Обработка нажатия на кнопку для очистки console-output
   document.getElementById("clear_but").addEventListener("click", function () {
     consoleOutput.innerHTML = "";
   });
+
+  // Отправка тестового сообщения
+  const testButton = document.getElementById("test_button");
+  if (testButton) {
+    testButton.addEventListener("click", () => {
+      const username = localStorage.getItem("username");
+      if (username === "admin") {
+        console.log("User is admin, sending welcome message...");
+        sendMessage(1, 1, "Hello");
+      }
+    });
+  }
 });
