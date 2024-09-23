@@ -6,3 +6,5 @@ import "./background/app";
 import "./authrules.js";
 import "./regrules.js";
 import "./mainchatlogic.js";
+import "./mainchat_li_logic.js";
+import "./mainchat_adminpanel.js";

@@ -589,11 +589,13 @@ var _app = require("./background/app");
 var _authrulesJs = require("./authrules.js");
 var _regrulesJs = require("./regrules.js");
 var _mainchatlogicJs = require("./mainchatlogic.js");
+var _mainchatLiLogicJs = require("./mainchat_li_logic.js");
+var _mainchatAdminpanelJs = require("./mainchat_adminpanel.js");
 const jwtDecode = require("d7b2ed15641ea709");
 const SockJS = require("5559588fb8026028");
 const { Client } = require("762a11bbbdb408fe");
 
-},{"d7b2ed15641ea709":"EeAxo","5559588fb8026028":"aclki","762a11bbbdb408fe":"8TvQf","./background/particles.min":"4xFYV","./background/app":"hNpu6","./authrules.js":"W9Yh5","./regrules.js":"6b9h8","./mainchatlogic.js":"8CtnY"}],"EeAxo":[function(require,module,exports) {
+},{"d7b2ed15641ea709":"EeAxo","5559588fb8026028":"aclki","762a11bbbdb408fe":"8TvQf","./background/particles.min":"4xFYV","./background/app":"hNpu6","./authrules.js":"W9Yh5","./regrules.js":"6b9h8","./mainchatlogic.js":"8CtnY","./mainchat_li_logic.js":"8Zz17","./mainchat_adminpanel.js":"h7Srf"}],"EeAxo":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "InvalidTokenError", ()=>InvalidTokenError);
@@ -7111,6 +7113,7 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _sockjsClient = require("sockjs-client");
 var _sockjsClientDefault = parcelHelpers.interopDefault(_sockjsClient);
 var _stompjs = require("@stomp/stompjs");
+var _chatIds = require("./modules/chatIds");
 let stompClient; // Определяем stompClient в глобальной области видимости
 // Проверяем, находится ли текущая страница на mainchat.html
 if (window.location.pathname.includes("mainchat.html")) {
@@ -7128,7 +7131,7 @@ if (window.location.pathname.includes("mainchat.html")) {
             debug: (str)=>console.log(str)
         });
         console.log("STOMP client created");
-        // Функция для отправки сообщения в чат
+        //? Функция для отправки сообщения в чат
         function sendMessage(chatId, senderId, content) {
             if (!stompClient || !stompClient.connected) {
                 console.error("STOMP client is not connected");
@@ -7150,8 +7153,8 @@ if (window.location.pathname.includes("mainchat.html")) {
         //! Обработчик события подключения
         stompClient.onConnect = async (frame)=>{
             console.log("Connected to WebSocket:", frame);
-            // Получаем userId из localStorage
-            const userId = localStorage.getItem("userId");
+            //* Получаем userId из localStorage
+            var userId = parseInt(localStorage.getItem("userId"), 10);
             console.log("User ID:", userId);
             // Получаем токен из localStorage
             const token = localStorage.getItem("token");
@@ -7171,23 +7174,87 @@ if (window.location.pathname.includes("mainchat.html")) {
                 if (response.ok) {
                     const data = await response.json();
                     const chats = data.chats;
-                    if (chats && chats.length > 0) // Проходим по всем чатам и подписываемся на каждый
-                    chats.forEach((chat)=>{
-                        const chatId = chat.id;
-                        console.log("Extracted chatId from profile:", chatId);
-                        // Подписываемся на сообщения в чате с использованием chatId
-                        stompClient.subscribe(`/chat/${chatId}/message`, (message)=>{
-                            // Получаю ChatMessageDto из сообщения
-                            const chatMessage = JSON.parse(message.body);
-                            console.log(`Received message in chat ${chatId}: ${chatMessage.content}`);
+                    if (chats && chats.length > 0) {
+                        // Проходим по всем чатам и выполняем GET-запросы для получения информации о каждом чате
+                        const chatInfoPromises = chats.map((chat)=>{
+                            const chatId = chat.id;
+                            console.log("'\u0418\u043C\u043F\u043E\u0440\u0442\u0438\u0440\u043E\u0432\u0430\u043D ChatID \u0438\u0437 \u043F\u0440\u043E\u0444\u0438\u043B\u044F':", chatId);
+                            // Добавляем chatId в модуль
+                            (0, _chatIds.addChatId)(chatId);
+                            // Выполняем GET-запрос для получения информации о чате с токеном
+                            return fetch(`http://94.242.53.252:8081/api/chats/${chatId}/users`, {
+                                headers: {
+                                    Authorization: `Bearer ${token}`
+                                }
+                            }).then((response)=>response.json()).then((data)=>{
+                                // Сохраняем информацию о чате в SessionStorage
+                                sessionStorage.setItem(`chat_${chatId}_users`, JSON.stringify(data));
+                                console.log(`\u{418}\u{43D}\u{444}\u{43E}\u{440}\u{43C}\u{430}\u{446}\u{438}\u{44F} \u{43E} \u{43F}\u{43E}\u{43B}\u{44C}\u{437}\u{43E}\u{432}\u{430}\u{442}\u{435}\u{43B}\u{44F}\u{445} \u{432} \u{447}\u{430}\u{442}\u{435} ${chatId} \u{441}\u{43E}\u{445}\u{440}\u{430}\u{43D}\u{435}\u{43D}\u{430} \u{432} SessionStorage`);
+                            }).catch((error)=>{
+                                console.error(`\u{41E}\u{448}\u{438}\u{431}\u{43A}\u{430} \u{43F}\u{440}\u{438} \u{43F}\u{43E}\u{43B}\u{443}\u{447}\u{435}\u{43D}\u{438}\u{438} \u{438}\u{43D}\u{444}\u{43E}\u{440}\u{43C}\u{430}\u{446}\u{438}\u{438} \u{43E} \u{447}\u{430}\u{442}\u{435} ${chatId}:`, error);
+                            });
                         });
-                        console.log(`\u{41F}\u{43E}\u{434}\u{43F}\u{438}\u{441}\u{43A}\u{430} \u{43D}\u{430} \u{441}\u{43E}\u{43E}\u{431}\u{449}\u{435}\u{43D}\u{438}\u{44F} \u{432} \u{447}\u{430}\u{442}\u{435} ${chatId} \u{432}\u{44B}\u{43F}\u{43E}\u{43B}\u{43D}\u{435}\u{43D}\u{430}`);
-                    });
-                    else console.log("\u0412 \u043E\u0442\u0432\u0435\u0442\u0435 \u043F\u0440\u043E\u0444\u0438\u043B\u044F \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D\u043E \u043D\u0438 \u043E\u0434\u043D\u043E\u0433\u043E \u0447\u0430\u0442\u0430");
+                        // Ждем завершения всех GET-запросов перед подпиской на чаты
+                        await Promise.all(chatInfoPromises);
+                        // Теперь подписываемся на каждый чат
+                        chats.forEach((chat)=>{
+                            const chatId = chat.id;
+                            // Подписываемся на сообщения в чате с использованием chatId
+                            stompClient.subscribe(`/chat/${chatId}/message`, (message)=>{
+                                //! Получаем объекты Users из Session Storage для соответствия id к юзернейму
+                                const chatUsers = JSON.parse(sessionStorage.getItem("chat_1_users"));
+                                if (!chatUsers) {
+                                    console.error("\u041D\u0435 \u0443\u0434\u0430\u043B\u043E\u0441\u044C \u043F\u043E\u043B\u0443\u0447\u0438\u0442\u044C \u0434\u0430\u043D\u043D\u044B\u0435 \u0438\u0437 Session Storage");
+                                    return;
+                                }
+                                //* Извлекаем из ChatMessageDto данные о сообщении
+                                const { chatId, senderId, content } = JSON.parse(message.body);
+                                console.log(`Received message in chat ${chatId} from sender ${senderId}: ${content}`);
+                                // Находим пользователя с id, равным senderId, в chatUsers
+                                const user = chatUsers.find((user)=>user.id === senderId);
+                                if (!user) {
+                                    console.error("\u041F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C \u0441 \u0442\u0430\u043A\u0438\u043C senderId \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D \u0432 chatUsers");
+                                    return;
+                                }
+                                // Обновляем содержимое элемента <li>
+                                const liElement = document.createElement("li");
+                                liElement.className = "sms-item_text";
+                                liElement.innerHTML = `
+    <svg
+      id="icon_user"
+      style="color: darkblue"
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="16"
+      fill="currentColor"
+      class="bi bi-person-fill"
+      viewBox="0 0 16 16"
+    >
+      <path
+        d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"
+      />
+    </svg>
+    <span id="sms-username">${user.username}</span><span>:&nbsp</span>
+    <span id="sms-message">${content}</span>
+  `;
+                                // Интегрируем элемент <li> в HTML файл
+                                const chatList = document.getElementById("sms-list");
+                                if (chatList) chatList.appendChild(liElement);
+                                else console.error("\u041D\u0435 \u0443\u0434\u0430\u043B\u043E\u0441\u044C \u043D\u0430\u0439\u0442\u0438 \u044D\u043B\u0435\u043C\u0435\u043D\u0442 \u0441 id 'sms-list'");
+                            });
+                            console.log(`\u{41F}\u{43E}\u{434}\u{43F}\u{438}\u{441}\u{43A}\u{430} \u{43D}\u{430} \u{441}\u{43E}\u{43E}\u{431}\u{449}\u{435}\u{43D}\u{438}\u{44F} \u{432} \u{447}\u{430}\u{442}\u{435} ${chatId} \u{432}\u{44B}\u{43F}\u{43E}\u{43B}\u{43D}\u{435}\u{43D}\u{430}`);
+                        });
+                    } else console.log("\u0412 \u043E\u0442\u0432\u0435\u0442\u0435 \u043F\u0440\u043E\u0444\u0438\u043B\u044F \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D\u043E \u043D\u0438 \u043E\u0434\u043D\u043E\u0433\u043E \u0447\u0430\u0442\u0430");
                 } else console.error("\u041D\u0435 \u0443\u0434\u0430\u043B\u043E\u0441\u044C \u043F\u043E\u043B\u0443\u0447\u0438\u0442\u044C \u0434\u0430\u043D\u043D\u044B\u0435 \u043F\u0440\u043E\u0444\u0438\u043B\u044F:", response.statusText);
             } catch (error) {
                 console.error("\u041E\u0448\u0438\u0431\u043A\u0430 \u043F\u0440\u0438 \u043F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u0438 \u0434\u0430\u043D\u043D\u044B\u0445 \u043F\u0440\u043E\u0444\u0438\u043B\u044F:", error);
             }
+            // Получаем все chatIds с помощью getChatIds
+            const allChatIds = (0, _chatIds.getChatIds)();
+            console.log("\u0412\u0441\u0435 chatIds:", allChatIds);
+            //? Сохраняем все chatIds в sessionStorage
+            sessionStorage.setItem("allChatIds", JSON.stringify(allChatIds));
+            //!  ЛОГИКА ОТОБРАЖЕНИЯ CHATLIST
             //* Подписываемся на инвайты
             stompClient.subscribe(`/user/${userId}/invite`, (message)=>{
                 // Получаю ChatDto из сообщения
@@ -7206,19 +7273,22 @@ if (window.location.pathname.includes("mainchat.html")) {
             });
             console.log("\u041F\u043E\u0434\u043F\u0438\u0441\u043A\u0430 \u043D\u0430 \u043F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u0435 \u0438\u043D\u0432\u0430\u0439\u0442\u043E\u0432 \u0432\u044B\u043F\u043E\u043B\u043D\u0435\u043D\u0430");
             // Если пользователь - администратор, отправляем приветственное сообщение
-            if (username === "admin") {
-                console.log("User is admin, sending welcome message...");
-                const message = {
-                    chatId: 1,
-                    senderId: 1,
-                    content: "Hello"
-                };
-                console.log("Sending message:", message);
-                stompClient.publish({
-                    destination: "/app/message",
-                    body: JSON.stringify(message)
-                });
-            }
+            const testButton = document.getElementById("test_button");
+            if (testButton) testButton.addEventListener("click", ()=>{
+                if (username === "admin") {
+                    console.log("User is admin, sending welcome message...");
+                    const message = {
+                        chatId: 1,
+                        senderId: 1,
+                        content: "Hello"
+                    };
+                    console.log("Sending message:", message);
+                    stompClient.publish({
+                        destination: "/app/message",
+                        body: JSON.stringify(message)
+                    });
+                }
+            });
         };
         //* Обработка ошибок STOMP
         stompClient.onStompError = (frame)=>{
@@ -7255,7 +7325,7 @@ if (window.location.pathname.includes("mainchat.html")) {
             }
             try {
                 //* Отправка GET запроса на сервер
-                const response = await fetch(`http://94.242.53.252:8081/api/users?nickname=${nickname}`, {
+                const response = await fetch(`http://94.242.53.252:8081/api/users?username=${nickname}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -7289,7 +7359,134 @@ if (window.location.pathname.includes("mainchat.html")) {
         document.getElementById("finduser").addEventListener("click", findUsers);
     } else console.error("\u0418\u043C\u044F \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D\u043E \u0432 localStorage");
 }
+//! Функция отправки сообщения на кнопку в чате
+// Получаем элементы по их идентификаторам
+const sendButton = document.getElementById("send_message");
+const messageInput = document.getElementById("sms-input");
+// Определяем chatId и senderId
+const chatId = 1;
+const userId = parseInt(localStorage.getItem("userId"), 10);
+// Добавляем обработчик события click для кнопки
+sendButton.addEventListener("click", ()=>{
+    // Считываем данные из input
+    const content = messageInput.value.trim();
+    // Проверяем, что поле ввода не пустое
+    if (content) {
+        // Вызываем функцию sendMessage
+        sendMessage1(chatId, userId, content);
+        // Очищаем поле ввода после отправки сообщения
+        messageInput.value = "";
+    } else console.error("\u041F\u043E\u043B\u0435 \u0432\u0432\u043E\u0434\u0430 \u0441\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u044F \u043F\u0443\u0441\u0442\u043E\u0435");
+});
+// Пример функции sendMessage
+function sendMessage1(chatId, senderId, content) {
+    if (!stompClient || !stompClient.connected) {
+        console.error("STOMP client is not connected");
+        return;
+    }
+    const message = {
+        chatId,
+        senderId,
+        content
+    };
+    stompClient.publish({
+        destination: "/app/message",
+        body: JSON.stringify(message)
+    });
+    console.log(`Message sent to chat ${chatId}: ${content}`);
+}
 
-},{"sockjs-client":"aclki","@stomp/stompjs":"8TvQf","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["j2YDk","1SICI"], "1SICI", "parcelRequiref325")
+},{"sockjs-client":"aclki","@stomp/stompjs":"8TvQf","./modules/chatIds":"cqYRS","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cqYRS":[function(require,module,exports) {
+// chatIds.js
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "addChatId", ()=>addChatId);
+parcelHelpers.export(exports, "getChatIds", ()=>getChatIds);
+let chatIds = [];
+function addChatId(chatId) {
+    chatIds.push(chatId);
+}
+function getChatIds() {
+    return chatIds;
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"8Zz17":[function(require,module,exports) {
+document.addEventListener("DOMContentLoaded", (event)=>{
+    // Функция для создания элемента <li> для каждого чата
+    function createChatItem(chatId) {
+        // Создаем элемент <li>
+        const li = document.createElement("li");
+        li.className = "chat-item";
+        li.textContent = `Chat (ID: ${chatId})`;
+        return li;
+    }
+    // Функция для добавления всех элементов <li> в список <ul>
+    function populateChatList(chatIds) {
+        const chatList = document.getElementById("chat-list");
+        chatList.innerHTML = ""; // Очищаем список перед добавлением новых элементов
+        chatIds.forEach((chatId)=>{
+            const chatItem = createChatItem(chatId);
+            chatList.appendChild(chatItem);
+        });
+        // Скрываем спиннер после добавления элементов
+        document.getElementById("spinner2").style.display = "none";
+    }
+    // Функция для проверки и обновления списка чатов
+    function checkAndUpdateChatList() {
+        // Получаем массив allChatIds из sessionStorage
+        const allChatIds = JSON.parse(sessionStorage.getItem("allChatIds"));
+        // Проверяем, существует ли массив allChatIds и не пуст ли он
+        if (allChatIds && allChatIds.length > 0) // Заполняем список чатов
+        populateChatList(allChatIds);
+    }
+    // Запускаем проверку каждые 500 мс
+    setInterval(checkAndUpdateChatList, 500);
+});
+//! Очищаем sessionStorage при выходе с страницы
+window.addEventListener("beforeunload", (event)=>{
+    sessionStorage.clear();
+});
+
+},{}],"h7Srf":[function(require,module,exports) {
+document.addEventListener("DOMContentLoaded", (event)=>{
+    const consoleOutput = document.getElementById("console-output");
+    // Получаем userId из localStorage и преобразуем его в число
+    const userId = parseInt(localStorage.getItem("userId"), 10);
+    // Проверяем, равен ли userId значению 1
+    if (userId === 1) {
+        // Получаем элемент кнопки по id
+        const adminButton = document.getElementById("admin_button");
+        // Изменяем стиль кнопки на display: block
+        if (adminButton) adminButton.style.display = "block";
+    }
+    function appendToConsole(message) {
+        const div = document.createElement("div");
+        div.textContent = message;
+        consoleOutput.appendChild(div);
+        consoleOutput.scrollTop = consoleOutput.scrollHeight;
+    }
+    // Обработка нажатия на кнопку для localStorage
+    document.getElementById("loc_stor_but").addEventListener("click", function() {
+        for(let i = 0; i < localStorage.length; i++){
+            const key = localStorage.key(i);
+            const value = localStorage.getItem(key);
+            appendToConsole(`${key}: ${value}`);
+        }
+    });
+    // Обработка нажатия на кнопку для sessionStorage
+    document.getElementById("sess_stor_but").addEventListener("click", function() {
+        for(let i = 0; i < sessionStorage.length; i++){
+            const key = sessionStorage.key(i);
+            const value = sessionStorage.getItem(key);
+            appendToConsole(`${key}: ${value}`);
+        }
+    });
+    // Обработка нажатия на кнопку для очистки console-output
+    document.getElementById("clear_but").addEventListener("click", function() {
+        consoleOutput.innerHTML = "";
+    });
+});
+
+},{}]},["j2YDk","1SICI"], "1SICI", "parcelRequiref325")
 
 //# sourceMappingURL=index.18dbc454.js.map

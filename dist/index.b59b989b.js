@@ -1,2 +1,0 @@
-document.querySelector(".authorize-form")&&document.getElementById("showPassword").addEventListener("change",function(){let e=document.getElementById("password");this.checked?e.type="text":e.type="password"}),document.querySelector(".registration")&&document.getElementById("showPassword").addEventListener("change",function(){let e=document.getElementById("floatingPassword"),t=document.getElementById("floatingConfirmPassword");this.checked?(e.type="text",t.type="text"):(e.type="password",t.type="password")});
-//# sourceMappingURL=index.b59b989b.js.map
