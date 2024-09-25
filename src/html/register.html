@@ -19,7 +19,7 @@
       </nav>
     </aside>
     <main>
-      <!-- BACKGROUND -->
+      <!--* BACKGROUND -->
       <div id="particles-js"></div>
       <!-- todoLOGO -->
       <div id="logo">
@@ -32,9 +32,9 @@
           style="display: none; position: absolute; right: 5%"
         ></div>
       </div>
-      <!-- todoRegistration-->
+      <!--* Registration-->
       <section class="registration">
-        <form class="p-4 p-md-5 border rounded-3">
+        <form class="p-4 p-md-5 border rounded-3" id="registerForm">
           <h1 class="h3 mb-3 fw-normal" id="text">Регистрация</h1>
           <div class="form-floating mb-3">
             <!-- NICKNAME -->
@@ -84,7 +84,7 @@
                   id="showPassword"
                   style="cursor: pointer"
                 />
-                Показать пароль
+                <span>Показать пароль</span>
               </label>
             </div>
           </aside>
@@ -145,7 +145,7 @@
           <hr class="my-4" />
           <!-- Уже зареганы? -->
           <aside style="display: flex; justify-content: center">
-            <small class="text-body-secondary">
+            <small class="text-body-secondary" style="user-select: none">
               Уже зарегистрированы? <a href="index.html">Авторизируйтесь</a>
             </small>
           </aside>

@@ -6502,11 +6502,13 @@ function sendMessage(chatId, senderId, content) {
 function handleIncomingMessage(message) {
     const { chatId, senderId, content } = JSON.parse(message.body);
     console.log(`Received message in chat ${chatId} from sender ${senderId}: ${content}`);
+    //Получение данных пользователей чата из sessionStorage
     const chatUsers = JSON.parse(sessionStorage.getItem(`chat_${chatId}_users`));
     if (!chatUsers) {
         console.error("\u041D\u0435 \u0443\u0434\u0430\u043B\u043E\u0441\u044C \u043F\u043E\u043B\u0443\u0447\u0438\u0442\u044C \u0434\u0430\u043D\u043D\u044B\u0435 \u0438\u0437 Session Storage");
         return;
     }
+    //Поиск пользователя в массиве chatUsers по senderId
     const user = chatUsers.find((user)=>user.id === senderId);
     if (!user) {
         console.error("\u041F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C \u0441 \u0442\u0430\u043A\u0438\u043C senderId \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D \u0432 chatUsers");

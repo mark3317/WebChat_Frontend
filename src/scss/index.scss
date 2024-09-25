@@ -6,19 +6,20 @@
   overflow: hidden;
   margin: 0;
   padding: 0;
-  @include fonts;
   h1 {
     user-select: none;
   }
+  font-family: JetBrains Mono, monospace;
+}
+
+:root {
+  @include root;
 }
 
 #particles-js {
   @include particlebg;
 }
 
-#logo {
-  @include logo;
-}
 // todo
 .main {
   @include main;
@@ -29,15 +30,21 @@
   padding: 1rem !important;
 }
 
+#logo {
+  @include logo;
+  background: linear-gradient(55deg, var(--dark), rgb(51, 51, 51));
+  border-left: 0.1px solid rgba(255, 255, 255, 0.205);
+  border-bottom: 0.1px solid rgba(255, 255, 255, 0.205);
+  h1 {
+    background: linear-gradient(to right, var(--light), var(--text)) !important;
+    -webkit-background-clip: text !important;
+    color: transparent !important;
+  }
+}
+
 .navigation {
   @include navigation;
 }
-
-// #username,
-// #password,
-// #confirm-password {
-//   @include width-properties;
-// }
 
 .loaded {
   width: 100%;
@@ -91,4 +98,31 @@ label::after {
   padding-top: 8px;
   padding-bottom: 8px;
   cursor: not-allowed;
+}
+
+.btn-primary {
+  --bs-btn-bg: #148c7c;
+  border-color: transparent;
+}
+.btn-primary:hover {
+  --bs-btn-hover-bg: #0a8674;
+  --bs-btn-active-bg: #0a8674;
+  border-color: transparent;
+}
+
+.main {
+  background: linear-gradient(to right, #17181c, #282d33) !important;
+  h1 {
+    color: var(--light);
+  }
+  span {
+    color: var(--text);
+  }
+  border-left: 0.1px solid rgba(255, 255, 255, 0.025);
+}
+
+.text_container {
+  small {
+    color: var(--light) !important;
+  }
 }

@@ -19,7 +19,7 @@
       </nav>
     </aside>
     <main>
-      <!-- BACKGROUND -->
+      <!--* BACKGROUND -->
       <div id="particles-js"></div>
       <!-- todoLOGO -->
       <div id="logo">
@@ -27,9 +27,9 @@
         <!--! spinner -->
         <div id="spinner" class="spinner-border" role="status" style="display: none; position: absolute; right: 5%"></div>
       </div>
-      <!-- todoRegistration-->
+      <!--* Registration-->
       <section class="registration">
-        <form class="p-4 p-md-5 border rounded-3">
+        <form class="p-4 p-md-5 border rounded-3" id="registerForm">
           <h1 class="h3 mb-3 fw-normal" id="text">Регистрация</h1>
           <div class="form-floating mb-3">
             <!-- NICKNAME -->
@@ -56,7 +56,7 @@
               <label style="cursor: pointer; -webkit-user-select: none;
 user-select: none">
                 <input type="checkbox" id="showPassword" style="cursor: pointer">
-                Показать пароль
+                <span>Показать пароль</span>
               </label>
             </div>
           </aside>
@@ -87,7 +87,8 @@ user-select: none">
           <hr class="my-4">
           <!-- Уже зареганы? -->
           <aside style="justify-content: center; display: flex">
-            <small class="text-body-secondary">
+            <small class="text-body-secondary" style="-webkit-user-select: none;
+user-select: none">
               Уже зарегистрированы? <a href="/index.html">Авторизируйтесь</a>
             </small>
           </aside>

@@ -13348,7 +13348,7 @@ textarea.form-control-lg {
   overflow: hidden;
   margin: 0;
   padding: 0;
-  font-family: Trebuchet MS, sans-serif;
+  font-family: JetBrains Mono, monospace;
 }
 * h1, * .h1 {
   -webkit-user-select: none;
@@ -13357,51 +13357,27 @@ textarea.form-control-lg {
           user-select: none;
 }
 
+:root {
+  --success: rgb(16, 194, 167);
+  --light: #f8f9fa;
+  --dark: #17181c;
+  --output-message: #353a40;
+  --text: rgb(16, 194, 167);
+  --header: #282d33;
+  --li: #3d444d;
+  --bs-body-bg-rgb: 40, 45, 51;
+  --bs-btn-bg: 16, 194, 167;
+  --click: #2b2f36;
+}
+
 #particles-js {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100vh;
-  background-color: #e74c3c;
+  background-color: var(--dark);
   z-index: 0;
-}
-
-#logo {
-  position: relative;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  width: 25rem;
-  z-index: 100;
-  background-color: white;
-  border: 3px solid #ff0000;
-  border-radius: 8px;
-  padding: 10px;
-  top: 0;
-  left: 50%; /* Центрируем по горизонтали */
-  -webkit-transform: translateX(-50%);
-          transform: translateX(-50%); /* Корректируем позицию для центрирования */
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  height: 10% !important;
-}
-#logo h1, #logo .h1 {
-  font-size: 2rem;
-}
-#logo .spinner-border {
-  padding: 3%;
-  margin-left: 0.625em;
-  margin-right: 0.625em;
-}
-#logo ul {
-  padding-left: 0% !important;
 }
 
 .main {
@@ -13419,8 +13395,8 @@ textarea.form-control-lg {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  background-color: white;
-  border: 3px solid #ff0000;
+  background-color: var(--light);
+  border: 3px solid var(--danger);
   border-radius: 8px;
   width: -webkit-fit-content;
   width: -moz-fit-content;
@@ -13438,6 +13414,52 @@ textarea.form-control-lg {
 }
 .main .form-control {
   margin-bottom: 1rem;
+}
+
+#logo {
+  position: relative;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 25rem;
+  z-index: 100;
+  background-color: var(--output-message);
+  border-radius: 8px;
+  padding: 10px;
+  top: 0;
+  left: 50%; /* Центрируем по горизонтали */
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%); /* Корректируем позицию для центрирования */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  height: 10% !important;
+  background: linear-gradient(55deg, var(--dark), rgb(51, 51, 51));
+  border-left: 0.1px solid rgba(255, 255, 255, 0.205);
+  border-bottom: 0.1px solid rgba(255, 255, 255, 0.205);
+}
+#logo h1, #logo .h1 {
+  font-size: 2rem;
+  color: var(--text) !important;
+}
+#logo .spinner-border {
+  padding: 3%;
+  margin-left: 0.625em;
+  margin-right: 0.625em;
+}
+#logo ul {
+  padding-left: 0% !important;
+}
+#logo h1, #logo .h1 {
+  background: -webkit-gradient(linear, left top, right top, from(var(--light)), to(var(--text))) !important;
+  background: linear-gradient(to right, var(--light), var(--text)) !important;
+  -webkit-background-clip: text !important;
+  color: transparent !important;
 }
 
 .navigation {
@@ -13501,4 +13523,31 @@ label::after {
   padding-top: 8px;
   padding-bottom: 8px;
   cursor: not-allowed;
+}
+
+.btn-primary {
+  --bs-btn-bg: #148c7c;
+  border-color: transparent;
+}
+
+.btn-primary:hover {
+  --bs-btn-hover-bg: #0a8674;
+  --bs-btn-active-bg: #0a8674;
+  border-color: transparent;
+}
+
+.main {
+  background: -webkit-gradient(linear, left top, right top, from(#17181c), to(#282d33)) !important;
+  background: linear-gradient(to right, #17181c, #282d33) !important;
+  border-left: 0.1px solid rgba(255, 255, 255, 0.025);
+}
+.main h1, .main .h1 {
+  color: var(--light);
+}
+.main span {
+  color: var(--text);
+}
+
+.text_container small, .text_container .small {
+  color: var(--light) !important;
 }

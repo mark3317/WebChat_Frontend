@@ -6,10 +6,14 @@
   overflow: hidden;
   margin: 0;
   padding: 0;
-  @include fonts;
   h1 {
     user-select: none;
   }
+  font-family: JetBrains Mono, monospace;
+}
+
+:root {
+  @include root;
 }
 
 #particles-js {
@@ -18,7 +22,16 @@
 
 #logo {
   @include logo;
+  background: linear-gradient(55deg, var(--dark), rgb(51, 51, 51));
+  border-left: 0.1px solid rgba(255, 255, 255, 0.205);
+  border-bottom: 0.1px solid rgba(255, 255, 255, 0.205);
+  h1 {
+    background: linear-gradient(to right, var(--light), var(--text)) !important;
+    -webkit-background-clip: text !important;
+    color: transparent !important;
+  }
 }
+
 // todo
 .navigation {
   @include navigation;
@@ -31,6 +44,20 @@
     margin-bottom: 1rem;
   }
   padding: 1rem !important;
+  background-color: transparent;
+  #registerForm {
+    h1 {
+      color: var(--light);
+    }
+    span {
+      color: var(--text);
+    }
+    background-image: linear-gradient(to right, var(--dark), var(--header));
+    border-color: transparent !important;
+    .text-body-secondary {
+      color: var(--light) !important;
+    }
+  }
 }
 
 .p-4 {
@@ -71,4 +98,14 @@ label::after {
   padding-right: 16px;
   padding-top: 8px;
   padding-bottom: 8px;
+}
+
+.btn-primary {
+  --bs-btn-bg: #11c7aca8;
+  border-color: transparent;
+}
+.btn-primary:hover {
+  --bs-btn-hover-bg: #0a8674;
+  --bs-btn-active-bg: #0a8674;
+  border-color: transparent;
 }

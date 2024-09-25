@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ВебЧат</title>
     <link rel="stylesheet" href="/mainchat.ba828c3b.css">
+    <link rel="stylesheet" href="/mainchat.c3f4d401.css">
     <link rel="stylesheet" href="/index.0898f127.css">
     <link rel="icon" href="/favicon.c5ec8b79.ico" type="image/x-icon">
   </head>
@@ -27,9 +28,27 @@
       <div id="spinner" class="spinner-border" role="status" style="display: none; position: absolute; right: 5%"></div>
     </header>
    
+<!--* GRID CONTAINER -->
+<main class="parent">
+  <!--? GRID-SMS -->
+  <div class="div1">
+  <section id="chat_container">   
+    <script src="/mainchat.d978b7d1.js" defer=""></script>
+    </section>
+  </div>
+   <!--? GRID-CHATLIST- -->
+  <section class="div2" id="chat_chatlist">  
+    <script src="/mainchat.c5bd50db.js" defer=""></script>
+  </section>
+  <!--? GRID-INFOPANEL- -->
+  <section class="div3" id="chat_infopanel"> 
+    <script src="/mainchat.fbca715b.js" defer=""></script>      
+</section>
+
+<!--* МОДАЛЬНЫЕ ОКНА И ПРОЧЕЕ -->
     
     <!-- todoMODAL -->
-    <div class="modal" tabindex="-1" id="myModal">
+    <aside class="modal" tabindex="-1" id="myModal">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -51,76 +70,7 @@
           </article>
         </div>
       </div>
-    </div>
-
-<!--* GRID CONTAINER -->
-    <main class="parent">
-      <!--? GRID-SMS -->
-      <section class="div1">   
-          <article class="position-relative p-5 text-center text-muted bg-body border border-warning rounded-0" id="smspanel">
-          <!-- !CHATNAME -->
-          <li class="sms-item_text">
-            <h2 class="text-body-emphasis">Chat (ID: 1)<span style="color: red"> General Chat</span></h2>
-            </li>
-            <!--! SMS-->
-            <ul id="sms-list">
-            </ul>
-            <!--* GRID-SMS-MESSAGE-CONTAINER-->
-            <aside class="grid_message_container">
-              <div class="grid_sms_input"> 
-                <input type="text" id="sms-input" class="form-control" placeholder="Введите сообщение..." aria-label="Введите сообщение..." aria-describedby="button-addon2">
-              </div>
-              <div class="grid_sms_button">
-                <button type="submit" class="btn btn-success" id="send_message">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send-fill" viewbox="0 0 16 16">
-                    <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.3L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"></path>
-                  </svg>
-                </button>
-              </div>
-            </aside>
-          </article>
-        </section>
-       <!--? GRID-CHATLIST- -->
-      <section class="div2">  
-        <div class="position-relative p-5 text-center text-muted bg-body border border-dashed" id="chatlist">
-      <h1 class="text-body-emphasis">Список чатов:</h1>
-      <div id="spinner2" class="spinner-border" role="status" style="margin-left: 42%; display: block"></div>
-      <ul id="chat-list">
-      </ul>
-      </div>
-      </section>
-      <!--? GRID-INFOPANEL- -->
-      <section class="div3"> 
-        <!--* todoINFOpanel -->
-      <div class="position-relative p-5 text-center text-muted bg-body border border-dashed" id="infopanel">
-      <!-- <svg class="bi mt-5 mb-3" width="48" height="48"> -->
-        <use xlink:href="#check2-circle"></use>
-      
-      <h1 class="text-body-emphasis">Привет, user!</h1>
-      <p class="col-lg-6 mx-auto mb-4">
-        Добро пожаловать в чат!
-      </p>
-      <!--! btn-container -->
-      <aside class="btn-container">
-        <!-- todo?CREATE-CHAT -->
-        <button class="btn btn-primary px-5 mb-5" type="button" style="width: 9.75rem; min-width: 9.75rem">
-          Создать чат
-        </button>
-        <!-- todo?INVITE-CHAT -->
-        <button class="btn btn-primary px-5 mb-5" type="button" style="width: 9.75rem; min-width: 9.75rem" data-bs-toggle="modal" data-bs-target="#myModal">
-          Пригласить в чат
-        </button>
-        <!-- todo?LOGOUT -->
-        <button class="btn btn-primary px-5 mb-5" type="button" style="width: 9.75rem; min-width: 9.75rem">
-          <a style="color: #fff; text-decoration: none" href="/">Выйти</a>
-        </button>
-        <!-- todo?ADMIN_BUTTON -->
-        <button class="btn btn-secondary px-5 mb-5" type="button" id="admin_button" style="width: 9.75rem; min-width: 9.75rem; display: none" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-          Режим админа
-        </button>
-      </aside>
-    </div>
-  </section>
+    </aside>
 
   <!-- !OFFCANVAS ADMIN PANEL -->
   <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">

@@ -13348,7 +13348,7 @@ textarea.form-control-lg {
   overflow: hidden;
   margin: 0;
   padding: 0;
-  font-family: Trebuchet MS, sans-serif;
+  font-family: JetBrains Mono, monospace;
 }
 * h1, * .h1 {
   -webkit-user-select: none;
@@ -13357,13 +13357,26 @@ textarea.form-control-lg {
           user-select: none;
 }
 
+:root {
+  --success: rgb(16, 194, 167);
+  --light: #f8f9fa;
+  --dark: #17181c;
+  --output-message: #353a40;
+  --text: rgb(16, 194, 167);
+  --header: #282d33;
+  --li: #3d444d;
+  --bs-body-bg-rgb: 40, 45, 51;
+  --bs-btn-bg: 16, 194, 167;
+  --click: #2b2f36;
+}
+
 #particles-js {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100vh;
-  background-color: #e74c3c;
+  background-color: var(--dark);
   z-index: 0;
 }
 
@@ -13373,8 +13386,7 @@ textarea.form-control-lg {
   box-sizing: border-box;
   width: 25rem;
   z-index: 100;
-  background-color: white;
-  border: 3px solid #ff0000;
+  background-color: var(--output-message);
   border-radius: 8px;
   padding: 10px;
   top: 0;
@@ -13391,9 +13403,13 @@ textarea.form-control-lg {
       -ms-flex-pack: center;
           justify-content: center;
   height: 10% !important;
+  background: linear-gradient(55deg, var(--dark), rgb(51, 51, 51));
+  border-left: 0.1px solid rgba(255, 255, 255, 0.205);
+  border-bottom: 0.1px solid rgba(255, 255, 255, 0.205);
 }
 #logo h1, #logo .h1 {
   font-size: 2rem;
+  color: var(--text) !important;
 }
 #logo .spinner-border {
   padding: 3%;
@@ -13402,6 +13418,12 @@ textarea.form-control-lg {
 }
 #logo ul {
   padding-left: 0% !important;
+}
+#logo h1, #logo .h1 {
+  background: -webkit-gradient(linear, left top, right top, from(var(--light)), to(var(--text))) !important;
+  background: linear-gradient(to right, var(--light), var(--text)) !important;
+  -webkit-background-clip: text !important;
+  color: transparent !important;
 }
 
 .navigation {
@@ -13428,8 +13450,8 @@ textarea.form-control-lg {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  background-color: white;
-  border: 3px solid #ff0000;
+  background-color: var(--light);
+  border: 3px solid var(--danger);
   border-radius: 8px;
   width: -webkit-fit-content;
   width: -moz-fit-content;
@@ -13445,9 +13467,24 @@ textarea.form-control-lg {
   width: 30rem;
   padding: 0%;
   padding: 1rem !important;
+  background-color: transparent;
 }
 .registration .form-control {
   margin-bottom: 1rem;
+}
+.registration #registerForm {
+  background-image: -webkit-gradient(linear, left top, right top, from(var(--dark)), to(var(--header)));
+  background-image: linear-gradient(to right, var(--dark), var(--header));
+  border-color: transparent !important;
+}
+.registration #registerForm h1, .registration #registerForm .h1 {
+  color: var(--light);
+}
+.registration #registerForm span {
+  color: var(--text);
+}
+.registration #registerForm .text-body-secondary {
+  color: var(--light) !important;
 }
 
 .p-4 {
@@ -13493,4 +13530,15 @@ label::after {
   padding-right: 16px;
   padding-top: 8px;
   padding-bottom: 8px;
+}
+
+.btn-primary {
+  --bs-btn-bg: #11c7aca8;
+  border-color: transparent;
+}
+
+.btn-primary:hover {
+  --bs-btn-hover-bg: #0a8674;
+  --bs-btn-active-bg: #0a8674;
+  border-color: transparent;
 }

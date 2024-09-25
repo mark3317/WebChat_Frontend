@@ -13430,7 +13430,7 @@ textarea.form-control-lg {
 * {
   margin: 0;
   padding: 0;
-  font-family: Trebuchet MS, sans-serif;
+  font-family: JetBrains Mono, monospace;
   overflow: hidden;
 }
 
@@ -13439,9 +13439,22 @@ textarea.form-control-lg {
   user-select: none;
 }
 
+:root {
+  --success: #10c2a7;
+  --light: #f8f9fa;
+  --dark: #17181c;
+  --output-message: #353a40;
+  --text: #10c2a7;
+  --header: #282d33;
+  --li: #3d444d;
+  --bs-body-bg-rgb: 40, 45, 51;
+  --bs-btn-bg: 16, 194, 167;
+  --click: #2b2f36;
+}
+
 #particles-js {
+  background-color: var(--dark);
   z-index: 0;
-  background-color: #e74c3c;
   width: 100%;
   height: 100vh;
   position: absolute;
@@ -13452,8 +13465,10 @@ textarea.form-control-lg {
 #logo {
   box-sizing: border-box;
   z-index: 100;
-  background-color: #fff;
-  border: 3px solid red;
+  background-color: var(--output-message);
+  background: linear-gradient(55deg, var(--dark), #333);
+  border-bottom: .1px solid #ffffff34;
+  border-left: .1px solid #ffffff34;
   border-radius: 8px;
   justify-content: center;
   align-items: center;
@@ -13469,6 +13484,7 @@ textarea.form-control-lg {
 
 #logo h1, #logo .h1 {
   font-size: 2rem;
+  color: var(--text) !important;
 }
 
 #logo .spinner-border {
@@ -13481,6 +13497,13 @@ textarea.form-control-lg {
   padding-left: 0% !important;
 }
 
+#logo h1, #logo .h1 {
+  background: -webkit-gradient(linear, left top, right top, from(var(--light)), to(var(--text))) !important;
+  background: linear-gradient(to right, var(--light), var(--text)) !important;
+  color: #0000 !important;
+  -webkit-background-clip: text !important;
+}
+
 .navigation {
   z-index: 100000;
   margin-left: 25%;
@@ -13490,9 +13513,10 @@ textarea.form-control-lg {
 
 .registration {
   z-index: 2;
+  background-color: var(--light);
+  border: 3px solid var(--danger);
   z-index: 2;
-  background-color: #fff;
-  border: 3px solid red;
+  background-color: #0000;
   border-radius: 8px;
   flex-direction: column;
   justify-content: center;
@@ -13511,6 +13535,24 @@ textarea.form-control-lg {
 
 .registration .form-control {
   margin-bottom: 1rem;
+}
+
+.registration #registerForm {
+  background-image: -webkit-gradient(linear, left top, right top, from(var(--dark)), to(var(--header)));
+  background-image: linear-gradient(to right, var(--dark), var(--header));
+  border-color: #0000 !important;
+}
+
+.registration #registerForm h1, .registration #registerForm .h1 {
+  color: var(--light);
+}
+
+.registration #registerForm span {
+  color: var(--text);
+}
+
+.registration #registerForm .text-body-secondary {
+  color: var(--light) !important;
 }
 
 .p-4 {
@@ -13545,5 +13587,16 @@ label:after {
 #but_fail, #but_warning, #but_warning2, #but_warning3, #but_success {
   padding: 8px 16px;
   font-size: 1.25rem;
+}
+
+.btn-primary {
+  --bs-btn-bg: #11c7aca8;
+  border-color: #0000;
+}
+
+.btn-primary:hover {
+  --bs-btn-hover-bg: #0a8674;
+  --bs-btn-active-bg: #0a8674;
+  border-color: #0000;
 }
 /*# sourceMappingURL=register.f087908c.css.map */

@@ -13348,7 +13348,7 @@ textarea.form-control-lg {
   overflow: hidden;
   margin: 0;
   padding: 0;
-  font-family: Trebuchet MS, sans-serif;
+  font-family: JetBrains Mono, monospace;
 }
 * h1, * .h1 {
   -webkit-user-select: none;
@@ -13357,13 +13357,26 @@ textarea.form-control-lg {
           user-select: none;
 }
 
+:root {
+  --success: rgb(16, 194, 167);
+  --light: #f8f9fa;
+  --dark: #17181c;
+  --output-message: #353a40;
+  --text: rgb(16, 194, 167);
+  --header: #282d33;
+  --li: #3d444d;
+  --bs-body-bg-rgb: 40, 45, 51;
+  --bs-btn-bg: 16, 194, 167;
+  --click: #2b2f36;
+}
+
 #particles-js {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100vh;
-  background-color: #e74c3c;
+  background-color: var(--dark);
   z-index: 0;
 }
 
@@ -13373,8 +13386,7 @@ textarea.form-control-lg {
   box-sizing: border-box;
   width: 25rem;
   z-index: 100;
-  background-color: white;
-  border: 3px solid #ff0000;
+  background-color: var(--output-message);
   border-radius: 8px;
   padding: 10px;
   top: 0;
@@ -13391,9 +13403,13 @@ textarea.form-control-lg {
       -ms-flex-pack: center;
           justify-content: center;
   height: 10% !important;
+  background: linear-gradient(55deg, var(--dark), rgb(51, 51, 51));
+  border-left: 0.1px solid rgba(255, 255, 255, 0.205);
+  border-bottom: 0.1px solid rgba(255, 255, 255, 0.205);
 }
 #logo h1, #logo .h1 {
   font-size: 2rem;
+  color: var(--text) !important;
 }
 #logo .spinner-border {
   padding: 3%;
@@ -13402,6 +13418,12 @@ textarea.form-control-lg {
 }
 #logo ul {
   padding-left: 0% !important;
+}
+#logo h1, #logo .h1 {
+  background: -webkit-gradient(linear, left top, right top, from(var(--light)), to(var(--text))) !important;
+  background: linear-gradient(to right, var(--light), var(--text)) !important;
+  -webkit-background-clip: text !important;
+  color: transparent !important;
 }
 
 .main {
@@ -13419,8 +13441,8 @@ textarea.form-control-lg {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  background-color: white;
-  border: 3px solid #ff0000;
+  background-color: var(--light);
+  border: 3px solid var(--danger);
   border-radius: 8px;
   width: -webkit-fit-content;
   width: -moz-fit-content;
@@ -13505,8 +13527,7 @@ textarea.form-control-lg {
   padding: 1% !important;
   margin-left: 0.5%;
   overflow: scroll !important;
-  border-color: red !important;
-  border-width: 3px !important;
+  border: 3px solid red !important;
 }
 .chat .btn-container {
   display: -webkit-box;
@@ -13536,11 +13557,11 @@ textarea.form-control-lg {
   max-height: 31.5rem;
   min-height: 15rem;
   max-width: 32rem;
-  overflow: auto; /* Полоса прокрутки */
+  overflow: auto;
 }
 .sms #sms-list {
   height: 87.6%;
-  margin-bottom: 0%;
+  margin-bottom: 0;
   border-bottom: 2px solid rgba(128, 128, 128, 0.7);
   overflow-y: auto;
 }
@@ -13615,7 +13636,7 @@ textarea.form-control-lg {
           flex-direction: row;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
-  padding-left: 0%;
+  padding-left: 0;
   overflow-y: auto;
   max-height: 25rem;
 }
@@ -13639,13 +13660,13 @@ textarea.form-control-lg {
 
 .parent {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: 12rem 10rem 16rem 10rem 12rem;
   grid-template-rows: repeat(5, 1fr);
-  grid-column-gap: 0px;
-  grid-row-gap: 0px;
-  margin: 3.5% 20% 0;
+  grid-column-gap: 0;
+  margin: 3.5% auto 0;
   height: 35em;
   max-height: 40em;
+  width: 60em;
 }
 
 .div1 {
@@ -13655,7 +13676,7 @@ textarea.form-control-lg {
 
 #smspanel {
   height: 35em;
-  padding: 0% !important;
+  padding: 0 !important;
 }
 
 .div2 {
@@ -13663,13 +13684,24 @@ textarea.form-control-lg {
   border: 2px solid rgb(0, 0, 0);
   min-width: 160px;
 }
+.div2 h1, .div2 .h1 {
+  color: var(--light) !important;
+  background-color: var(--header);
+  margin: 0;
+  padding: 1rem 0;
+}
+.div2 li {
+  color: var(--text) !important;
+  background-color: var(--li);
+}
 
 #chatlist {
   height: 35em;
-  padding: 0% !important;
+  padding: 0 !important;
+  border-color: transparent !important;
 }
 #chatlist ul {
-  padding-left: 0% !important;
+  padding-left: 0 !important;
 }
 
 .div3 {
@@ -13680,7 +13712,15 @@ textarea.form-control-lg {
 
 #infopanel {
   height: 35em;
-  padding: 0% !important;
+  padding: 0 !important;
+  border-color: transparent !important;
+}
+#infopanel h1, #infopanel .h1 {
+  color: var(--light) !important;
+  background-color: var(--header);
+}
+#infopanel p {
+  color: var(--text) !important;
 }
 
 #smspanel {
@@ -13694,17 +13734,16 @@ textarea.form-control-lg {
   -webkit-box-pack: end;
       -ms-flex-pack: end;
           justify-content: flex-end;
-  padding: 0% !important;
-  border-radius: 0% !important;
-  border-color: red !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
   border-width: 3px !important;
 }
 #smspanel .grid_message_container {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   grid-template-rows: repeat(1, 1fr);
-  grid-column-gap: 0px;
-  grid-row-gap: 0px;
+  grid-column-gap: 0;
+  grid-row-gap: 0;
   margin-top: auto;
   margin-bottom: 1%;
   padding: 1%;
@@ -13721,9 +13760,17 @@ textarea.form-control-lg {
 
 #chat-list li {
   border: 1px solid black;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 #chat-list li:hover {
-  background-color: rgba(221, 221, 221, 0.555);
+  cursor: pointer;
+  background-color: rgba(114, 114, 114, 0.555);
+}
+#chat-list li:active {
+  background-color: var(--click);
 }
 
 .px-5 {
@@ -13759,4 +13806,11 @@ textarea.form-control-lg {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+}
+.btn-container .btn-primary {
+  background-color: var(--bs-btn-bg) !important;
+}
+
+#spinner2 {
+  color: var(--text) !important;
 }

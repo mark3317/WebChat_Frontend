@@ -1,0 +1,260 @@
+/* Убираем отступы и внутренние отступы у всех элементов */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: JetBrains Mono, monospace;
+}
+
+/* Определение переменных цветов */
+$primary: #007bff;
+$secondary: #6c757d;
+$success: #10c2a7;
+$info: #17a2b8;
+$warning: #2a2f33;
+$danger: #dc3545;
+$light: #f8f9fa;
+$dark: #17181c;
+$output_message: #353a40;
+$text: #10c2a7;
+$header: #282d33;
+
+$theme-colors: (
+  "primary": $primary,
+  "secondary": $secondary,
+  "success": $success,
+  "info": $info,
+  "warning": $warning,
+  "danger": $danger,
+  "light": $light,
+  "dark": $dark,
+  "output_message": $output_message,
+  "text": $text,
+  "header": $header,
+);
+
+/* Общие стили */
+.container {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+}
+
+.col-md-8,
+.col-lg-6,
+.col-xl-4 {
+  max-width: 100%;
+}
+
+/* Карточка чата */
+.card {
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+/* Заголовок карточки */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-top: 4px solid #ffa900;
+}
+
+.header-icons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.header-icons .badge {
+  background-color: #ffc107;
+  margin-right: 1rem;
+}
+
+.header-icons i {
+  margin-right: 1rem;
+  color: #6c757d;
+  font-size: 0.75rem;
+}
+
+/* Тело карточки */
+.card-body {
+  position: relative;
+  height: 27.5rem;
+  overflow-y: auto;
+}
+
+/* Сообщения */
+.message-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.message-body {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  margin-bottom: 1rem;
+  padding-top: 0.25rem;
+}
+
+.message-body.justify-content-end {
+  justify-content: end;
+}
+
+.avatar {
+  width: 45px;
+  min-width: 45px;
+  height: 100%;
+}
+
+.message-content {
+  padding: 0.5rem;
+  margin-left: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 0.75rem;
+  background-color: #f8f9fa;
+}
+
+.message-content.bg-warning {
+  background-color: #ffc107;
+}
+
+.message-content.text-white {
+  color: #fff;
+}
+
+/* Футер карточки */
+.card-footer {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding: 1rem;
+  color: #6c757d;
+}
+
+.input-group {
+  display: flex;
+  width: 100%;
+}
+
+.input-group .form-control {
+  flex: 1 1 auto;
+  width: 1%;
+  margin-bottom: 0;
+}
+
+.input-group .btn {
+  padding-top: 0.55rem;
+}
+
+.bg-image {
+  background-image: url("https://images.pexels.com/photos/956999/milky-way-starry-sky-night-sky-star-956999.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+  background-size: cover; /* Изображение будет покрывать весь элемент */
+  background-position: center; /* Центрирование изображения */
+  background-repeat: no-repeat; /* Изображение не будет повторяться */
+  width: 100%; /* Ширина элемента */
+  height: 100vh; /* Высота элемента равна высоте окна браузера */
+  position: fixed; /* Фиксированное позиционирование */
+  top: 0;
+  left: 0;
+  z-index: 1; /* Устанавливаем z-index ниже, чем у chat_container */
+}
+
+.chat_container {
+  display: grid;
+  grid-template-columns: 1fr; /* Одна колонка, элементы будут растягиваться */
+  grid-template-rows: auto auto 1fr auto; /* Автоматическая высота для заголовка и футера, основное пространство для основного контента */
+  gap: 0; /* Убираем все отступы между элементами */
+  // padding: 0; /* Убираем внутренние отступы */
+  z-index: 20; /* Устанавливаем z-index выше, чем у фона */
+  position: relative; /* Устанавливаем позиционирование */
+  // border: 1px solid map-get($theme-colors, "text");
+}
+
+.chat_header,
+.chat_main,
+.chat_footer {
+  padding: 0; /* Убираем внутренние отступы у всех элементов */
+  margin: 0; /* Убираем внешние отступы у всех элементов */
+}
+
+.chat_header {
+  grid-area: 1 / 1 / 2 / 2;
+  color: map-get($theme-colors, "primary");
+  height: 4rem;
+  h1 {
+    font-size: 2rem !important;
+    color: map-get($theme-colors, "light");
+    text-align: center;
+  }
+  background-color: map-get($theme-colors, "header");
+}
+
+.chat_main {
+  grid-area: 2 / 1 / 3 / 2;
+  background-color: map-get($theme-colors, "dark");
+  height: 100%; /* Заполняем все доступное пространство */
+}
+
+.chat_footer {
+  grid-area: 3 / 1 / 4 / 2;
+  color: map-get($theme-colors, "success");
+  height: 4rem;
+  background-color: map-get($theme-colors, "header");
+}
+
+// .message-header {
+//   border: 1px solid black;
+// }
+
+// .message-body {
+//   border: 1px solid gray;
+// }
+
+.grid_message_container {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-template-rows: repeat(1, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  margin-top: auto;
+  margin-bottom: 1%;
+  padding: 1%;
+}
+
+.grid_sms_input {
+  grid-row: 1 / 1;
+  grid-column: 1 / 2;
+}
+
+.grid_sms_button {
+  grid-row: 1 / 1;
+  grid-column: 2 / 2;
+}
+
+.bg-warning {
+  background-color: map-get($theme-colors, "warning") !important;
+}
+
+.output {
+  background-color: map-get($theme-colors, "output_message");
+}
+
+.lazure {
+  color: map-get($theme-colors, "text");
+}
+
+.btn-success {
+  --bs-btn-bg: #11c7aca8;
+}
+.btn-success:hover {
+  --bs-btn-hover-bg: rgba(11, 124, 107, 0.8);
+  --bs-btn-active-bg: rgba(11, 124, 107, 0.9);
+}

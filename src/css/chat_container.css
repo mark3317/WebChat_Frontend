@@ -1,0 +1,268 @@
+@charset "UTF-8";
+/* Убираем отступы и внутренние отступы у всех элементов */
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-family: JetBrains Mono, monospace;
+}
+
+/* Определение переменных цветов */
+/* Общие стили */
+.container {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.col-md-8,
+.col-lg-6,
+.col-xl-4 {
+  max-width: 100%;
+}
+
+/* Карточка чата */
+.card {
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  -webkit-box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+          box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+/* Заголовок карточки */
+.card-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 1rem;
+  border-top: 4px solid #ffa900;
+}
+
+.header-icons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.header-icons .badge {
+  background-color: #ffc107;
+  margin-right: 1rem;
+}
+
+.header-icons i {
+  margin-right: 1rem;
+  color: #6c757d;
+  font-size: 0.75rem;
+}
+
+/* Тело карточки */
+.card-body {
+  position: relative;
+  height: 27.5rem;
+  overflow-y: auto;
+}
+
+/* Сообщения */
+.message-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.message-body {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
+  margin-bottom: 1rem;
+  padding-top: 0.25rem;
+}
+
+.message-body.justify-content-end {
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: end;
+}
+
+.avatar {
+  width: 45px;
+  min-width: 45px;
+  height: 100%;
+}
+
+.message-content {
+  padding: 0.5rem;
+  margin-left: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 0.75rem;
+  background-color: #f8f9fa;
+}
+
+.message-content.bg-warning {
+  background-color: #ffc107;
+}
+
+.message-content.text-white {
+  color: #fff;
+}
+
+/* Футер карточки */
+.card-footer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 1rem;
+  color: #6c757d;
+}
+
+.input-group {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+}
+
+.input-group .form-control {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+  width: 1%;
+  margin-bottom: 0;
+}
+
+.input-group .btn {
+  padding-top: 0.55rem;
+}
+
+.bg-image {
+  background-image: url("https://images.pexels.com/photos/956999/milky-way-starry-sky-night-sky-star-956999.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+  background-size: cover; /* Изображение будет покрывать весь элемент */
+  background-position: center; /* Центрирование изображения */
+  background-repeat: no-repeat; /* Изображение не будет повторяться */
+  width: 100%; /* Ширина элемента */
+  height: 100vh; /* Высота элемента равна высоте окна браузера */
+  position: fixed; /* Фиксированное позиционирование */
+  top: 0;
+  left: 0;
+  z-index: 1; /* Устанавливаем z-index ниже, чем у chat_container */
+}
+
+.chat_container {
+  display: grid;
+  grid-template-columns: 1fr; /* Одна колонка, элементы будут растягиваться */
+  grid-template-rows: auto auto 1fr auto; /* Автоматическая высота для заголовка и футера, основное пространство для основного контента */
+  gap: 0; /* Убираем все отступы между элементами */
+  z-index: 20; /* Устанавливаем z-index выше, чем у фона */
+  position: relative; /* Устанавливаем позиционирование */
+}
+
+.chat_header,
+.chat_main,
+.chat_footer {
+  padding: 0; /* Убираем внутренние отступы у всех элементов */
+  margin: 0; /* Убираем внешние отступы у всех элементов */
+}
+
+.chat_header {
+  grid-area: 1/1/2/2;
+  color: #007bff;
+  height: 4rem;
+  background-color: #282d33;
+}
+.chat_header h1 {
+  font-size: 2rem !important;
+  color: #f8f9fa;
+  text-align: center;
+}
+
+.chat_main {
+  grid-area: 2/1/3/2;
+  background-color: #17181c;
+  height: 100%; /* Заполняем все доступное пространство */
+}
+
+.chat_footer {
+  grid-area: 3/1/4/2;
+  color: #10c2a7;
+  height: 4rem;
+  background-color: #282d33;
+}
+
+.grid_message_container {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-template-rows: repeat(1, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  margin-top: auto;
+  margin-bottom: 1%;
+  padding: 1%;
+}
+
+.grid_sms_input {
+  grid-row: 1/1;
+  grid-column: 1/2;
+}
+
+.grid_sms_button {
+  grid-row: 1/1;
+  grid-column: 2/2;
+}
+
+.bg-warning {
+  background-color: #2a2f33 !important;
+}
+
+.output {
+  background-color: #353a40;
+}
+
+.lazure {
+  color: #10c2a7;
+}
+
+.btn-success {
+  --bs-btn-bg: #11c7aca8;
+}
+
+.btn-success:hover {
+  --bs-btn-hover-bg: rgba(11, 124, 107, 0.8);
+  --bs-btn-active-bg: rgba(11, 124, 107, 0.9);
+}

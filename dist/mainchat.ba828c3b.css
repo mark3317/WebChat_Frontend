@@ -13426,7 +13426,7 @@ textarea.form-control-lg {
 * {
   margin: 0;
   padding: 0;
-  font-family: Trebuchet MS, sans-serif;
+  font-family: JetBrains Mono, monospace;
   overflow: hidden;
 }
 
@@ -13435,9 +13435,22 @@ textarea.form-control-lg {
   user-select: none;
 }
 
+:root {
+  --success: #10c2a7;
+  --light: #f8f9fa;
+  --dark: #17181c;
+  --output-message: #353a40;
+  --text: #10c2a7;
+  --header: #282d33;
+  --li: #3d444d;
+  --bs-body-bg-rgb: 40, 45, 51;
+  --bs-btn-bg: 16, 194, 167;
+  --click: #2b2f36;
+}
+
 #particles-js {
+  background-color: var(--dark);
   z-index: 0;
-  background-color: #e74c3c;
   width: 100%;
   height: 100vh;
   position: absolute;
@@ -13448,8 +13461,10 @@ textarea.form-control-lg {
 #logo {
   box-sizing: border-box;
   z-index: 100;
-  background-color: #fff;
-  border: 3px solid red;
+  background-color: var(--output-message);
+  background: linear-gradient(55deg, var(--dark), #333);
+  border-bottom: .1px solid #ffffff34;
+  border-left: .1px solid #ffffff34;
   border-radius: 8px;
   justify-content: center;
   align-items: center;
@@ -13465,6 +13480,7 @@ textarea.form-control-lg {
 
 #logo h1, #logo .h1 {
   font-size: 2rem;
+  color: var(--text) !important;
 }
 
 #logo .spinner-border {
@@ -13477,11 +13493,18 @@ textarea.form-control-lg {
   padding-left: 0% !important;
 }
 
+#logo h1, #logo .h1 {
+  background: -webkit-gradient(linear, left top, right top, from(var(--light)), to(var(--text))) !important;
+  background: linear-gradient(to right, var(--light), var(--text)) !important;
+  color: #0000 !important;
+  -webkit-background-clip: text !important;
+}
+
 .main {
   z-index: 2;
+  background-color: var(--light);
+  border: 3px solid var(--danger);
   z-index: 2;
-  background-color: #fff;
-  border: 3px solid red;
   border-radius: 8px;
   flex-direction: column;
   justify-content: center;
@@ -13538,8 +13561,7 @@ textarea.form-control-lg {
 .chat #infopanel {
   width: 20%;
   margin-left: .5%;
-  border-width: 3px !important;
-  border-color: red !important;
+  border: 3px solid red !important;
   min-width: 11.25em !important;
   height: 31.5em !important;
   max-height: 31.5em !important;
@@ -13568,7 +13590,7 @@ textarea.form-control-lg {
 .sms #sms-list {
   border-bottom: 2px solid #808080b3;
   height: 87.6%;
-  margin-bottom: 0%;
+  margin-bottom: 0;
   overflow-y: auto;
 }
 
@@ -13627,7 +13649,7 @@ textarea.form-control-lg {
   flex-flow: wrap;
   align-items: start;
   max-height: 25rem;
-  padding-left: 0%;
+  padding-left: 0;
   display: flex;
   overflow-y: auto;
 }
@@ -13646,13 +13668,13 @@ textarea.form-control-lg {
 }
 
 .parent {
-  grid-column-gap: 0px;
-  grid-row-gap: 0px;
+  grid-column-gap: 0;
   grid-template-rows: repeat(5, 1fr);
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: 12rem 10rem 16rem 10rem 12rem;
+  width: 60em;
   height: 35em;
   max-height: 40em;
-  margin: 3.5% 20% 0;
+  margin: 3.5% auto 0;
   display: grid;
 }
 
@@ -13663,7 +13685,7 @@ textarea.form-control-lg {
 
 #smspanel {
   height: 35em;
-  padding: 0% !important;
+  padding: 0 !important;
 }
 
 .div2 {
@@ -13672,13 +13694,26 @@ textarea.form-control-lg {
   min-width: 160px;
 }
 
+.div2 h1, .div2 .h1 {
+  background-color: var(--header);
+  margin: 0;
+  padding: 1rem 0;
+  color: var(--light) !important;
+}
+
+.div2 li {
+  background-color: var(--li);
+  color: var(--text) !important;
+}
+
 #chatlist {
   height: 35em;
-  padding: 0% !important;
+  border-color: #0000 !important;
+  padding: 0 !important;
 }
 
 #chatlist ul {
-  padding-left: 0% !important;
+  padding-left: 0 !important;
 }
 
 .div3 {
@@ -13689,7 +13724,17 @@ textarea.form-control-lg {
 
 #infopanel {
   height: 35em;
-  padding: 0% !important;
+  border-color: #0000 !important;
+  padding: 0 !important;
+}
+
+#infopanel h1, #infopanel .h1 {
+  background-color: var(--header);
+  color: var(--light) !important;
+}
+
+#infopanel p {
+  color: var(--text) !important;
 }
 
 #smspanel {
@@ -13697,14 +13742,13 @@ textarea.form-control-lg {
   justify-content: flex-end;
   display: flex;
   border-width: 3px !important;
-  border-color: red !important;
-  border-radius: 0% !important;
-  padding: 0% !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
 }
 
 #smspanel .grid_message_container {
-  grid-column-gap: 0px;
-  grid-row-gap: 0px;
+  grid-column-gap: 0;
+  grid-row-gap: 0;
   grid-template-rows: repeat(1, 1fr);
   grid-template-columns: repeat(1, 1fr);
   margin-top: auto;
@@ -13726,11 +13770,18 @@ textarea.form-control-lg {
 }
 
 #chat-list li {
+  -webkit-user-select: none;
+  user-select: none;
   border: 1px solid #000;
 }
 
 #chat-list li:hover {
-  background-color: #dddddd8e;
+  cursor: pointer;
+  background-color: #7272728e;
+}
+
+#chat-list li:active {
+  background-color: var(--click);
 }
 
 .px-5 {
@@ -13758,5 +13809,13 @@ textarea.form-control-lg {
   align-items: center;
   width: 100%;
   display: flex;
+}
+
+.btn-container .btn-primary {
+  background-color: var(--bs-btn-bg) !important;
+}
+
+#spinner2 {
+  color: var(--text) !important;
 }
 /*# sourceMappingURL=mainchat.ba828c3b.css.map */

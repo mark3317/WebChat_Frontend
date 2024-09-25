@@ -22,12 +22,13 @@ export function handleIncomingMessage(message) {
     `Received message in chat ${chatId} from sender ${senderId}: ${content}`
   );
 
+  //Получение данных пользователей чата из sessionStorage
   const chatUsers = JSON.parse(sessionStorage.getItem(`chat_${chatId}_users`));
   if (!chatUsers) {
     console.error("Не удалось получить данные из Session Storage");
     return;
   }
-
+  //Поиск пользователя в массиве chatUsers по senderId
   const user = chatUsers.find((user) => user.id === senderId);
   if (!user) {
     console.error("Пользователь с таким senderId не найден в chatUsers");
