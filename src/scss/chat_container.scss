@@ -91,9 +91,16 @@ $theme-colors: (
 }
 
 /* Сообщения */
-.message-header {
+#input_messageHeader {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
+  padding-right: 4px;
+}
+
+#output_messageHeader {
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 4px;
 }
 
 .message-body {
@@ -218,7 +225,7 @@ $theme-colors: (
 //   border: 1px solid gray;
 // }
 
-.grid_message_container {
+.grid_message_send_container {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   grid-template-rows: repeat(1, 1fr);
@@ -257,4 +264,22 @@ $theme-colors: (
 .btn-success:hover {
   --bs-btn-hover-bg: rgba(11, 124, 107, 0.8);
   --bs-btn-active-bg: rgba(11, 124, 107, 0.9);
+}
+
+#output_message {
+  margin: 0px 16px 0px 0px !important;
+}
+
+#input_message {
+  margin: 0px 0px 0px 16px !important;
+}
+
+.btn-close {
+  color: white !important;
+}
+
+#NameOfChat {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
 }

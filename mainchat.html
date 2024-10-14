@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/src/img/vite.svg" />
+    <link rel="stylesheet" href="./src/scss/mainchat.scss" />
+    <link rel="stylesheet" href="./src/scss/chat_container.scss" />
+    <link rel="stylesheet" href="./src/scss/normalize.scss">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ВебЧат</title>
+  </head>
+  <body>
+    <div id="app">
+      <aside class="navigation">
+        <nav>
+          <ul>
+            <li><a href="/">█𝑨𝑼𝑻𝑯𝑶𝑹𝑰𝒁𝑨𝑻𝑰𝑶𝑵</a></li>
+            <li><a href="./register.html">█𝑹𝑬𝑮𝑰𝑺𝑻𝑹𝑨𝑻𝑰𝑶𝑵</a></li>
+            <li><a href="./mainchat.html">█𝑴𝑨𝑰𝑵 𝑪𝑯𝑨𝑻</a></li>
+          </ul>
+        </nav>
+      </aside>
+      <!--* BACKGROUND -->
+      <div id="particles-js"></div>
+      <!-- todoLOGO -->
+      <header id="logo">
+        <h1>Веб Чат Онлайн</h1>
+        <!--! spinner -->
+        <div
+          id="spinner"
+          class="spinner-border"
+          role="status"
+          style="display: none; position: absolute; right: 5%"
+        ></div>
+      </header>
+     
+  <!--* GRID CONTAINER -->
+  <main class="parent">
+    <!--todo GRID-SMS -->
+    <div class="div1" id="grid_container">
+      </div>
+      <div class="div2" id="grid_chatlist">
+  <!--! SelectChat -->
+  <aside id="selectChat">
+    <section class="chat_container">
+      <main class="chat_main" style="border: 1px solid white">
+        <div class="card-body" style="height: 34.6rem !important;">
+          <h1 style="color: white; display: block; text-align: center !important">
+            Выберите чат</h1>
+        </div>
+      </main>
+    </section>
+  </aside>
+</div>
+<div class="div3" id="grid_infopanel">
+</div>
+
+</main>
+
+
+  <!--* МОДАЛЬНЫЕ ОКНА И ПРОЧЕЕ -->
+      </section>
+      <!-- todoMODAL -->
+      <aside class="modal" tabindex="-1" id="myModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Отправить приглашение</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Закрыть"
+              ></button>
+            </div>
+            <article class="modal-body">
+              <p>Введите никнейм пользователя</p>
+              <form class="d-flex mt-3" role="search">
+                <input
+                  id="nickname-input"
+                  class="form-control me-2"
+                  type="search"
+                  placeholder="Начните вводить..."
+                  aria-label="Поиск"
+                />
+                <button
+                  class="btn btn-outline-success"
+                  id="finduser"
+                  type="submit"
+                >
+                  Поиск
+                </button>
+              </form>
+              <!-- ?Результаты поиска:  -->
+              <div id="searchResults">
+                <ul class="search-results"></ul>
+              </div>
+            </article>
+          </div>
+        </div>
+      </aside>
+  
+    <!-- !OFFCANVAS ADMIN PANEL -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasRightLabel">Режим админа</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <section class="offcanvas-body">
+        <h2>Данные</h2>
+        <div id="console-output"></div>
+        <button type="button" id="loc_stor_but"  class="btn btn-success" style="margin-top: 2%; width: 100%;">Local Storage</button>
+        <button type="button" id="sess_stor_but"  class="btn btn-warning" style="margin-top: 2%; width: 100%;">Session Storage</button>
+        <button type="button" id="clear_but"  class="btn btn-primary" style="margin-top: 2%; width: 100%;">Очистить поле</button>
+        <button type="button" id="delete_button"  class="btn btn-danger" style="margin-top: 2%; width: 100%;">Удаление</button>
+        <button type="button" id="test_button"  class="btn btn-dark" style="margin-top: 2%; width: 100%;">Юзеры в подписанных чатах</button>
+      </section>
+  
+    </div>
+  
+        </main> 
+    </div>
+    <script type="module" src="./src/mainchat.js"></script>
+    <script defer src="./src/components/hellouser.js"></script>
+    <script defer src="./src/components/background/particles.min.js"></script>
+    <script defer src="./src/components/background/app.js"></script>
+  </body>
+</html>
