@@ -1,0 +1,18 @@
+/* Стили для полупрозрачного скроллбара в WebKit-браузерах (Chrome, Safari) */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 16px; /* ширина скроллбара */
+  background: rgba(241, 241, 241, 0.5); /* полупрозрачный фон */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(136, 136, 136, 0.7); /* полупрозрачный ползунок */
+  border-radius: 10px;
+}
+
+/* Стили для полупрозрачного скроллбара в Firefox */
+.custom-scrollbar {
+  scrollbar-width: thin; /* уменьшенная ширина скроллбара */
+  scroll-behavior: smooth;
+  transition: scroll-top 0.2s ease-out;
+  scrollbar-color: rgba(255, 255, 255, 0.9) rgba(0, 0, 0, 0); /* полупрозрачный ползунок и фон */
+}

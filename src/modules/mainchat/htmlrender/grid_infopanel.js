@@ -1,4 +1,4 @@
-export const chatInfoPanelHTML = () => `
+export const chatInfoPanelHTML = () => /*html*/ `
 <div
       class="position-relative p-5 text-center text-muted bg-body border border-dashed"
       id="infopanel"

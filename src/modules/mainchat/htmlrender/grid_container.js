@@ -1,4 +1,4 @@
-export const chatContainerHTML = () => `
+export const chatContainerHTML = () => /*html*/ `
   <section class="chat_container">
     <header class="chat_header">
       <div class="chat_header_info" style="display: flex">
@@ -13,7 +13,7 @@ export const chatContainerHTML = () => `
     </header>
     <main class="chat_main">
       <!--* Тело карточки -->
-      <div class="card-body" id="message_container">
+      <div class="card-body custom-scrollbar" id="message_container">
         <!-- Сообщения будут отображаться здесь -->
       </div>
     </main>

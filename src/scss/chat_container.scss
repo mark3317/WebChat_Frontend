@@ -3,7 +3,9 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: JetBrains Mono, monospace;
+  font-family:
+    JetBrains Mono,
+    monospace;
 }
 
 /* Определение переменных цветов */
@@ -282,4 +284,9 @@ $theme-colors: (
   display: flex;
   justify-content: center;
   margin: 0 auto;
+}
+
+.card-body {
+  overflow-y: auto;
+  scroll-behavior: smooth;
 }

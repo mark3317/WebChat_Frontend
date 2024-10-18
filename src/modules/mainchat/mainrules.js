@@ -129,6 +129,9 @@ export function initializeMainChatLogic() {
                   `Ошибка при получении данных для чата ${chatId}:`,
                   error
                 );
+                if (error) {
+                  console.log("Ошибка:", error);
+                }
                 return null; // Возвращаем null в случае ошибки
               });
           }
