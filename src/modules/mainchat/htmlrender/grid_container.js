@@ -2,7 +2,7 @@ export const chatContainerHTML = () => /*html*/ `
   <section class="chat_container">
     <header class="chat_header">
       <div class="chat_header_info" style="display: flex">
-        <h1 id="NameOfChat">Loading...</h1>
+        <h1 id="NameOfChat">Test Chat</h1>
         <button
           type="button"
           class="btn-close btn-close-white"
@@ -51,6 +51,7 @@ export const chatContainerHTML = () => /*html*/ `
   </section>
 `;
 
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 function displayMessages(container, messages) {
   // Очистить контейнер перед добавлением новых сообщений
   container.innerHTML = "";
@@ -62,28 +63,12 @@ function displayMessages(container, messages) {
 
   console.log("Сообщения успешно загружены и отображены");
 }
-
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 export function loadChatMessages(chatId) {
   console.log(`Загрузка сообщений для чата с chatId: ${chatId}`);
 
   // Сохраняем chatId в sessionStorage
   sessionStorage.setItem("CurrentChatId", chatId);
-
-  // Получаем сообщения из sessionStorage
-  const sessionKey = `chat_${chatId}`;
-  const sessionData = JSON.parse(sessionStorage.getItem(sessionKey));
-
-  if (sessionData && sessionData.messages) {
-    displayMessages(
-      document.getElementById("message_container"),
-      sessionData.messages
-    );
-    updateChatName(sessionData.name);
-  } else {
-    console.warn(
-      `Данные для чата с chatId: ${chatId} не найдены в sessionStorage`
-    );
-  }
 
   //* Открытие базы данных
   const dbRequest = indexedDB.open("ChatDatabase", 1);

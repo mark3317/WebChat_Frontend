@@ -73,29 +73,82 @@ export function initializeMainChatLogic() {
 
               await Promise.all(chatInfoPromises);
 
+              // //* SAVE SESSION MESSAGE FUNCTION
+              // async function SaveSessionMessage(chatId, senderId, content) {
+              //   return new Promise((resolve, reject) => {
+              //     const request = indexedDB.open("ChatDatabase", 1);
+
+              //     request.onsuccess = function (event) {
+              //       const db = event.target.result;
+              //       const tx = db.transaction("session", "readwrite");
+              //       const store = tx.objectStore("session");
+
+              //       const chatMessages = {
+              //         key: chatId,
+              //         senderId: senderId,
+              //         content: content,
+              //       };
+
+              //       const putRequest = store.put(chatMessages);
+
+              //       putRequest.onsuccess = function () {
+              //         console.log(
+              //           `Message saved in session for chatId ${chatId}`
+              //         );
+              //         resolve();
+              //       };
+
+              //       putRequest.onerror = function (event) {
+              //         console.error(
+              //           "Error saving message:",
+              //           event.target.error
+              //         );
+              //         reject(event.target.error);
+              //       };
+              //     };
+
+              //     request.onerror = function (event) {
+              //       console.error(
+              //         "Error opening database:",
+              //         event.target.error
+              //       );
+              //       reject(event.target.error);
+              //     };
+              //   });
+              // }
+
+              // *FUNCTION ПОДПИСКА НА СООБЩЕНИЯ ЧАТА И ОТОБРАЖЕНИЯ В КОНСОЛИ
               chats.forEach((chat) => {
                 const chatId = chat.id;
-                stompClient.subscribe(`/chat/${chatId}/message`, (message) => {
-                  const chatMessage = JSON.parse(message.body);
-                  console.log(
-                    `Message in chatId ${chatId}: ${chatMessage.content}`
-                  );
-                  console.log(`senderId: ${chatMessage.senderId}`);
+                stompClient.subscribe(
+                  `/chat/${chatId}/message`,
+                  async (message) => {
+                    const chatMessage = JSON.parse(message.body);
+                    console.log(
+                      `Message in chatId ${chatId}: ${chatMessage.content}`
+                    );
+                    console.log(`senderId: ${chatMessage.senderId}`);
 
-                  let chatMessages =
-                    JSON.parse(sessionStorage.getItem(chatId)) || [];
+                    try {
+                      //todo Диспатчим пользовательское событие с данными сообщения
+                      const event = new CustomEvent("newChatMessage", {
+                        detail: {
+                          chatId: chatId,
+                          senderId: chatMessage.senderId,
+                          content: chatMessage.content,
+                        },
+                      });
+                      window.dispatchEvent(event);
+                    } catch (error) {
+                      console.error("Failed to dispatch event:", error);
+                    }
 
-                  chatMessages.push({
-                    senderId: chatMessage.senderId,
-                    content: chatMessage.content,
-                  });
-
-                  sessionStorage.setItem(chatId, JSON.stringify(chatMessages));
-                });
-                console.log(`Подписка на сообщения в чате ${chatId} выполнена`);
+                    console.log(
+                      `Подписка на сообщения в чате ${chatId} выполнена`
+                    );
+                  }
+                );
               });
-            } else {
-              console.log("В ответе профиля не найдено ни одного чата");
             }
           }
 
