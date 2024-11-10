@@ -1,4 +1,4 @@
-export const registerTemplate = () => `
+export const registerTemplate = () => /*html*/ ` 
 <aside class="navigation">
       <nav>
         <ul>
@@ -12,7 +12,7 @@ export const registerTemplate = () => `
       <!--* BACKGROUND -->
       <div id="particles-js"></div>
       <!-- todoLOGO -->
-      <div id="logo">
+      <div id="logo" style="min-height:6rem">
         <h1>Веб Чат Онлайн</h1>
         <!--! spinner -->
         <div

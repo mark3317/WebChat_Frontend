@@ -6,9 +6,14 @@
   overflow: hidden;
   margin: 0;
   padding: 0;
-  font-family: JetBrains Mono, monospace;
+  font-family:
+    JetBrains Mono,
+    monospace;
   h1 {
     user-select: none;
+  }
+  input {
+    border: 1px solid black !important;
   }
 }
 
@@ -47,18 +52,9 @@
   margin: 1rem auto;
 }
 
-.modal-body {
-  #searchResults {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 10rem;
-    overflow-y: auto;
-    border: 1px solid black;
-    margin-top: 2%;
-  }
+.modal-footer {
+  display: flex;
+  flex-wrap: nowrap;
 }
 
 .chat {
@@ -127,6 +123,7 @@
   margin-bottom: 24px !important;
 }
 
+//TODO SEARCH RESULTS
 #searchResults {
   display: flex;
   flex-direction: column;
@@ -160,6 +157,41 @@
     }
   }
 }
+
+#searchResults2 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  width: 100%;
+  height: 10rem;
+  overflow-y: auto;
+  border: 1px solid black;
+  margin-top: 2%;
+}
+
+.search-results2 {
+  overflow-y: scroll;
+  max-height: 200px;
+  background-color: rgb(233, 233, 233);
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+  color: #333;
+
+  li {
+    list-style: none;
+    padding: 5px;
+    border-bottom: 1px solid #0000005b;
+    width: 27.7rem;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #f9f9f9;
+    }
+  }
+}
+//TODOTODOTODOTODOTODOTODOTODOTODO
 
 #sms-list {
   display: flex;
@@ -275,15 +307,9 @@
   }
 
   .grid_sms_input {
-    grid-area: 5 / 1 / 6 / 5;
-
     .form-control {
       width: 99%;
     }
-  }
-
-  .grid_sms_button {
-    grid-area: 5 / 5 / 6 / 6;
   }
 }
 
@@ -340,4 +366,17 @@
 
 .btn-close {
   color: white !important;
+  margin: 0 !important;
+}
+
+.btn-light {
+  border: 1px solid black !important;
+}
+
+.input-group-text {
+  border: 1px solid black !important;
+}
+
+.modal-title {
+  margin: 0 auto; /* Центрирование по горизонтали */
 }

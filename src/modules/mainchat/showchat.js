@@ -47,30 +47,4 @@ export function initializeChatLogic() {
     initializeIndexedDB();
     loadChatMessages(chatId);
   }
-
-  //   function closeChatContainer() {
-  //     console.log("Закрыть контейнер чата и показать selectChat");
-
-  //     // Показать selectChat
-  //     const selectChat = document.getElementById("selectChat");
-  //     if (selectChat) {
-  //       selectChat.style.display = "block";
-  //       console.log("selectChat показан");
-  //     } else {
-  //       console.error("selectChat не найден");
-  //     }
-
-  //     // Скрыть chat_container
-  //     const chatContainer = document.getElementById("chat_container");
-  //     if (chatContainer) {
-  //       chatContainer.style.display = "none";
-  //       console.log("chat_container скрыт");
-
-  //       // Удаляем CurrentChatId из sessionStorage
-  //       sessionStorage.removeItem("CurrentChatId");
-  //       console.log("CurrentChatId удален из sessionStorage");
-  //     } else {
-  //       console.error("chat_container не найден");
-  //     }
-  //   }
 }

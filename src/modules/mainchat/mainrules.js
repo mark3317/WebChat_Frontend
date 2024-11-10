@@ -73,49 +73,7 @@ export function initializeMainChatLogic() {
 
               await Promise.all(chatInfoPromises);
 
-              // //* SAVE SESSION MESSAGE FUNCTION
-              // async function SaveSessionMessage(chatId, senderId, content) {
-              //   return new Promise((resolve, reject) => {
-              //     const request = indexedDB.open("ChatDatabase", 1);
-
-              //     request.onsuccess = function (event) {
-              //       const db = event.target.result;
-              //       const tx = db.transaction("session", "readwrite");
-              //       const store = tx.objectStore("session");
-
-              //       const chatMessages = {
-              //         key: chatId,
-              //         senderId: senderId,
-              //         content: content,
-              //       };
-
-              //       const putRequest = store.put(chatMessages);
-
-              //       putRequest.onsuccess = function () {
-              //         console.log(
-              //           `Message saved in session for chatId ${chatId}`
-              //         );
-              //         resolve();
-              //       };
-
-              //       putRequest.onerror = function (event) {
-              //         console.error(
-              //           "Error saving message:",
-              //           event.target.error
-              //         );
-              //         reject(event.target.error);
-              //       };
-              //     };
-
-              //     request.onerror = function (event) {
-              //       console.error(
-              //         "Error opening database:",
-              //         event.target.error
-              //       );
-              //       reject(event.target.error);
-              //     };
-              //   });
-              // }
+              //!!!!!!!!!!!!!!!!!!!!!!!!
 
               // *FUNCTION ПОДПИСКА НА СООБЩЕНИЯ ЧАТА И ОТОБРАЖЕНИЯ В КОНСОЛИ
               chats.forEach((chat) => {
@@ -149,9 +107,28 @@ export function initializeMainChatLogic() {
                   }
                 );
               });
+
+              // * Подписываемся на инвайты
+              stompClient.subscribe(`/user/${userId}/invite`, (message) => {
+                // Получаю ChatDto из сообщения
+                const response = JSON.parse(message.body);
+                console.log("Инвайт получен:", response);
+
+                // Извлекаем значение id (айди чата) из ответа
+                const chatId = response.id;
+                console.log("Извлечено chatId из инвайта:", chatId);
+
+                // Отображаем сообщение и перезагружаем страницу
+                alert(
+                  "Вас пригласили в новый чат, страница будет перезагружена"
+                );
+                location.reload();
+              });
+              console.log("Подписка на получение инвайтов выполнена");
             }
           }
 
+          //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
           const allChatIds = getChatIds();
           console.log("All chatIds:", allChatIds);
           sessionStorage.setItem("allChatIds", JSON.stringify(allChatIds));

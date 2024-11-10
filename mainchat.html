@@ -24,7 +24,7 @@
       <!--* BACKGROUND -->
       <div id="particles-js"></div>
       <!-- todoLOGO -->
-      <header id="logo">
+      <header id="logo" style="min-height:6rem">
         <h1>Веб Чат Онлайн</h1>
         <!--! spinner -->
         <div
@@ -41,66 +41,99 @@
     <div class="div1" id="grid_container">
       </div>
       <div class="div2" id="grid_chatlist">
-  <!--! SelectChat -->
-  <aside id="selectChat">
-    <section class="chat_container">
-      <main class="chat_main" style="border: 1px solid white">
-        <div class="card-body" style="height: 34.6rem !important;">
-          <h1 style="color: white; display: block; text-align: center !important">
-            Выберите чат</h1>
-        </div>
-      </main>
-    </section>
-  </aside>
 </div>
 <div class="div3" id="grid_infopanel">
 </div>
 
 </main>
 
-
-  <!--* МОДАЛЬНЫЕ ОКНА И ПРОЧЕЕ -->
-      </section>
-      <!-- todoMODAL -->
-      <aside class="modal" tabindex="-1" id="myModal">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Отправить приглашение</h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Закрыть"
-              ></button>
-            </div>
-            <article class="modal-body">
-              <p>Введите никнейм пользователя</p>
-              <form class="d-flex mt-3" role="search">
-                <input
-                  id="nickname-input"
-                  class="form-control me-2"
-                  type="search"
-                  placeholder="Начните вводить..."
-                  aria-label="Поиск"
-                />
-                <button
-                  class="btn btn-outline-success"
-                  id="finduser"
-                  type="submit"
-                >
-                  Поиск
-                </button>
-              </form>
-              <!-- ?Результаты поиска:  -->
-              <div id="searchResults">
-                <ul class="search-results"></ul>
-              </div>
-            </article>
-          </div>
+<!-- todo ModalChatCreate -->
+<aside class="modal" tabindex="-1" id="myModal2">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" style="user-select: none;">&nbsp;&nbsp;&nbsp;Создание чата</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>
+      <!--!ModalBody -->
+      <section class="modal-body">
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="inputGroup-sizing-default">Название чата</span>
+          <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
         </div>
-      </aside>
-  
+      <!-- * ПОИСК ЮЗЕРОВ ПОЛЕ И КНОПКА 2-->
+      <small style="display: inline-block; margin:0px 0px 2px 2px">Поиск пользователей для приглашения в чат</small>
+      <div class="input-group">
+        <input type="text" class="form-control" id="nickname-input"   placeholder="Начните вводить..." aria-label="Input group example" aria-describedby="basic-addon1">
+        <button type="button" class="btn btn-light" id="finduser2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+<path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"></path>
+<path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"></path>
+</svg>
+        </button>
+      </div>
+        <!-- ?Результаты поиска 2:  -->
+      <div id="searchResults2">
+        <ul class="search-results2"></ul>
+      </div>
+      <div id="selectUsersToInvite" style="word-break: break-all; font-size: smaller; color: blue;
+          min-width: 14rem; max-width: 14rem;"></div>
+      </section>
+      <!-- ?Modal Footer -->
+      <footer class="modal-footer" style="padding: 6px 0px 0px 0px">
+        <!-- todo Text_selectUsersToInvite -->
+        <div id="selectUsersToInvite" style="word-break: break-all; font-size: smaller; color: blue;
+        min-width: 14rem; max-width: 14rem;"></div>
+        <!--? Send Button -->
+        <button type="button" id="createChatButton" class="btn btn-light">Создать чат</button>
+      </footer>
+    </div>
+  </div>
+</aside>
+
+<!-- todo ModalChatInvite -->
+<aside class="modal" tabindex="-1" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" style="user-select: none;">&nbsp;&nbsp;Отправить приглашение в чат</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Закрыть"
+        ></button>
+      </div>
+      <!--! Modal Body -->
+      <section class="modal-body">
+        <!-- * ПОИСК ЮЗЕРОВ ПОЛЕ И КНОПКА-->
+        <p style="font-size: medium">Введите никнейм пользователя для приглашения</p>
+        <div class="input-group">
+          <input type="text" class="form-control" id="nickname-input" placeholder="Начните вводить..." aria-label="Input group example" aria-describedby="basic-addon1">
+          <button type="button" class="btn btn-light" id="finduser">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"></path>
+  <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"></path>
+  </svg>
+          </button>
+        </div>
+        <!-- ?Результаты поиска:  -->
+        <div id="searchResults">
+          <ul class="search-results"></ul>
+        </div>
+        <!-- ?Modal Footer -->
+        <footer class="modal-footer" style="padding: 6px 0px 0px 0px">
+          <!-- todo Text_selectUsersToInvite -->
+          <div id="selectUsersToInvite" style="word-break: break-all; font-size: smaller; color: blue;
+          min-width: 14rem; max-width: 14rem;"></div>
+          <!--? Send Button -->
+          <button type="button" id="sendInviteButton" class="btn btn-light">Отправить приглашение</button>
+        </footer>
+      </section>
+    </div>
+  </div>
+</aside>
+
     <!-- !OFFCANVAS ADMIN PANEL -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
       <div class="offcanvas-header">
@@ -116,18 +149,25 @@
         <button type="button" id="clear_but"  class="btn btn-primary" style="margin-top: 2%; width: 100%;">Очистить поле</button>
         <button type="button" id="test_button"  class="btn btn-dark" style="margin-top: 2%; width: 100%;">Юзеры в подписанных чатах</button>
         <button type="button" id="delete_button"  class="btn btn-danger" style="margin-top: 2%; width: 100%;">Удаление чатов</button>
-        <button type="button" id="message_button"  class="btn btn-light" style="margin-top: 2%; width: 100%; border: 1px solid black;">Тестовое сообщение</button>
+        <button type="button" id="message_button"  class="btn btn-light" style="margin-top: 2%; width: 100%;">Тестовое сообщение</button>
       </section>
   
     </div>
   
         </main> 
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="module" src="./src/mainchat.js"></script>
     <script defer src="./src/components/hellouser.js"></script>
     <script defer src="./src/components/background/particles.min.js"></script>
     <script defer src="./src/components/background/app.js"></script>
     <script defer src="./src/components/customScrollbar.js"></script>
     <script defer src="./src/components/session.js"></script>
+    <script defer src="./src/components/selectchat.js"></script>
+    <script defer src="./src/components/enter_logic.js"></script>
+    <script defer src="./src/components/userSearchAndInvite.js"></script>
+    <script defer src="./src/components/hideInviteChatButton.js"></script>
+    <script defer src="./src/components/createChat.js"></script>
+
   </body>
 </html>

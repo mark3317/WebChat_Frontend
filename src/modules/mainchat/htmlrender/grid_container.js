@@ -2,7 +2,7 @@ export const chatContainerHTML = () => /*html*/ `
   <section class="chat_container">
     <header class="chat_header">
       <div class="chat_header_info" style="display: flex">
-        <h1 id="NameOfChat">Test Chat</h1>
+        <h1 id="NameOfChat">Выберите чат</h1>
         <button
           type="button"
           class="btn-close btn-close-white"
@@ -19,7 +19,7 @@ export const chatContainerHTML = () => /*html*/ `
     </main>
     <footer class="chat_footer">
       <!--* GRID MessageSend Container -->
-      <aside class="grid_message_send_container">
+      <aside class="grid_message_send_container" id="sendContainer">
         <div class="grid_sms_input">
           <input
             type="text"
@@ -46,9 +46,8 @@ export const chatContainerHTML = () => /*html*/ `
             </svg>
           </button>
         </div>
-      </aside>
-    </footer>
-  </section>
+  </aside>
+  </footer>
 `;
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

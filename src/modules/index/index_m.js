@@ -1,4 +1,4 @@
-export const indexTemplate = () => `
+export const indexTemplate = () => /*html*/ `
 <aside class="navigation">
       <nav>
         <ul>
@@ -13,7 +13,7 @@ export const indexTemplate = () => `
       <div id="particles-js">
       </div>
       <!-- todoLOGO -->
-      <div id="logo">
+      <div id="logo" style="min-height:6rem">
         <h1>Веб Чат Онлайн</h1>
       <!--! spinner -->
       <div

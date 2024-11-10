@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (newDirection === scrollDirection) {
       // Если направление не изменилось, увеличиваем скорость
-      scrollSpeed = Math.min(scrollSpeed + 0.05, 1); // Увеличиваем скорость медленнее и не более 1
+      scrollSpeed = Math.min(scrollSpeed + 0.05, 0.5); // Увеличиваем скорость медленнее и не более 0.5
     } else {
       // Если направление изменилось, сбрасываем скорость
       scrollSpeed = 0.1;
